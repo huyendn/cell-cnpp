@@ -1,0 +1,219 @@
+\documentclass[12pt]{article}
+\usepackage[hmargin={0.6in, 0.6in}, vmargin={0.9in, 0.9in}]{geometry}
+\usepackage{amsmath, amsthm, booktabs}
+\usepackage{amssymb}
+\usepackage{pdfpages}
+\usepackage{setspace}
+\usepackage{booktabs}
+\usepackage{graphicx}
+
+%\usepackage{fancyheadings}
+%\usepackage{hyperref}
+
+
+
+\newtheorem{proposition}{Proposition}
+
+\newcommand{\dif}{\mathrm{d}}
+\newcommand{\Var}{\mathrm{Var}}
+
+\title{Modeling the Cell Proliferation using Compound Non-homogeneous Poisson Distribution}
+\author{The Author}
+\date{} % Activate to display a given date or no date (if empty),
+         % otherwise the current date is printed 
+\begin{document}
+\maketitle
+From the differential equations, 
+\begin{equation}
+\begin{split}
+\frac{dS(t)}{dt} &= r[p_1(t) - p_3(t)] S(t) \\
+\frac{dF(t)}{dt} &= r[p_2(t) + 2p_3(t)] S(t),
+\end{split}
+\end{equation}
+we obtained the average cell counts of the active stem cell $S(t)$ and differentiated cells $F(t)$
+\begin{equation}
+\begin{split}
+S(t) & = S_0 \exp \Big\{ r P(t) \Big\} \\
+F(t) & = \int_0^t r  [p_2(v) + 2p_3(v)] S(v) dv\\
+&= S_0 \cdot r \cdot \int_0^t [p_2(v) + 2p_3(v)] \exp \Big\{r P(v) \Big\} dv,
+\end{split}
+\end{equation}
+with $P(t) = \int_0^t [p_1(v) - p_3(v)] dv$.
+
+We can model the stem cells and differentiated cells using the compound nonhomogeneous Poisson process as follows. Let $N(t)$ denote the number of divisions at time $t$. $N(t)$ is a nonhomogeneous Poisson process with rate $\lambda(t) = r S(t)$. Let $X_s$ and $Y_s$ be random variables such that 
+\begin{equation}
+X_s = \begin{cases}
++1 & p_1(s) \\
+-1 & p_3(s) \\
+0 & 1- p_1(s) - p_3(s),
+\end{cases}
+\end{equation}
+and 
+\begin{equation}
+Y_s = \begin{cases}
++1 & p_2(s) \\
++2 & p_3(s) \\
+0 & 1-p_2(s)- p_3(s)
+\end{cases}.
+\end{equation}
+We define processes $X(t)$ and $Y(t)$ as follows
+\begin{equation} 
+X(t) = \sum_{k=1}^{N(t)} X_{k}, \quad \text{and} \quad
+Y(t) = \sum_{k=1}^{N(t)} Y_{k}.
+\end{equation}
+$X(t)$ and $Y(t)$ are compound nonhomogeneous Poisson processes. From Theorem 2.1 and Corollary of Chen and Savits (1993) (cite), the characteristic functions, expected values, and variances of $X(t)$ and $Y(t)$ are
+
+\begin{equation}
+\begin{split}
+E[e^{iuX(t)}] &= \exp \Big\{ \int_0^t \Big[ e^{iu}p_2(v)-p_2(v) + e^{-iu}p_3(v) - p_3(v) \Big] r S(v) dv\Big\},\\
+E[X(t)] &= \int_0^t [p_1(v) - p_3(v)] r S(v) dv,\\
+\text{Var}(X(t)) &= \int_0^t [p_1(v) + p_3(v)] r S(v) dv, \\
+E[e^{iuY(t)}] &= \exp \Big\{ \int_0^t \Big[ e^{iu}p_2(v)-p_2(v) + e^{2iu}p_3(v) - p_3(v) \Big] r S(v) dv\Big\},\\
+E[Y(t)] &= \int_0^t [p_2(v) + 2p_3(v)] r S(v) dv,\\
+\text{Var}(Y(t)) &= \int_0^t [p_2(v) + 4p_3(v)] r S(v) dv.
+\end{split}
+\end{equation}
+From the expressions of $E[Y(t)]$ and $F(t)$, it is straightforward to see that $E[Y(t)] = F(t)$. 
+
+\begin{equation}
+E[X(t)] = \int_0^t [p_1(v) - p_3(v)] \cdot r \cdot S_0 \exp \Big\{ r P(v) \Big\} dv
+\end{equation}
+Using substitution with $q = P(v) = \int_0^v [p_1(u) - p_3(u)] du$ and $dq/dv = [p_1(v) - p_3(v)]$,
+\begin{equation}
+E[X(t)] = S_0 r \int_{P(0)}^{P(t)} \exp\{rq\}dq = S_0 \exp \{rq\} \Big \vert_{P(0)}^{P(t)} = S_0 \exp\{r P(t)\} - S_0,
+\end{equation}
+since $P(0) = \int_0^0 [p_1(u) - p_3(u)]du = 0$. Thus $E[X(t) + S_0] = S(t)$.
+
+\begin{proposition}
+For a fixed $t$, $X(t)/S(t)  \overset{p}{\to} 1$ and $Y(t)/F(t) \overset{p}{\to} 1$ as $S_0 \rightarrow \infty$.
+\end{proposition}
+\begin{proof}
+Let $\mu_{x_t} = S(t)$ and $\mu_{y_t} = F(t)$. Using Taylor's expansion,
+\begin{equation}
+\begin{split}
+E\Big[e^{iu \frac{X(t)}{S(t)}}\Big] & = \exp \Big\{  \int_0^t \Big[ e^{i \frac{u}{\mu_{x_t}}}p_1(v) - p_1(v) + e^{-i \frac{u}{\mu_{x_t}}}p_3(v) - p_3(v)\Big] r S(v) dv\Big\} \\
+& = \exp \Big\{ \int_0^t \Big[ \Big( 1 + \frac{iu}{\mu_{x_t}}  + o(\mu^{-1}_{x_t}) \Big) p_1(v) - p_1(v)+ \Big( 1 - \frac{iu}{\mu_{x_t}}  + o(\mu^{-1}_{x_t}) \Big) p_3(v) - p_3(v)  \Big] r S(v) dv\Big\} \\
+& = \exp \Big\{ \frac{iu}{\mu_{x_t}} \int_0^t  [p_1(v) - p_3(v)] r S(v) dv  +  o (\mu^{-1}_{x_t})\int_0^t [p_1(v) + p_3(v)] r S(v) dv \Big\} \\
+& \rightarrow \exp \Big\{iu\Big\},
+\end{split}
+\end{equation}
+\begin{equation}
+\begin{split}
+E\Big[e^{iu \frac{Y(t)}{F(t)}}\Big] & = \exp \Big\{  \int_0^t \Big[ e^{i \frac{u}{\mu_{y_t}}}p_2(v) - p_2(v) + e^{2i \frac{u}{\mu_{y_t}}}p_3(v) - p_3(v)\Big] r S(v) dv\Big\} \\
+& = \exp \Big\{ \int_0^t \Big[ \Big( 1 + \frac{iu}{\mu_{y_t}}  + o(\mu^{-1}_{y_t}) \Big) p_2(v) - p_2(v)+ \Big( 1 + \frac{2iu}{\mu_{y_t}}  + o(\mu^{-1}_{y_t}) \Big) p_3(v) - p_3(v)  \Big] r S(v) dv\Big\} \\
+& = \exp \Big\{ \frac{iu}{\mu_{y_t}} \int_0^t  [p_2(v) +2 p_3(v)] r S(v) dv  +  o (\mu^{-1}_{y_t})\int_0^t [p_2(v) + 2p_3(v)] r S(v) dv \Big\} \\
+& \rightarrow \exp \Big\{iu\Big\}.
+\end{split}
+\end{equation}
+\end{proof}
+
+\begin{proposition}
+For a fixed $t$, as $S_0 \rightarrow \infty$,
+\begin{equation}
+\frac{X(t) - S(t)}{\sqrt{\text{Var}(X(t))}} \overset{D}{\to} N(0, 1),
+\end{equation}
+and 
+\begin{equation}
+\frac{Y(t) - F(t)}{\sqrt{\text{Var}(Y(t))}} \overset{D}{\to} N(0, 1).
+\end{equation}
+\end{proposition}
+\begin{proof}
+Let $\sigma_{x_t} = \sqrt{Var(X(t))}$ and $\sigma_{y_t} = \sqrt{Var(Y(t))}$. Using Taylor's expansion,
+\begin{equation}
+\begin{split}
+E \Big[e^{iu \frac{X(t)}{\sigma_{x_t}}} \Big] &= \exp \Big\{  \int_0^t \Big[ e^{i \frac{u}{\sigma_{x_t}}}p_1(v) - p_1(v) + e^{-i \frac{u}{\sigma_{x_t}}}p_3(v) - p_3(v)\Big] r S(v) dv\Big\} \\
+& = \exp \Big\{ \int_0^t \Big[ \Big( 1 + \frac{iu}{\sigma_{x_t}} + \frac{i^2 u^2}{2 \sigma^2_{x_t}} + o(\sigma^{-2}_{x_t}) \Big) p_1(v) - p_1(v)+ \\
+& \Big( 1 - \frac{iu}{\sigma_{x_t}} + \frac{i^2 u^2}{2 \sigma^2_{x_t}} + o(\sigma^{-2}_{x_t}) \Big) p_3(v) - p_3(v)  \Big] r S(v) dv\Big\} \\
+& = \exp \Big\{ \frac{iu}{\sigma_{x_t}} \int_0^t  [p_1(v) - p_3(v)] r S(v) dv + \frac{i^2u^2}{2\sigma^2_{x_t}}\int_0^t  [p_1(v) + p_3(v)] r S(v) dv \\
+& +  o (\sigma^{-2}_{x_t})\int_0^t [p_1(v) + p_3(v)] r S(v) dv \Big\} \\
+& \rightarrow \exp \Big\{\frac{iu}{\sigma_{x_t}} S(t)  - \frac{u^2}{2} \Big\} \\
+E \Big[ e^{iu \frac{X(t)-S(t)} {\sigma_{x_t}}} \Big] & = E \Big[e^{iu \frac{X(t)}{\sigma_{x_t}}} \Big] \cdot e^{-iu \frac{S(t)}{\sigma_{x_t}}} \rightarrow e^{- \frac{u^2}{2 }}.
+\end{split}
+\end{equation}
+
+\begin{equation}
+\begin{split}
+E \Big[e^{iu \frac{Y(t)}{\sigma_{y_t}}} \Big] &= \exp \Big\{  \int_0^t \Big[ e^{i \frac{u}{\sigma_{y_t}}}p_2(v) - p_2(v) + e^{i \frac{2u}{\sigma_{y_t}}}p_3(v) - p_3(v)\Big] r S(v) dv\Big\} \\
+& = \exp \Big\{ \int_0^t \Big[ \Big( 1 + \frac{iu}{\sigma_{y_t}} + \frac{i^2 u^2}{2 \sigma^2_{y_t}} + o(\sigma^{-2}_{y_t}) \Big) p_2(v) - p_2(v)+ \\
+& \Big( 1 + \frac{2iu}{\sigma_{y_t}} + \frac{4 i^2 u^2}{2 \sigma^2_{y_t}} + o(\sigma^{-2}_{y_t}) \Big) p_3(v) - p_3(v)  \Big] r S(v) dv\Big\} \\
+& = \exp \Big\{ \frac{iu}{\sigma_{y_t}}\int_0^t  [p_2(v) + 2p_3(v)] r S(v) dv +\frac{i^2u^2}{2\sigma^2_{x_t}} \int_0^t  [p_1(v) + 4p_3(v)] r S(v) dv \\
+& +  o (\sigma^{-2}_{x_t})\int_0^t [p_1(v) + p_3(v)] r S(v) dv \Big\} \\
+& \rightarrow \exp \Big\{\frac{iu}{\sigma_{y_t}} F(t)  - \frac{u^2}{2} \Big\} \\
+E \Big[ e^{iu \frac{Y(t)-F(t)} {\sigma_{y_t}}} \Big] & = E \Big[e^{iu \frac{Y(t)}{\sigma_{y_t}}} \Big] \cdot e^{-iu \frac{F(t)}{\sigma_{y_t}}} \rightarrow e^{- \frac{u^2}{2 }}.
+\end{split}
+\end{equation}
+\end{proof}
+
+\textbf{Covariance of $X(t)$ and $Y(t)$ when $p_4(t) = 0$}
+
+When $p_4(t) = 0 \forall t$, i.e all the stem cells can undergo further division and there is no inactive stem cell, the number of divisions equal to the sum of stem cells and differentiated cells $N(t) = X(t) + Y(t)$. For each division occurrence, the sum of stem cells and ependymal cells increases by 1 (Table \ref{tab:cellchange}).
+\begin{table}[!h]
+\begin{center}
+\begin{tabular}{ |c|c|c|c| } 
+ \hline
+  & $p_1(t)$ & $p_2(t)$ & $p_3(t)$ \\ 
+\hline
+ $X(t)$ & $+1$ & $+0$ & $-1$ \\ 
+ $Y(t)$ & $+0$ & $+1$ & $+2$ \\ 
+ \hline
+$X(t) + Y(t)$ & $+1$ & $+1$& $+1$\\
+\hline
+\end{tabular}
+\end{center}
+\caption{Change of total cell counts with each division occurrence when $p_4(t) = 0$.}
+\label{tab:cellchange}
+\end{table}
+Then, $E[(N(t))^2] = E[(X(t))^2] + E[X(t)Y(t)] + E[(Y(t))^2]$. Since $N(t)$ is an nonhomogeneous Poisson process with rate $\lambda(t) = r S(t)$, $N(t)$ is a Poisson random variable with mean and variance
+$$E[N(t)]=Var(N(t))=\int_0^t r S(v)dv.$$
+We obtain the covariance of $X(t)$ and $Y(t)$ when $p_4(t) = 0$ 
+\begin{equation}
+\begin{split}
+Cov(X(t), Y(t)) & =  E[X(t)Y(t)] -E[X(t)] E[Y(t)]  \\
+& = E[(N(t))^2] - E[(X(t))^2] - E[(Y(t))^2] - E[X(t)] E[Y(t)]   \\
+& = (E[N(t)])^2 + Var(N(t))  - (E[X(t)])^2 - Var(X(t))  - (E[Y(t)])^2 - Var(Y(t)) \\
+& - E[X(t)] E[Y(t)] \\
+& =\Big[\int_0^t r S(v) dv\Big]^2  - \Big[\int_0^t  [p_1(v) - p_3(v)] r S(v) dv\Big]^2 - \Big[\int_0^t  [p_2(v) + 2p_3(v)] r S(v) dv\Big]^2  \\
+& - \int_0^t 4p_3(v) r S(v) dv -  \int_0^t [p_1(v) - p_3(v)] r S(v) dv \cdot \int_0^t [p_2(v) + 2p_3(v)] r S(v) dv.
+\end{split}
+\end{equation}
+
+\textbf{Limit of the $X(t)$ and $Y(t)$}
+
+Show the variance of $X(t)$ and of $Y(t)$ converge as $t$ is large.
+$$Var(X(t)) = \int_0^t [p_1(v)+p_3(v)] r S(v) dv,$$
+$$Var(Y(t)) = \int_0^t [p_2(v) + 4p_3(v)] r S(v) dv.$$
+
+Since $p_1(v) + p_3(v) \leq 1$ for any $v \in (0, \infty)$, then $[p_1(v)+p_3(v)] r S(v) \leq rS(v)$. Then using the comparison test if $\int_0^\infty r S(v) dv$ converges then $\int_0^\infty [p_1(v)+p_3(v)] r S(v) dv$ converges 
+
+(Note that in the compound nonhomogeneous Poisson process, $E[N(t)] = Var(N(t)) = \int_0^t r S(v) dv$).
+\begin{equation}
+\begin{split}
+\int_0^\infty r S(v) dv & = r \int_0^\infty S_0 \exp \Big\{ r \int_0^v [p_1(u) - p_3(u)] du \Big\} dv
+\end{split} 
+\end{equation}
+Assume that $p_1(u) - p_3(u)$ is a continuous function on $(0, \infty)$ and there exists $u_0 \in (0, \infty)$ such that $\forall u>u_0, p_1(u) - p_3(u) \leq -q < 0$,
+\begin{equation}
+\begin{split}
+\int_0^v [p_1(u) - p_3(u)] du  &= \int_0^{u_0}  [p_1(u) - p_3(u)] du  + \int_{u_0}^{v}  [p_1(u) - p_3(u)] du  \\
+& \leq  \int_0^{u_0}  1 du + \int_{u_0}^{v} (-q) du  \quad \text{since $p_1(u)-p_3(u) \leq 1 \forall u$} \\
+& = u_0 - rq(v-u_0).
+\end{split}
+\end{equation}
+Then,
+\begin{equation}
+\begin{split}
+\int_0^\infty r S(v) dv & = r \int_0^\infty S_0 \exp \Big\{ r \int_0^v [p_1(u) - p_3(u)] du \Big\} dv \\
+& \leq r \int_0^\infty S_0 \exp \{r ( u_0 - rq(v-u_0))\} dv \\
+& = r \int_0^\infty S_0 \exp\{u_0 (1+rq)\} \exp\{-rqv\}dv \\
+& = S_0 \cdot r \cdot \exp\{u_0 (1+rq)\} \int_0^\infty\exp\{-rqv\}dv \\
+& = \frac{S_0 \exp\{u_0 (1+rq)\}}{q} < \infty.
+\end{split}
+\end{equation}
+Similarly for $Var(Y(t))$, since $[p_2(v) + 4p_3(v)] \leq 4$ for any $v \in (0, \infty)$, 
+$$ \int_0^\infty [p_2(v) + 4p_3(v)] r S(v) dv \leq \int_0^\infty 4 r S(v) dv  \leq \frac{4 S_0 \exp\{u_0 (1+rq)\}}{q} < \infty.$$
+\end{document}
+
+
+
+
+
