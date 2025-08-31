@@ -93,7 +93,7 @@ Therefore, using substitution with $q = P(v) = \int_0^v [p_1(u) - p_3(u)] du$ an
 Thus, $\EE[S_0+X(t)] = S(t)$.
 
 \begin{proposition}
-For a fixed $t$, $(S_0+X(t))/S(t)  \overset{P}{\rightarrow} 1$ and $Y(t)/F(t) \overset{P}{\rightarrow} 1$ as $S_0 \rightarrow \infty$.
+For a fixed $t$, $(S_0+X(t))/S(t)  \overset{P}{\longrightarrow} 1$ and $Y(t)/F(t) \overset{P}{\longrightarrow} 1$ as $S_0 \rightarrow \infty$.
 \end{proposition}
 \begin{proof}
 Using the first-order Taylor's expansion for the exponential function we have,
@@ -108,18 +108,18 @@ Using the first-order Taylor's expansion for the exponential function we have,
 \end{split}
 \end{equation*}
 as $S_0\to\infty.$
-Thus, $(S_0+X(t))/S(t)  \overset{D}{\rightarrow} 1$, and, therefore, $(S_0+X(t))/S(t)  \overset{P}{\rightarrow} 1$. Similarly, we get the convergence for $Y(t)$.
+Thus, $(S_0+X(t))/S(t)  \overset{D}{\longrightarrow} 1$, and, therefore, $(S_0+X(t))/S(t)  \overset{P}{\longrightarrow} 1$. Similarly, we get the convergence for $Y(t)$.
 
 \end{proof}
 
 \begin{proposition}
 For a fixed $t$, as $S_0 \rightarrow \infty$,
 \begin{equation*}
-\frac{S_0+X(t) - S(t)}{\sqrt{\text{Var}(X(t))}} \overset{D}{\rightarrow} N(0, 1),
+\frac{S_0+X(t) - S(t)}{\sqrt{\text{Var}(X(t))}} \overset{D}{\longrightarrow} N(0, 1),
 \end{equation*}
 and
 \begin{equation*}
-\frac{Y(t) - F(t)}{\sqrt{\Var(Y(t))}} \overset{D}{\rightarrow} N(0, 1).
+\frac{Y(t) - F(t)}{\sqrt{\Var(Y(t))}} \overset{D}{\longrightarrow} N(0, 1).
 \end{equation*}
 \end{proposition}
 \begin{proof}
@@ -132,14 +132,14 @@ Let $\sigma_{x_t} = \sqrt{\Var(X(t))}$. Using the second-order Taylor's expansio
 & = \exp \Big\{ \frac{iu}{\sigma_{x_t}} \int_0^t  [p_1(v) - p_3(v)] r S(v) dv + \frac{i^2u^2}{2\sigma^2_{x_t}}\int_0^t  [p_1(v) + p_3(v)] r S(v) dv \\
 & +  o (\sigma^{-2}_{x_t})\int_0^t [p_1(v) + p_3(v)] r S(v) dv \Big\} \\
 & = \exp \Big\{ \frac{iu}{\sigma_{x_t}} (S(t)-S_0) + \frac{i^2u^2}{2\sigma^2_{x_t}}\Var(X(t)) \\
-& +  o (S_0^{-1})\int_0^t [p_1(v) + p_3(v)] r \exp\{r P(v)\} dv \Big\}. \\
+& +  o (1)\int_0^t [p_1(v) + p_3(v)] r \exp\{r P(v)\} dv \Big\}. \\
 \end{split}
 \end{equation*}
-Therefore, as $S_o\to \infty$ we have
-$$ 
+Therefore, as $S_0\to \infty$ we have
+$$
 \EE\Big[ e^{iu \frac{S_0+X(t)-S(t)} {\sigma_{x_t}}} \Big]  \rightarrow e^{- \frac{u^2}{2 }}.
 $$
-Again, the convergence for $Y(t)$ can be shown in a similar way. 
+Again, the convergence for $Y(t)$ can be shown in a similar way.
 \end{proof}
 
 \section{Covariance of $X(t)$ and $Y(t)$ when $p_4(t) = 0$}
@@ -232,4 +232,4 @@ E \Big[e^{iu \frac{Y(t)}{\sigma_{y_t}}} \Big] &= \exp \Big\{  \int_0^t \Big[ e^{
 & \rightarrow \exp \Big\{\frac{iu}{\sigma_{y_t}} F(t)  - \frac{u^2}{2} \Big\} \\
 E \Big[ e^{iu \frac{Y(t)-F(t)} {\sigma_{y_t}}} \Big] & = E \Big[e^{iu \frac{Y(t)}{\sigma_{y_t}}} \Big] \cdot e^{-iu \frac{F(t)}{\sigma_{y_t}}} \rightarrow e^{- \frac{u^2}{2 }}.
 \end{split}
-\end{equation}
+\end{equation} 
