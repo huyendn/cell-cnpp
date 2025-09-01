@@ -38,9 +38,9 @@ where $r>0$ and  $p_1(t), p_2(t), p_3(t)>0$ and  $0<p_1(t)+p_2(t)+p_3(t)\leq 1$ 
 of the differential equations are given by
 \begin{equation*}
 \begin{split}
-S(t) & = S_0 \exp \Big\{ r P(t) \Big\}, \\
+S(t) & = S_0 \exp \left\{ r P(t) \right\}, \\
 F(t) & = \int_0^t r  [p_2(v) + 2p_3(v)] S(v) dv\\
-&= S_0 \cdot r \cdot \int_0^t [p_2(v) + 2p_3(v)] \exp \Big\{r P(v) \Big\} dv,
+&= S_0  r   \int_0^t [p_2(v) + 2p_3(v)] \exp \left\{r P(v) \right\} dv,
 \end{split}
 \end{equation*}
 where $P(t) = \int_0^t [p_1(v) - p_3(v)] dv$.
@@ -72,46 +72,47 @@ Under assumption $\PP(\tau<\infty)$ the counts of stem cells and differentiated 
 
 From Theorem 2.1 and Corollary to Proposition 2.2 of Chen and Savits (1993) (cite), the characteristic functions, expected values, and variances of $X(t)$ and $Y(t)$ are
 given by
-\begin{equation*}
+\begin{equation}\label{Chen*Savits*formulas}
 \begin{split}
-\EE[e^{iuX(t)}] &= \exp \Big\{ \int_0^t \Big[ e^{iu}p_2(v)-p_2(v) + e^{-iu}p_3(v) - p_3(v) \Big] r S(v) dv\Big\},\\
+\EE[e^{iuX(t)}] &= \exp \left\{ \int_0^t \Big[ e^{iu}p_2(v)-p_2(v) + e^{-iu}p_3(v) - p_3(v) \Big] r S(v) dv\right\},\\
 \EE[X(t)] &= \int_0^t [p_1(v) - p_3(v)] r S(v) dv,\\
 \Var(X(t)) &= \int_0^t [p_1(v) + p_3(v)] r S(v) dv, \\
-\EE[e^{iuY(t)}] &= \exp \Big\{ \int_0^t \Big[ e^{iu}p_2(v)-p_2(v) + e^{2iu}p_3(v) - p_3(v) \Big] r S(v) dv\Big\},\\
+\EE[e^{iuY(t)}] &= \exp \left\{ \int_0^t \Big[ e^{iu}p_2(v)-p_2(v) + e^{2iu}p_3(v) - p_3(v) \Big] r S(v) dv\right\},\\
 \EE[Y(t)] &= \int_0^t [p_2(v) + 2p_3(v)] r S(v) dv,\\
 \Var(Y(t)) &= \int_0^t [p_2(v) + 4p_3(v)] r S(v) dv.
 \end{split}
-\end{equation*}
+\end{equation}
 Note that
 \begin{equation*}
-\EE[X(t)] = \int_0^t [p_1(v) - p_3(v)] \cdot r \cdot S_0 \exp \Big\{ r P(v) \Big\} dv.
+\EE[X(t)] = \int_0^t [p_1(v) - p_3(v)]   r   S_0 \exp \left\{ r P(v) \right\} dv.
 \end{equation*}
 Therefore, using substitution with $q = P(v) = \int_0^v [p_1(u) - p_3(u)] du$ and $dq/dv = [p_1(v) - p_3(v)]$, we get
 \begin{equation*}
 \EE[X(t)] = S_0 r \int_0^{P(t)} \exp\{rq\}dq = S_0 \exp \{rq\} \Big \vert_0^{P(t)} = S_0 \exp\{r P(t)\} - S_0.
 \end{equation*}
-Thus, $\EE[S_0+X(t)] = S(t)$.
+Thus, $\EE[S_0+X(t)] = S(t)$. In similar fashion, one can show that $\EE[Y(t)]=F(t)$.
 
+Moreover, when the initial number of stem cells is large, for any fixed time point $t$ the both stochastic processes are close 
+to their expected values. More specifically, we have the following two limit results.     
 \begin{proposition}
-For a fixed $t$, $(S_0+X(t))/S(t)  \overset{P}{\longrightarrow} 1$ and $Y(t)/F(t) \overset{P}{\longrightarrow} 1$ as $S_0 \rightarrow \infty$.
+For a fixed $t$, $[S_0+X(t)]/S(t)  \overset{P}{\longrightarrow} 1$ and $Y(t)/F(t) \overset{P}{\longrightarrow} 1$ as $S_0 \rightarrow \infty$.
 \end{proposition}
 \begin{proof}
-Using the first-order Taylor's expansion for the exponential function we have,
+Using the first-order Taylor's expansion for the exponential function and formulas~(\ref{Chen*Savits*formulas}) we get
 \begin{equation*}
 \begin{split}
-\EE\Big[e^{iu \frac{S_0+X(t)}{S(t)}}\Big] & =e^{iu \frac{S_0}{S(t)}} \exp \Big\{  \int_0^t \Big[ e^{i \frac{u}{S(t)}}p_1(v) - p_1(v) + e^{-i \frac{u}{S(t)}}p_3(v) - p_3(v)\Big] r S(v) dv\Big\} \\
-& = e^{iu \frac{S_0}{S(t)}}\exp \Big\{ \int_0^t \Big[ \Big(\frac{iu}{S(t)}  + o\left(S_0^{-1}\right) \Big) p_1(v) + \Big( - \frac{iu}{S(t)}  + o\left(S_0^{-1}\right) \Big) p_3(v)  \Big] r S(v) dv\Big\} \\
-& = e^{iu \frac{S_0}{S(t)}}\exp \Big\{ \frac{iu}{S(t)} \int_0^t  [p_1(v) - p_3(v)] r S(v) dv  +  o (S_0^{-1})\int_0^t [p_1(v) + p_3(v)] r S(v) dv \Big\} \\
-& = e^{iu \frac{S_0}{S(t)}}\exp \Big\{ \frac{iu}{S(t)} \EE(X(t)  +  o (1)\int_0^t [p_1(v) + p_3(v)] r \exp\{r P(v)\} dv \Big\} \\
-& = \exp \Big\{ \frac{iu}{S(t)} (\EE(X(t)+S_0)  +  o (1)\int_0^t [p_1(v) + p_3(v)] r \exp\{r P(v)\} dv \Big\} \\
-& \rightarrow \exp \Big\{iu\Big\},
+\EE\Big[e^{iu \frac{S_0+X(t)}{S(t)}}\Big] & =e^{iu \frac{S_0}{S(t)}} \exp \left\{  \int_0^t \Big[ e^{i \frac{u}{S(t)}}p_1(v) - p_1(v) + e^{-i \frac{u}{S(t)}}p_3(v) - p_3(v)\Big] r S(v) dv\right\} \\
+& = e^{iu \frac{S_0}{S(t)}}\exp \left\{ \int_0^t \Big[ \Big(\frac{iu}{S(t)}  + o\left(S_0^{-1}\right) \Big) p_1(v) + \Big( - \frac{iu}{S(t)}  + o\left(S_0^{-1}\right) \Big) p_3(v)  \Big] r S_0\exp\{r P(v)\} dv\right\} \\
+& = e^{iu \frac{S_0}{S(t)}}\exp \left\{ \frac{iu}{S(t)} \int_0^t  [p_1(v) - p_3(v)] r S(v) dv  + o(1)\right\}\\       % o (S_0^{-1})\int_0^t [p_1(v) + p_3(v)] r S(v) dv \right\} \\
+& = e^{iu \frac{S_0}{S(t)}}\exp \left\{ \frac{iu}{S(t)} \EE(X(t))  +  o (1)\right\}\\                                  % o(1)\int_0^t [p_1(v) + p_3(v)] r \exp\{r P(v)\} dv \right\} \\
+& = \exp \left\{ \frac{iu}{S(t)} [S_0+\EE(X(t))]  +  o (1)\right\} \\                                                  %0(1) \int_0^t [p_1(v) + p_3(v)] r \exp\{r P(v)\} dv \right\} \\
+& \rightarrow \exp \left\{iu\right\},
 \end{split}
 \end{equation*}
 as $S_0\to\infty.$
-Thus, $(S_0+X(t))/S(t)  \overset{D}{\longrightarrow} 1$, and, therefore, $(S_0+X(t))/S(t)  \overset{P}{\longrightarrow} 1$. Similarly, we get the convergence for $Y(t)$.
-
+Thus, $[S_0+X(t)]/S(t)  \overset{D}{\longrightarrow} 1$, and, therefore, $[S_0+X(t)]/S(t)  \overset{P}{\longrightarrow} 1$. Similarly, we get the convergence for $Y(t)$.
 \end{proof}
-
+Central Limit Theorem–type results can also be obtained. 
 \begin{proposition}
 For a fixed $t$, as $S_0 \rightarrow \infty$,
 \begin{equation*}
@@ -123,21 +124,19 @@ and
 \end{equation*}
 \end{proposition}
 \begin{proof}
-Let $\sigma_{x_t} = \sqrt{\Var(X(t))}$. Using the second-order Taylor's expansion, we get
+Let $\sigma_{x_t} = \sqrt{\Var(X(t))}$. Using the second-order Taylor's expansion we have
 \begin{equation*}
 \begin{split}
-\EE \Big[e^{iu \frac{X(t)}{\sigma_{x_t}}} \Big] &= \exp \Big\{  \int_0^t \Big[ e^{i \frac{u}{\sigma_{x_t}}}p_1(v) - p_1(v) + e^{-i \frac{u}{\sigma_{x_t}}}p_3(v) - p_3(v)\Big] r S(v) dv\Big\} \\
-& = \exp \Big\{ \int_0^t \Big[ \Big( \frac{iu}{\sigma_{x_t}} + \frac{i^2 u^2}{2 \sigma^2_{x_t}} + o(\sigma^{-2}_{x_t}) \Big) p_1(v) + \\
-& \Big(- \frac{iu}{\sigma_{x_t}} + \frac{i^2 u^2}{2 \sigma^2_{x_t}} + o(\sigma^{-2}_{x_t}) \Big) p_3(v)  \Big] r S(v) dv\Big\} \\
-& = \exp \Big\{ \frac{iu}{\sigma_{x_t}} \int_0^t  [p_1(v) - p_3(v)] r S(v) dv + \frac{i^2u^2}{2\sigma^2_{x_t}}\int_0^t  [p_1(v) + p_3(v)] r S(v) dv \\
-& +  o (\sigma^{-2}_{x_t})\int_0^t [p_1(v) + p_3(v)] r S(v) dv \Big\} \\
-& = \exp \Big\{ \frac{iu}{\sigma_{x_t}} (S(t)-S_0) + \frac{i^2u^2}{2\sigma^2_{x_t}}\Var(X(t)) \\
-& +  o (1)\int_0^t [p_1(v) + p_3(v)] r \exp\{r P(v)\} dv \Big\}. \\
+\EE \Big[e^{iu \frac{X(t)}{\sigma_{x_t}}} \Big] &= \exp \left\{  \int_0^t \Big[ e^{i \frac{u}{\sigma_{x_t}}}p_1(v) - p_1(v) + e^{-i \frac{u}{\sigma_{x_t}}}p_3(v) - p_3(v)\Big] r S(v) dv\right\} \\
+& = \exp \left\{ \int_0^t \Big[ \Big( \frac{iu}{\sigma_{x_t}} + \frac{i^2 u^2}{2 \sigma^2_{x_t}} + o\left(\sigma^{-2}_{x_t}\right) \Big) p_1(v) +  \Big(- \frac{iu}{\sigma_{x_t}} + \frac{i^2 u^2}{2 \sigma^2_{x_t}} + o\left(\sigma^{-2}_{x_t}\right) \Big) p_3(v)  \Big] r S(v) dv\right\} \\
+& = \exp \left\{ \int_0^t \Big[ \Big( \frac{iu}{\sigma_{x_t}} + \frac{i^2 u^2}{2 \sigma^2_{x_t}} + o\left(S_0^{-1}\right) \Big) p_1(v) +  \Big(- \frac{iu}{\sigma_{x_t}} + \frac{i^2 u^2}{2 \sigma^2_{x_t}} + o\left(S_0^{-1}\right) \Big) p_3(v)  \Big] r S_0\exp\{r P(v)\} dv\right\} \\
+& = \exp \left\{ \frac{iu}{\sigma_{x_t}} \int_0^t  [p_1(v) - p_3(v)] r S(v) dv + \frac{i^2u^2}{2\sigma^2_{x_t}}\int_0^t  [p_1(v) + p_3(v)] r S(v) dv  +  o (1) \right\} \\
+& = \exp \left\{ \frac{iu}{\sigma_{x_t}} [S(t)-S_0] + \frac{i^2u^2}{2\sigma^2_{x_t}}\Var(X(t)) +  o (1)\right\}. \\
 \end{split}
 \end{equation*}
 Therefore, as $S_0\to \infty$ we have
 $$
-\EE\Big[ e^{iu \frac{S_0+X(t)-S(t)} {\sigma_{x_t}}} \Big]  \rightarrow e^{- \frac{u^2}{2 }}.
+\EE\Big[ e^{iu \frac{S_0+X(t)-S(t)} {\sigma_{x_t}}} \Big]= \exp \left\{ -\frac{u^2}{2} +  o (1)\right\} \rightarrow e^{- \frac{u^2}{2 }}.
 $$
 Again, the convergence for $Y(t)$ can be shown in a similar way.
 \end{proof}
@@ -186,7 +185,7 @@ Since $p_1(v) + p_3(v) \leq 1$ for any $v \in (0, \infty)$, then $[p_1(v)+p_3(v)
 (Note that in the compound nonhomogeneous Poisson process, $E[N(t)] = Var(N(t)) = \int_0^t r S(v) dv$).
 \begin{equation}
 \begin{split}
-\int_0^\infty r S(v) dv & = r \int_0^\infty S_0 \exp \Big\{ r \int_0^v [p_1(u) - p_3(u)] du \Big\} dv
+\int_0^\infty r S(v) dv & = r \int_0^\infty S_0 \exp \left\{ r \int_0^v [p_1(u) - p_3(u)] du \right\} dv
 \end{split}
 \end{equation}
 Assume that $p_1(u) - p_3(u)$ is a continuous function on $(0, \infty)$ and there exists $u_0 \in (0, \infty)$ such that $\forall u>u_0, p_1(u) - p_3(u) \leq -q < 0$,
@@ -200,7 +199,7 @@ Assume that $p_1(u) - p_3(u)$ is a continuous function on $(0, \infty)$ and ther
 Then,
 \begin{equation}
 \begin{split}
-\int_0^\infty r S(v) dv & = r \int_0^\infty S_0 \exp \Big\{ r \int_0^v [p_1(u) - p_3(u)] du \Big\} dv \\
+\int_0^\infty r S(v) dv & = r \int_0^\infty S_0 \exp \left\{ r \int_0^v [p_1(u) - p_3(u)] du \right\} dv \\
 & \leq r \int_0^\infty S_0 \exp \{r ( u_0 - rq(v-u_0))\} dv \\
 & = r \int_0^\infty S_0 \exp\{u_0 (1+rq)\} \exp\{-rqv\}dv \\
 & = S_0 \cdot r \cdot \exp\{u_0 (1+rq)\} \int_0^\infty\exp\{-rqv\}dv \\
@@ -215,21 +214,21 @@ $$ \int_0^\infty [p_2(v) + 4p_3(v)] r S(v) dv \leq \int_0^\infty 4 r S(v) dv  \l
 
 \begin{equation}
 \begin{split}
-E\Big[e^{iu \frac{Y(t)}{F(t)}}\Big] & = \exp \Big\{  \int_0^t \Big[ e^{i \frac{u}{\mu_{y_t}}}p_2(v) - p_2(v) + e^{2i \frac{u}{\mu_{y_t}}}p_3(v) - p_3(v)\Big] r S(v) dv\Big\} \\
-& = \exp \Big\{ \int_0^t \Big[ \Big( 1 + \frac{iu}{\mu_{y_t}}  + o(\mu^{-1}_{y_t}) \Big) p_2(v) - p_2(v)+ \Big( 1 + \frac{2iu}{\mu_{y_t}}  + o(\mu^{-1}_{y_t}) \Big) p_3(v) - p_3(v)  \Big] r S(v) dv\Big\} \\
-& = \exp \Big\{ \frac{iu}{\mu_{y_t}} \int_0^t  [p_2(v) +2 p_3(v)] r S(v) dv  +  o (\mu^{-1}_{y_t})\int_0^t [p_2(v) + 2p_3(v)] r S(v) dv \Big\} \\
-& \rightarrow \exp \Big\{iu\Big\}.
+E\Big[e^{iu \frac{Y(t)}{F(t)}}\Big] & = \exp \left\{  \int_0^t \Big[ e^{i \frac{u}{\mu_{y_t}}}p_2(v) - p_2(v) + e^{2i \frac{u}{\mu_{y_t}}}p_3(v) - p_3(v)\Big] r S(v) dv\right\} \\
+& = \exp \left\{ \int_0^t \Big[ \Big( 1 + \frac{iu}{\mu_{y_t}}  + o(\mu^{-1}_{y_t}) \Big) p_2(v) - p_2(v)+ \Big( 1 + \frac{2iu}{\mu_{y_t}}  + o(\mu^{-1}_{y_t}) \Big) p_3(v) - p_3(v)  \Big] r S(v) dv\right\} \\
+& = \exp \left\{ \frac{iu}{\mu_{y_t}} \int_0^t  [p_2(v) +2 p_3(v)] r S(v) dv  +  o (\mu^{-1}_{y_t})\int_0^t [p_2(v) + 2p_3(v)] r S(v) dv \right\} \\
+& \rightarrow \exp \left\{iu\right\}.
 \end{split}
 \end{equation}
 
 \begin{equation}
 \begin{split}
-E \Big[e^{iu \frac{Y(t)}{\sigma_{y_t}}} \Big] &= \exp \Big\{  \int_0^t \Big[ e^{i \frac{u}{\sigma_{y_t}}}p_2(v) - p_2(v) + e^{i \frac{2u}{\sigma_{y_t}}}p_3(v) - p_3(v)\Big] r S(v) dv\Big\} \\
-& = \exp \Big\{ \int_0^t \Big[ \Big( 1 + \frac{iu}{\sigma_{y_t}} + \frac{i^2 u^2}{2 \sigma^2_{y_t}} + o(\sigma^{-2}_{y_t}) \Big) p_2(v) - p_2(v)+ \\
-& \Big( 1 + \frac{2iu}{\sigma_{y_t}} + \frac{4 i^2 u^2}{2 \sigma^2_{y_t}} + o(\sigma^{-2}_{y_t}) \Big) p_3(v) - p_3(v)  \Big] r S(v) dv\Big\} \\
-& = \exp \Big\{ \frac{iu}{\sigma_{y_t}}\int_0^t  [p_2(v) + 2p_3(v)] r S(v) dv +\frac{i^2u^2}{2\sigma^2_{x_t}} \int_0^t  [p_1(v) + 4p_3(v)] r S(v) dv \\
-& +  o (\sigma^{-2}_{x_t})\int_0^t [p_1(v) + p_3(v)] r S(v) dv \Big\} \\
-& \rightarrow \exp \Big\{\frac{iu}{\sigma_{y_t}} F(t)  - \frac{u^2}{2} \Big\} \\
+E \Big[e^{iu \frac{Y(t)}{\sigma_{y_t}}} \Big] &= \exp \left\{  \int_0^t \Big[ e^{i \frac{u}{\sigma_{y_t}}}p_2(v) - p_2(v) + e^{i \frac{2u}{\sigma_{y_t}}}p_3(v) - p_3(v)\Big] r S(v) dv\right\} \\
+& = \exp \left\{ \int_0^t \Big[ \Big( 1 + \frac{iu}{\sigma_{y_t}} + \frac{i^2 u^2}{2 \sigma^2_{y_t}} + o(\sigma^{-2}_{y_t}) \Big) p_2(v) - p_2(v)+ \\
+& \Big( 1 + \frac{2iu}{\sigma_{y_t}} + \frac{4 i^2 u^2}{2 \sigma^2_{y_t}} + o(\sigma^{-2}_{y_t}) \Big) p_3(v) - p_3(v)  \Big] r S(v) dv\right\} \\
+& = \exp \left\{ \frac{iu}{\sigma_{y_t}}\int_0^t  [p_2(v) + 2p_3(v)] r S(v) dv +\frac{i^2u^2}{2\sigma^2_{x_t}} \int_0^t  [p_1(v) + 4p_3(v)] r S(v) dv \\
+& +  o (\sigma^{-2}_{x_t})\int_0^t [p_1(v) + p_3(v)] r S(v) dv \right\} \\
+& \rightarrow \exp \left\{\frac{iu}{\sigma_{y_t}} F(t)  - \frac{u^2}{2} \right\} \\
 E \Big[ e^{iu \frac{Y(t)-F(t)} {\sigma_{y_t}}} \Big] & = E \Big[e^{iu \frac{Y(t)}{\sigma_{y_t}}} \Big] \cdot e^{-iu \frac{F(t)}{\sigma_{y_t}}} \rightarrow e^{- \frac{u^2}{2 }}.
 \end{split}
 \end{equation} 
