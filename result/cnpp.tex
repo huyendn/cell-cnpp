@@ -28,12 +28,12 @@
 \section{Model}
 The evolution of the average cell counts of the active stem cell, $S(t)$, and differentiated cells, $F(t)$, is
 described by the following differential equations
-\begin{equation*}
+\begin{equation}\label{count*ODE}
 \begin{split}
 \frac{dS(t)}{dt} &= r[p_1(t) - p_3(t)] S(t), \quad S(0)=S_0, \\
 \frac{dF(t)}{dt} &= r[p_2(t) + 2p_3(t)] S(t), \quad F(0)=0,
 \end{split}
-\end{equation*}
+\end{equation}
 where $r>0$ and  $p_1(t), p_2(t), p_3(t)>0$ and  $0<p_1(t)+p_2(t)+p_3(t)\leq 1$ for any $t>0$. The solutions
 of the differential equations are given by
 \begin{equation*}
@@ -74,37 +74,37 @@ From Theorem 2.1 and Corollary to Proposition 2.2 of Chen and Savits (1993) (cit
 given by
 \begin{equation}\label{Chen*Savits*formulas}
 \begin{split}
-\EE[e^{iuX(t)}] &= \exp \left\{ \int_0^t \Big[ e^{iu}p_2(v)-p_2(v) + e^{-iu}p_3(v) - p_3(v) \Big] r S(v) dv\right\},\\
+\EE[e^{iuX(t)}] &= \exp \left\{ \int_0^t \Big[ \left(e^{iu}-1\right)p_2(v) + \left(e^{-iu} - 1\right)p_3(v) \Big] r S(v) dv\right\},\\
 \EE[X(t)] &= \int_0^t [p_1(v) - p_3(v)] r S(v) dv,\\
 \Var(X(t)) &= \int_0^t [p_1(v) + p_3(v)] r S(v) dv, \\
-\EE[e^{iuY(t)}] &= \exp \left\{ \int_0^t \Big[ e^{iu}p_2(v)-p_2(v) + e^{2iu}p_3(v) - p_3(v) \Big] r S(v) dv\right\},\\
+\EE[e^{iuY(t)}] &= \exp \left\{ \int_0^t \Big[ \left(e^{iu}-1\right)p_2(v) + \left(e^{2iu} - 1\right)p_3(v) \Big] r S(v) dv\right\},\\
 \EE[Y(t)] &= \int_0^t [p_2(v) + 2p_3(v)] r S(v) dv,\\
 \Var(Y(t)) &= \int_0^t [p_2(v) + 4p_3(v)] r S(v) dv.
 \end{split}
 \end{equation}
-Note that
+Differential equations~(\ref{count*ODE}) immediately tell us that 
 \begin{equation*}
-\EE[X(t)] = \int_0^t [p_1(v) - p_3(v)]   r   S_0 \exp \left\{ r P(v) \right\} dv.
+\EE[X(t)] = \int_0^t [p_1(v) - p_3(v)]   r  S(v) dv=\int_0^t dS(v)=S(t)-S_0,
 \end{equation*}
-Therefore, using substitution with $q = P(v) = \int_0^v [p_1(u) - p_3(u)] du$ and $dq/dv = [p_1(v) - p_3(v)]$, we get
+or $\EE[S_0+X(t)] = S(t)$. 
+Similarly,
 \begin{equation*}
-\EE[X(t)] = S_0 r \int_0^{P(t)} \exp\{rq\}dq = S_0 \exp \{rq\} \Big \vert_0^{P(t)} = S_0 \exp\{r P(t)\} - S_0.
+\EE[Y(t)] = \int_0^t [p_2(v) + 2p_3(v)] r S(v) dv=\int_0^t dF(v)=F(t).
 \end{equation*}
-Thus, $\EE[S_0+X(t)] = S(t)$. In similar fashion, one can show that $\EE[Y(t)]=F(t)$.
 
-Moreover, when the initial number of stem cells is large, for any fixed time point $t$ the both stochastic processes are close 
-to their expected values. More specifically, we have the following two limit results.     
+Moreover, when the initial number of stem cells is large, for any fixed time point $t$ the both stochastic processes are close
+to their expected values. More specifically, we have the following two limit results.
 \begin{proposition}
 For a fixed $t$, $[S_0+X(t)]/S(t)  \overset{P}{\longrightarrow} 1$ and $Y(t)/F(t) \overset{P}{\longrightarrow} 1$ as $S_0 \rightarrow \infty$.
 \end{proposition}
 \begin{proof}
-Using the first-order Taylor's expansion for the exponential function and formulas~(\ref{Chen*Savits*formulas}) we get
+Using  formulas~(\ref{Chen*Savits*formulas}) and the first-order Taylor's expansion for the exponential function $e^{iu/S(t)}=e^{iu/(S_0 \exp \left\{ r P(t) \right\})}$ we get
 \begin{equation*}
 \begin{split}
-\EE\Big[e^{iu \frac{S_0+X(t)}{S(t)}}\Big] & =e^{iu \frac{S_0}{S(t)}} \exp \left\{  \int_0^t \Big[ e^{i \frac{u}{S(t)}}p_1(v) - p_1(v) + e^{-i \frac{u}{S(t)}}p_3(v) - p_3(v)\Big] r S(v) dv\right\} \\
-& = e^{iu \frac{S_0}{S(t)}}\exp \left\{ \int_0^t \Big[ \Big(\frac{iu}{S(t)}  + o\left(S_0^{-1}\right) \Big) p_1(v) + \Big( - \frac{iu}{S(t)}  + o\left(S_0^{-1}\right) \Big) p_3(v)  \Big] r S_0\exp\{r P(v)\} dv\right\} \\
-& = e^{iu \frac{S_0}{S(t)}}\exp \left\{ \frac{iu}{S(t)} \int_0^t  [p_1(v) - p_3(v)] r S(v) dv  + o(1)\right\}\\       % o (S_0^{-1})\int_0^t [p_1(v) + p_3(v)] r S(v) dv \right\} \\
-& = e^{iu \frac{S_0}{S(t)}}\exp \left\{ \frac{iu}{S(t)} \EE(X(t))  +  o (1)\right\}\\                                  % o(1)\int_0^t [p_1(v) + p_3(v)] r \exp\{r P(v)\} dv \right\} \\
+\EE\Big[e^{iu \frac{S_0+X(t)}{S(t)}}\Big] & =e^{iu S_0/S(t)} \exp \left\{  \int_0^t \Big[ \left(e^{i u/S(t)} - 1\right) p_1(v) + \left(e^{-i u/S(t)} - 1\right)p_3(v)\Big] r S(v) dv\right\} \\
+& = e^{iu S_0/S(t)}\exp \left\{ \int_0^t \Big[ \Big(\frac{iu}{S(t)}  + o\left(S_0^{-1}\right) \Big) p_1(v) + \Big( - \frac{iu}{S(t)}  + o\left(S_0^{-1}\right) \Big) p_3(v)  \Big] r S_0\exp\{r P(v)\} dv\right\} \\
+& = e^{iu S_0/S(t)}\exp \left\{ \frac{iu}{S(t)} \int_0^t  [p_1(v) - p_3(v)] r S(v) dv  + o(1)\right\}\\       % o (S_0^{-1})\int_0^t [p_1(v) + p_3(v)] r S(v) dv \right\} \\
+& = e^{iu S_0/S(t)}\exp \left\{ \frac{iu}{S(t)} \EE(X(t))  +  o (1)\right\}\\                                  % o(1)\int_0^t [p_1(v) + p_3(v)] r \exp\{r P(v)\} dv \right\} \\
 & = \exp \left\{ \frac{iu}{S(t)} [S_0+\EE(X(t))]  +  o (1)\right\} \\                                                  %0(1) \int_0^t [p_1(v) + p_3(v)] r \exp\{r P(v)\} dv \right\} \\
 & \rightarrow \exp \left\{iu\right\},
 \end{split}
@@ -112,7 +112,7 @@ Using the first-order Taylor's expansion for the exponential function and formul
 as $S_0\to\infty.$
 Thus, $[S_0+X(t)]/S(t)  \overset{D}{\longrightarrow} 1$, and, therefore, $[S_0+X(t)]/S(t)  \overset{P}{\longrightarrow} 1$. Similarly, we get the convergence for $Y(t)$.
 \end{proof}
-Central Limit Theorem–type results can also be obtained. 
+In the same fashion a stronger, Central Limit Theorem–type results can also be obtained.
 \begin{proposition}
 For a fixed $t$, as $S_0 \rightarrow \infty$,
 \begin{equation*}
@@ -127,7 +127,7 @@ and
 Let $\sigma_{x_t} = \sqrt{\Var(X(t))}$. Using the second-order Taylor's expansion we have
 \begin{equation*}
 \begin{split}
-\EE \Big[e^{iu \frac{X(t)}{\sigma_{x_t}}} \Big] &= \exp \left\{  \int_0^t \Big[ e^{i \frac{u}{\sigma_{x_t}}}p_1(v) - p_1(v) + e^{-i \frac{u}{\sigma_{x_t}}}p_3(v) - p_3(v)\Big] r S(v) dv\right\} \\
+\EE \Big[e^{iu X(t)/\sigma_{x_t}} \Big] &= \exp \left\{  \int_0^t \Big[ \left(e^{i u/\sigma_{x_t}} - 1\right)p_1(v) + \left(e^{-i u/\sigma_{x_t}} - 1\right)p_3(v)\Big] r S(v) dv\right\} \\
 & = \exp \left\{ \int_0^t \Big[ \Big( \frac{iu}{\sigma_{x_t}} + \frac{i^2 u^2}{2 \sigma^2_{x_t}} + o\left(\sigma^{-2}_{x_t}\right) \Big) p_1(v) +  \Big(- \frac{iu}{\sigma_{x_t}} + \frac{i^2 u^2}{2 \sigma^2_{x_t}} + o\left(\sigma^{-2}_{x_t}\right) \Big) p_3(v)  \Big] r S(v) dv\right\} \\
 & = \exp \left\{ \int_0^t \Big[ \Big( \frac{iu}{\sigma_{x_t}} + \frac{i^2 u^2}{2 \sigma^2_{x_t}} + o\left(S_0^{-1}\right) \Big) p_1(v) +  \Big(- \frac{iu}{\sigma_{x_t}} + \frac{i^2 u^2}{2 \sigma^2_{x_t}} + o\left(S_0^{-1}\right) \Big) p_3(v)  \Big] r S_0\exp\{r P(v)\} dv\right\} \\
 & = \exp \left\{ \frac{iu}{\sigma_{x_t}} \int_0^t  [p_1(v) - p_3(v)] r S(v) dv + \frac{i^2u^2}{2\sigma^2_{x_t}}\int_0^t  [p_1(v) + p_3(v)] r S(v) dv  +  o (1) \right\} \\
@@ -140,6 +140,8 @@ $$
 $$
 Again, the convergence for $Y(t)$ can be shown in a similar way.
 \end{proof}
+
+\newpage
 
 \section{Covariance of $X(t)$ and $Y(t)$ when $p_4(t) = 0$}
 
@@ -232,3 +234,9 @@ E \Big[e^{iu \frac{Y(t)}{\sigma_{y_t}}} \Big] &= \exp \left\{  \int_0^t \Big[ e^
 E \Big[ e^{iu \frac{Y(t)-F(t)} {\sigma_{y_t}}} \Big] & = E \Big[e^{iu \frac{Y(t)}{\sigma_{y_t}}} \Big] \cdot e^{-iu \frac{F(t)}{\sigma_{y_t}}} \rightarrow e^{- \frac{u^2}{2 }}.
 \end{split}
 \end{equation} 
+
+Therefore, using substitution with $q = P(v) = \int_0^v [p_1(u) - p_3(u)] du$ and $dq/dv = [p_1(v) - p_3(v)]$, we get
+\begin{equation*}
+\EE[X(t)] = S_0 r \int_0^{P(t)} \exp\{rq\}dq = S_0 \exp \{rq\} \Big \vert_0^{P(t)} = S_0 \exp\{r P(t)\} - S_0.
+\end{equation*}
+Thus, $\EE[S_0+X(t)] = S(t)$. In similar fashion, one can show that $\EE[Y(t)]=F(t)$.
