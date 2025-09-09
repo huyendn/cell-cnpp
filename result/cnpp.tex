@@ -165,14 +165,19 @@ $X(t) + Y(t)$ & $+1$ & $+1$& $+1$\\
 Then, $E[(N(t))^2] = E[(X(t))^2] + E[X(t)Y(t)] + E[(Y(t))^2]$. Since $N(t)$ is an nonhomogeneous Poisson process with rate $\lambda(t) = r S(t)$, $N(t)$ is a Poisson random variable with mean and variance
 $$E[N(t)]=Var(N(t))=\int_0^t r S(v)dv.$$
 We obtain the covariance of $X(t)$ and $Y(t)$ when $p_4(t) = 0$
+
+\textcolor{red}{Correction}
 \begin{equation}
 \begin{split}
 Cov(X(t), Y(t)) & =  E[X(t)Y(t)] -E[X(t)] E[Y(t)]  \\
 & = E[(N(t))^2] - E[(X(t))^2] - E[(Y(t))^2] - E[X(t)] E[Y(t)]   \\
-& = (E[N(t)])^2 + Var(N(t))  - (E[X(t)])^2 - Var(X(t))  - (E[Y(t)])^2 - Var(Y(t)) \\
+& = \Big[(E[N(t)])^2 + Var(N(t))  - (E[X(t)])^2 - Var(X(t))  - (E[Y(t)])^2 - Var(Y(t))\Big]\textcolor{red}{/2} \\
 & - E[X(t)] E[Y(t)] \\
-& =\Big[\int_0^t r S(v) dv\Big]^2  - \Big[\int_0^t  [p_1(v) - p_3(v)] r S(v) dv\Big]^2 - \Big[\int_0^t  [p_2(v) + 2p_3(v)] r S(v) dv\Big]^2  \\
-& - \int_0^t 4p_3(v) r S(v) dv -  \int_0^t [p_1(v) - p_3(v)] r S(v) dv \cdot \int_0^t [p_2(v) + 2p_3(v)] r S(v) dv.
+& \textcolor{red}{=\Big[(E[N(t)])^2 + Var(N(t))   - Var(X(t))   - Var(Y(t))- (E[X(t)])^2- (E[Y(t)])^2- 2E[X(t)] E[Y(t)]\Big]/2}\\
+& \textcolor{red}{\text{(rearranging terms)}} \\
+& \textcolor{red}{=\Big[(E[N(t)])^2 + Var(N(t))   - Var(X(t))   - Var(Y(t))- (E[N(t)])^2\Big]/2}\\
+& \textcolor{red}{=\Big[\int_0^t r S(v) dv - \int_0^t  [p_1(v) +p_3(v)] r S(v) dv - \int_0^t  p_2(v) + 4p_3(v)] r S(v) dv\Big]/2}  \\
+& \textcolor{red}{=- \int_0^t 2p_3(v) r S(v) dv.}
 \end{split}
 \end{equation}
 
@@ -210,6 +215,122 @@ Then,
 \end{equation}
 Similarly for $Var(Y(t))$, since $[p_2(v) + 4p_3(v)] \leq 4$ for any $v \in (0, \infty)$,
 $$ \int_0^\infty [p_2(v) + 4p_3(v)] r S(v) dv \leq \int_0^\infty 4 r S(v) dv  \leq \frac{4 S_0 \exp\{u_0 (1+rq)\}}{q} < \infty.$$
+
+
+\section*{Results from the Multivariate Characteristic Function}
+We model the stem cell (both viable and non-viable) and differentiated cell counts using the compound nonhomogeneous Poisson process as follows. Let $N(t)$ be a nonhomogeneous Poisson process with rate $\lambda(t) = r S(t)$. Given a sequence of arrival times $S_1, S_2, S_3, \cdots$, the 3-tuple of random variable $(X_1, Y_1, Z_1), (X_2, Y_2, Z_2), (X_3, Y_3, Z_3), \cdots$ are independent with the following marginal distributions
+\begin{equation*}
+(X_k, Y_k, Z_k) = \begin{cases}
+(+1,0,0), & p_1(S_k) \\
+(0,+1,0), & p_2(S_k) \\
+(-1,+2,0), & p_3(S_k) \\
+(0,0,+1), & p_4(S_k)
+\end{cases}
+\end{equation*}
+where $p_4(t) = 1-p_1(t)-p_2(t)-p_3(t)$. We define the three compound nonhomogeneous Poisson processes, $X(t), Y(t),$ and $Z(t)$, as follows
+$$X(t) = \sum_{k=1}^{N(t)} X_k, \quad Y(t) = \sum_{k=1}^{N(t)} Y_k, \quad \text{and} \quad Z(t) = \sum_{k=1}^{N(t)} Z_k.$$
+From Theorem 2.1 of Chen and Savits (1993) (cite), the characteristic functions of $\mathbf{C}(t) = (X(t), Y(t), Z(t))$ is
+\begin{equation}
+\begin{split}
+\psi_{\mathbf{C}(t)}(\mathbf{u}) & =  \exp \Big\{ \int_0^t [(e^{iu_1}-1)p_1(v) + (e^{iu_2}-1)p_2(v) + (e^{-iu_1+2iu_2}-1)p_3(v) + (e^{iu_3}-1)p_4(v)]  rS(v)dv \Big\}
+\end{split}
+\end{equation}
+We use Leibniz integral rule to take the first and second derivative (using the product rule) of $\psi_{\mathbf{C}(t)}(\mathbf{u})$ with respect to $u_1, u_2,$ and $u_3$, we obtain the expected values and variances of $X(t), Y(t),$ and $Z(t)$ 
+\begin{equation}
+\begin{split}
+\frac{\partial \psi_{\mathbf{C}(t)}(\mathbf{u})}{\partial u_1} &= \exp \Big\{ \int_0^t [(e^{iu_1}-1)p_1(v) + (e^{iu_2}-1)p_2(v) + (e^{-iu_1+2iu_2}-1)p_3(v) + (e^{iu_3}-1)p_4(v)]  rS(v)dv \Big\} \\
+&\int_0^t [ie^{iu_1}p_1(v) - ie^{-iu_1 + 2iu_2}p_3(v)]  rS(v)dv \\
+\frac{\partial^2 \psi_{\mathbf{C}(t)}(\mathbf{u})}{\partial^2 u_1} &= \exp \Big\{ \int_0^t [(e^{iu_1}-1)p_1(v) + (e^{iu_2}-1)p_2(v) + (e^{-iu_1+2iu_2}-1)p_3(v) + (e^{iu_3}-1)p_4(v)]  rS(v)dv \Big\} \\
+& \int_0^t [i^2 e^{iu_1}p_1(v) + i^2 e^{-iu_1 + 2iu_2} p_3(v)]  rS(v)dv +\\
+& \exp \Big\{ \int_0^t [(e^{iu_1}-1)p_1(v) + (e^{iu_2}-1)p_2(v) + (e^{-iu_1+2iu_2}-1)p_3(v) + (e^{iu_3}-1)p_4(v)]  rS(v)dv \Big\} \\
+& \Big[\int_0^t [ie^{iu_1}p_1(v) - ie^{-iu_1 + 2iu_2}p_3(v)] rS(v)dv \Big]^2
+\end{split}
+\end{equation}
+
+\begin{equation}
+\begin{split}
+\EE[X(t)] & = i^{-1} \frac{\partial \psi_{\mathbf{C}(t)}(\mathbf{u})}{\partial u_1} \Big \vert_{\mathbf{u} = \mathbf{0}} = \int_0^t [p_1(v)-p_3(v)] r S(v)dv \\
+\EE[X(t)^2] & = i^{-2} \frac{\partial^2 \psi_{\mathbf{C}(t)}(\mathbf{u})}{\partial^2 u_1} \Big \vert_{\mathbf{u}= \mathbf{0}} \\
+& = \int_0^t [p_1(v)+p_3(v)] r S(v)dv + \Big[\int_0^t [p_1(v)-p_3(v)] r S(v)dv\Big]^2 \\
+\Var[X(t)] & = \EE[X(t)^2] - (\EE[X(t)])^2 = \int_0^t [p_1(v)+p_3(v)] r S(v)dv
+\end{split}
+\end{equation}
+
+\begin{equation}
+\begin{split}
+\frac{\partial \psi_{\mathbf{C}(t)}(\mathbf{u})}{\partial u_2} &= \exp \Big\{ \int_0^t [(e^{iu_1}-1)p_1(v) + (e^{iu_2}-1)p_2(v) + (e^{-iu_1+2iu_2}-1)p_3(v) + (e^{iu_3}-1)p_4(v)]  rS(v)dv \Big\} \\
+&\int_0^t [ie^{iu_2}p_2(v) + 2ie^{-iu_1 + 2iu_2}p_3(v)]  rS(v)dv \\
+\frac{\partial^2 \psi_{\mathbf{C}(t)}(\mathbf{u})}{\partial^2 u_2} &= \exp \Big\{ \int_0^t [(e^{iu_1}-1)p_1(v) + (e^{iu_2}-1)p_2(v) + (e^{-iu_1+2iu_2}-1)p_3(v) + (e^{iu_3}-1)p_4(v)]  rS(v)dv \Big\} \\
+& \int_0^t [i^2 e^{iu_2}p_2(v) +4i^2 e^{-iu_1 + 2iu_2} p_3(v)] rS(v)dv +\\
+& \exp \Big\{ \int_0^t [(e^{iu_1}-1)p_1(v) + (e^{iu_2}-1)p_2(v) + (e^{-iu_1+2iu_2}-1)p_3(v) + (e^{iu_3}-1)p_4(v)]  rS(v)dv \Big\} \\
+& \Big[\int_0^t [ie^{iu_2}p_2(v) + 2ie^{-iu_1 + 2iu_2}p_3(v)]  rS(v)dv \Big]^2
+\end{split}
+\end{equation}
+
+\begin{equation}
+\begin{split}
+\EE[Y(t)] & = i^{-1} \frac{\partial \psi_{\mathbf{C}(t)}(\mathbf{u})}{\partial u_2} \Big \vert_{\mathbf{u} = \mathbf{0}} = \int_0^t [p_2(v)+2p_3(v)] r S(v)dv \\
+\EE[Y(t)^2] & = i^{-2} \frac{\partial^2 \psi_{\mathbf{C}(t)}(\mathbf{u})}{\partial^2 u_2} \Big \vert_{\mathbf{u}= \mathbf{0}} \\
+& = \int_0^t [p_2(v)+4p_3(v)] r S(v)dv + \Big[\int_0^t [p_2(v)+2p_3(v)] r S(v)dv\Big]^2 \\
+\Var[Y(t)] & = \EE[Y(t)^2] - (\EE[Y(t)])^2 = \int_0^t [p_2(v)+4p_3(v)] r S(v)dv
+\end{split}
+\end{equation}
+
+\begin{equation}
+\begin{split}
+\frac{\partial \psi_{\mathbf{C}(t)}(\mathbf{u})}{\partial u_3} &= \exp \Big\{ \int_0^t [(e^{iu_1}-1)p_1(v) + (e^{iu_2}-1)p_2(v) + (e^{-iu_1+2iu_2}-1)p_3(v) + (e^{iu_3}-1)p_4(v)]  rS(v)dv \Big\} \\
+&\int_0^t ie^{iu_3}p_4(v)  rS(v)dv \\
+\frac{\partial^2 \psi_{\mathbf{C}(t)}(\mathbf{u})}{\partial^2 u_3} &= \exp \Big\{ \int_0^t [(e^{iu_1}-1)p_1(v) + (e^{iu_2}-1)p_2(v) + (e^{-iu_1+2iu_2}-1)p_3(v) + (e^{iu_3}-1)p_4(v)]  rS(v)dv \Big\} \\
+&\int_0^t i^2e^{iu_3}p_4(v)  rS(v)dv +\\
+&\exp \Big\{ \int_0^t [(e^{iu_1}-1)p_1(v) + (e^{iu_2}-1)p_2(v) + (e^{-iu_1+2iu_2}-1)p_3(v) + (e^{iu_3}-1)p_4(v)]  rS(v)dv \Big\} \\
+& \Big[\int_0^t i e^{iu_3}p_4(v) rS(v)dv \Big]^2
+\end{split}
+\end{equation}
+
+\begin{equation}
+\begin{split}
+\EE[Z(t)] & = i^{-1} \frac{\partial \psi_{\mathbf{C}(t)}(\mathbf{u})}{\partial u_3} \Big \vert_{\mathbf{u} = \mathbf{0}} = \int_0^t p_4(v) r S(v)dv \\
+\EE[Z(t)^2] & = i^{-2} \frac{\partial^2 \psi_{\mathbf{C}(t)}(\mathbf{u})}{\partial^2 u_3} \Big \vert_{\mathbf{u}= \mathbf{0}} \\
+& = \int_0^t p_4(v) r S(v)dv + \Big[\int_0^t p_4(v) r S(v)dv\Big]^2 \\
+\Var[Z(t)] & = \EE[Z(t)^2] - (\EE[Z(t)])^2 = \int_0^t p_4(v) r S(v)dv
+\end{split}
+\end{equation}
+
+Using the second derivatives, we also obtain the covariances
+\begin{equation}
+\begin{split}
+\frac{\partial^2 \psi_{\mathbf{C}(t)}(\mathbf{u})}{\partial u_1 \partial u_2} &= \exp \Big\{ \int_0^t [(e^{iu_1}-1)p_1(v) + (e^{iu_2}-1)p_2(v) + (e^{-iu_1+2iu_2}-1)p_3(v) + (e^{iu_3}-1)p_4(v)]  rS(v)dv \Big\} \\
+& \int_0^t [-2i^2 e^{-iu_1 + 2iu_2} p_3(v)]  rS(v)dv +\\
+& \exp \Big\{ \int_0^t [(e^{iu_1}-1)p_1(v) + (e^{iu_2}-1)p_2(v) + (e^{-iu_1+2iu_2}-1)p_3(v) + (e^{iu_3}-1)p_4(v)]  rS(v)dv \Big\} \\
+& \int_0^t [ie^{iu_2}p_2(v) +2 ie^{-iu_1 + 2iu_2}p_3(v)]  rS(v)dv \int_0^t [ie^{iu_1}p_1(v) - ie^{-iu_1 + 2iu_2}p_3(v)] rS(v)dv \\
+\EE [X(t)Y(t)] & = i^{-2} \frac{\partial^2 \psi_{\mathbf{C}(t)}(\mathbf{u})}{\partial u_1 \partial u_2}\Big \vert_{\mathbf{u} = \mathbf{0}} \\
+&=
+-\int_0^t 2 p_3(v)]  rS(v)dv + \int_0^t [p_1(v)-p_3(v)]rS(v) dv \int_0^t[p_2(v)+2p_3(v)]rS(v)dv \\
+Cov [X(t)Y(t)] &=\EE [X(t)Y(t)] - E[X(t)]E[Y(t)] = -\int_0^t 2 p_3(v)]  rS(v)dv
+\end{split}
+\end{equation}
+
+\begin{equation}
+\begin{split}
+\frac{\partial^2 \psi_{\mathbf{C}(t)}(\mathbf{u})}{\partial u_1 \partial u_3} & = \exp \Big\{ \int_0^t [(e^{iu_1}-1)p_1(v) + (e^{iu_2}-1)p_2(v) + (e^{-iu_1+2iu_2}-1)p_3(v) + (e^{iu_3}-1)p_4(v)]  rS(v)dv \Big\} \\
+& \int_0^t ie^{iu_3}p_4(v)  rS(v)dv \int_0^t [ie^{iu_1}p_1(v) - ie^{-iu_1 + 2iu_2}p_3(v)] rS(v)dv \\
+\EE [X(t)Z(t)] & = i^{-2} \frac{\partial^2 \psi_{\mathbf{C}(t)}(\mathbf{u})}{\partial u_1 \partial u_3}\Big \vert_{\mathbf{u} = \mathbf{0}} \\
+&=
+ \int_0^t [p_1(v)-p_3(v)]rS(v) dv \int_0^t p_4(v) rS(v)dv \\
+Cov [X(t)Z(t)] &=\EE [X(t)Z(t)] - E[X(t)]E[Z(t)] = 0
+\end{split}
+\end{equation}
+
+\begin{equation}
+\begin{split}
+\frac{\partial^2 \psi_{\mathbf{C}(t)}(\mathbf{u})}{\partial u_2 \partial u_3} & = \exp \Big\{ \int_0^t [(e^{iu_1}-1)p_1(v) + (e^{iu_2}-1)p_2(v) + (e^{-iu_1+2iu_2}-1)p_3(v) + (e^{iu_3}-1)p_4(v)]  rS(v)dv \Big\} \\
+& \int_0^t ie^{iu_3}p_4(v)  rS(v)dv \int_0^t [ie^{iu_2}p_2(v) + 2ie^{-iu_1 + 2iu_2}p_3(v)]  rS(v)dv \\
+\EE [Y(t)Z(t)] & = i^{-2} \frac{\partial^2 \psi_{\mathbf{C}(t)}(\mathbf{u})}{\partial u_2 \partial u_3}\Big \vert_{\mathbf{u} = \mathbf{0}} \\
+&=
+ \int_0^t [p_2(v)+2p_3(v)]rS(v) dv \int_0^t p_4(v) rS(v)dv \\
+Cov [Y(t)Z(t)] &=\EE [Y(t)Z(t)] - E[Y(t)]E[Z(t)] = 0
+\end{split}
+\end{equation}
 \end{document}
 
 
