@@ -572,7 +572,7 @@ plot_ly(dat.markov, x = ~time.collected, y = ~sc.steps, z = ~ec.steps,
   layout(scene = list(xaxis = list(title = "time"),
                       yaxis = list(title = "stem cell"),
                       zaxis = list(title = "differentiated cell")))
-upper <- 5
+upper <- 80
 lower <- 0
 
 df.time <- data.frame(time = c(sim$time.steps[sim$time.steps >lower & sim$time.steps < upper],
@@ -580,9 +580,15 @@ df.time <- data.frame(time = c(sim$time.steps[sim$time.steps >lower & sim$time.s
                       group = c(rep("cpnn", length(sim$time.steps[sim$time.steps >lower & sim$time.steps < upper])),
                                 rep("branching",length(sim.markov$time.steps[sim.markov$time.steps >lower & sim.markov$time.steps < upper]))))
 
-ggplot(df.time, aes(x = time, fill = group)) +
-  geom_histogram(binwidth = 0.05, color = "black", fill = "steelblue") +
-  facet_wrap(~group, ncol = 1) +  # One column => vertical layout
+ggplot(df.time) +
+  geom_histogram(aes(x = time, fill = group),binwidth = 1, color = "black") +
+  facet_wrap(~group, ncol = 1) +  
+  labs(title = "Simulated Event Times", x = "Simulated event time", y = "Count") +
+  theme_minimal()
+
+ggplot(df.time) +
+  geom_histogram(aes(x = time, fill = group),binwidth = 0.2,
+                 position = "identity", alpha = 0.5, color = "black") +
   labs(title = "Simulated Event Times", x = "Simulated event time", y = "Count") +
   theme_minimal()
 
@@ -602,261 +608,261 @@ dim(sim)
 dim(sim.markov)
 
 ### stop at fixed time
-tau <- 50
-set.seed(seed0)
-sim.tau <- data.frame(reps = numeric(), time = numeric(), sc = numeric(), ec = numeric())
-for (i in 1:reps) {
-  # draw event time from the nhppp package using thinning algorithm
-  time.draw <- draw_intensity(lambda = intensity_func,
-                              line_majorizer_intercept = intercept,
-                              line_majorizer_slope = slope,
-                              line_majorizer_is_loglinear = TRUE,
-                              t_min = 0, t_max = t_max)
-  sc.current <- s0.test
-  ec.current <- dc.current <- time.current <- 0
-  sc.steps <- c(s0.test)
-  ec.steps <- c(ec.current)
-  # dc.steps <- c(dc.current)
-  time.steps <- c(time.current)
-  itnum <- 0
-  index <- 0
-  while (index < length(time.draw)) {
-    itnum <- itnum + 1
-    index <- index + 1
-    time.current <- time.draw[index]
-    # calculate proliferation function at event time
-    q_t <- q_t1(time.current, prm.test)
-    if ((q_t < min_q_t| (itnum > max_it))) {
-      cat(q_t, "\n")
-      break
-    }
-    # determine the probability of each type of division
-    probs <- c((2-q_t)/k, max(0, (k-2)*(2-q_t)/k), max(0,(2-k + (k-1)*q_t)/k))
-    if (sum(probs) > 1) {
-      probs <- probs/sum(probs)
-    }
-    # sample the type of division
-    event_type <- sample(1:3, 1, prob=probs)
-    switch(event_type,
-           "1" = {
-             sc.current <- sc.current + 1
-             ec.current <- ec.current
-           },
-           "2" = {
-             sc.current <- sc.current
-             ec.current <- ec.current + 1
-           },
-           "3" = {
-             sc.current <- sc.current - 1
-             ec.current <- ec.current + 2
-           })
-    sc.steps <- c(sc.steps, sc.current)
-    ec.steps <- c(ec.steps, ec.current)
-    time.steps <- c(time.steps, time.current)
-  }
-  sim.tau <- rbind(sim.tau,cbind(reps = rep(i, length(sc.steps)), time.steps, sc.steps, ec.steps))
-}
-
-dat.tau <- data.frame(reps = numeric(), time = numeric(), sc = numeric(), ec = numeric(),
-                  time.collected = numeric())
-
-for (i in 1:reps) {
-  subset <- sim.tau %>% filter(reps == i)
-  for (j in 2:length(tms)) {
-    time.before <- tms[j-1]
-    time.collected <- tms[j]
-    if (sum(subset$time <= time.collected  & subset$time > time.before) == 0){
-      # dat[nrow(dat)+1, ] <- c(dat[nrow(dat), 1:4], time.collected)
-      dat.tau <- dat.tau
-    } else{
-      ind <- max(which(subset$time <= time.collected  & subset$time > time.before))
-      dat.tau <- rbind(dat.tau, cbind(subset[ind,], time.collected))
-    }
-    
-  }
-}
-
-
-ggplot() +
-  geom_point(data = dat.tau, aes(x = time.steps, y = ec.steps, col = "differentiated cell"), alpha = 0.5)+
-  geom_point(data = dat.tau, aes(x = time.steps, y = sc.steps, col = "stem cell"), alpha = 0.5)+
-  geom_point(data = theo.dat, aes(x = time.steps, y = ec.steps, col = "expected differentiated cell"))+
-  geom_point(data = theo.dat, aes(x = time.steps, y = sc.steps, col = "expected stem cell"))+
-  geom_line(data = theo.dat, aes(x = time.steps, y = ec.steps, col = "expected differentiated cell"))+
-  geom_line(data = theo.dat, aes(x = time.steps, y = sc.steps, col = "expected stem cell"))+
-  geom_ribbon(data = theo.dat, aes(x = time.steps, 
-                                   ymin = sc.steps-1.96*sqrt(sc.var), 
-                                   ymax = sc.steps+1.96*sqrt(sc.var)), color = "gray", alpha = 0.25)+
-  geom_ribbon(data = theo.dat, aes(x = time.steps, ymin = ec.steps-1.96*sqrt(ec.var), 
-                                   ymax = ec.steps+1.96*sqrt(ec.var)), color = "gray", alpha = 0.25)+
-  labs(x = "time (in hours)", y = "cell counts", color = "",
-       title = "Simulated cell counts")+
-  scale_color_manual(values = c("differentiated cell" = "skyblue3",
-                                "stem cell" = "indianred1",
-                                "expected differentiated cell" = "navy",
-                                "expected stem cell" = "brown4")) +
-  theme_classic() +
-  theme(legend.position = "bottom",
-        plot.title = element_text(size = 14),
-        axis.text.x = element_text(size = 14),
-        axis.title.x = element_text(size = 14),
-        axis.text.y = element_text(size = 14),
-        axis.title.y = element_text(size = 14),
-        legend.text = element_text(size = 13))
-
-plot_ly(dat.tau, x = ~time.collected, y = ~sc.steps, z = ~ec.steps,  
-        type = "scatter3d", mode = "markers", marker = list(size = 2),
-        color = I("navyblue")) %>%
-  add_trace(x = ellipse_dat$time.collected, 
-            y = ellipse_dat$sc.dim, z = ellipse_dat$ec.dim, 
-            opacity = 0.5, color = I("skyblue3"),
-            marker = list(size = 4)) %>%
-  layout(scene = list(xaxis = list(title = "time"),
-                      yaxis = list(title = "stem cell"),
-                      zaxis = list(title = "differentiated cell")))
-
-sim.tau %>% group_by(reps) %>% summarize(n = n(), max.time = max(time.steps), min.sc = min(sc.steps))
-
-prob_func <- function(time.jump, jump.size, prm){
-  q_t <- q_t1(tms = time.jump, prm = prm)
-  probs <- c((2-q_t)/k, max(0, (k-2)*(2-q_t)/k), max(0,(2-k + (k-1)*q_t)/k))
-  if (sum(probs) > 1) {
-    probs <- probs/sum(probs)
-  }
-  if(sum(jump.size == c(1,0)) > 1){
-    out <- probs[1]
-  } else if(sum(jump.size == c(0,1))>1) {
-    out <- probs[2]
-  } else if(sum(jump.size == c(-1,2))>1){
-    out <- probs[3]
-  } else {
-    out <- 0
-  }
-}
-
-
-sim.tau.time.jump <- sim.tau %>% filter(reps == 1) %>%
-  pull(time.steps)
-sim.tau.sc.steps <- sim.tau %>% filter(reps == 1) %>%
-  pull(sc.steps)
-sim.tau.ec.steps <- sim.tau %>% filter(reps == 1) %>%
-  pull(ec.steps)
-diff.sc <- diff(sim.tau.sc.steps)
-diff.ec <- diff(sim.tau.ec.steps)
-
-sim.tau.jump.size<- lapply(seq_along(diff.sc), function(i) c(diff.sc[i], diff.ec[i]))
-print(sim.tau.jump.size)
-length(sim.tau.jump.size)
-
-prob.vec <- c()
-for (i in 1:length(sim.tau.jump.size)) {
-  probs <- prob_func(time.jump = sim.tau.time.jump[i+1], jump.size = sim.tau.jump.size[[i]], prm = prm.test)
-  prob.vec <- c(prob.vec, probs)
-}
-
-log_likelihood <- function(stop.time = 10, prm, rate, time.jump, jump, k =3){
-  new_intensity_func <- function(t){
-    out <- rate*s0.test*exp(rate*(t-int_q(t,prm = prm)+int_q(0,prm = prm)))
-    return(out)
-  }
-  cummulative.intensity <- integrate(new_intensity_func, 0, stop.time)$value
-  log.likelihood <- (-1)*cummulative.intensity
-  for (i in length(time.jump)) {
-    intesity.time <- new_intensity_func(time.jump[i])
-    q_t <- q_t1(tms = time.jump[i], prm = prm)
-    probs <- c((2-q_t)/k, max(0, (k-2)*(2-q_t)/k), max(0,(2-k + (k-1)*q_t)/k))
-    if (sum(probs) > 1) {
-      probs <- probs/sum(probs)
-    }
-    jump.size <- jump[[i]]
-    if(sum(jump.size == c(1,0)) > 1){
-      out.prob <- probs[1]
-    } else if(sum(jump.size == c(0,1))>1) {
-      out.prob <- probs[2]
-    } else if(sum(jump.size == c(-1,2))>1){
-      out.prob <- probs[3]
-    } else {
-      out.prob <- 0
-    }
-    log.likelihood <- log.likelihood + log(intesity.time) + log(out.prob)
-  }
-  return(log.likelihood)
-}
-
-
-log_likelihood(stop.time = tau, prm = prm.test, rate = r.test, 
-               time.jump = sim.tau.time.jump,
-               jump = sim.tau.jump.size)
-
-sim.tau.time.jump <- diff.sc <- diff.ec <- c()
-
-for (i in 1:reps) {
-  sim.subset <- sim.tau %>% filter(reps == i) %>% filter(time.steps <= tau)
-  sim.subset.time.jump <- sim.subset %>% pull(time.steps)
-  sim.subset.time.jump <- sim.subset.time.jump[-1]
-  sim.subset.sc.steps <- sim.subset %>% pull(sc.steps)
-  sim.subset.ec.steps <- sim.subset %>% pull(ec.steps)
-  diff.subset.sc <- diff(sim.subset.sc.steps)
-  diff.subset.ec <- diff(sim.subset.ec.steps)
-  
-  sim.tau.time.jump <- c(sim.tau.time.jump, sim.subset.time.jump)
-  diff.sc <- c(diff.sc, diff.subset.sc)
-  diff.ec <- c(diff.ec, diff.subset.ec)
-}
-sim.tau.jump.size<- lapply(seq_along(diff.sc), function(i) c(diff.sc[i], diff.ec[i]))
-length(sim.tau.time.jump)
-length(sim.tau.jump.size)
-length(diff.sc)
-
-r.vals <- seq(0.1, 1, length.out = 10)
-a1.vals <- seq(1.1,2, length.out = 10)
-a2.vals <- seq(-0.120, 0.006, length.out = 10)
-a3.vals <- seq(0.004, 0.013, length.out = 10)
-k.vals <- seq(0.5, 5, length.out = 10)
-
-grid3D <- expand.grid(y = a1.vals, z = a2.vals, w = a3.vals)
-grid4D <- expand.grid(x = r.vals, y = a1.vals, z = a2.vals, w = a3.vals)
-grid5D <- expand.grid(x = r.vals, y = a1.vals, z = a2.vals, w = a3.vals, v = k.vals)
-
-log.likelihood <- c()
-for (i in 1:nrow(grid5D)) {
-  r.input <- grid5D$x[i]
-  prm.input <- c(grid5D$y[i], grid5D$z[i], grid5D$w[i])
-  k.input <- grid5D$v[i]
-  output.lik <- log_likelihood(stop.time = 50, prm = prm.input, rate = r.input, 
-                               time.jump = sim.tau.time.jump,
-                               jump = sim.tau.jump.size,
-                               k = k.input)
-  log.likelihood <- c(log.likelihood, output.lik)
-}
-which.max(log.likelihood)
-grid5D[which.max(log.likelihood),]
-
-
-log.likelihood <- c()
-for (i in 1:nrow(grid4D)) {
-  r.input <- grid4D$x[i]
-  prm.input <- c(grid4D$y[i], grid4D$z[i], grid4D$w[i])
-  output.lik <- log_likelihood(stop.time = 50, prm = prm.input, rate = r.input, 
-                               time.jump = sim.tau.time.jump,
-                               jump = sim.tau.jump.size,
-                               k = 3)
-  log.likelihood <- c(log.likelihood, output.lik)
-}
-which.max(log.likelihood)
-grid4D[which.max(log.likelihood),]
-max(log.likelihood)
-
-
-log.likelihood <- c()
-for (i in 1:nrow(grid3D)) {
-  prm.input <- c(grid4D$y[i], grid4D$z[i], grid4D$w[i])
-  output.lik <- log_likelihood(stop.time = 50, prm = prm.input, rate = r.test, 
-                               time.jump = sim.tau.time.jump,
-                               jump = sim.tau.jump.size,
-                               k = 3)
-  log.likelihood <- c(log.likelihood, output.lik)
-}
-which.max(log.likelihood)
-grid3D[which.max(log.likelihood),]
-max(log.likelihood)
+# tau <- 50
+# set.seed(seed0)
+# sim.tau <- data.frame(reps = numeric(), time = numeric(), sc = numeric(), ec = numeric())
+# for (i in 1:reps) {
+#   # draw event time from the nhppp package using thinning algorithm
+#   time.draw <- draw_intensity(lambda = intensity_func,
+#                               line_majorizer_intercept = intercept,
+#                               line_majorizer_slope = slope,
+#                               line_majorizer_is_loglinear = TRUE,
+#                               t_min = 0, t_max = t_max)
+#   sc.current <- s0.test
+#   ec.current <- dc.current <- time.current <- 0
+#   sc.steps <- c(s0.test)
+#   ec.steps <- c(ec.current)
+#   # dc.steps <- c(dc.current)
+#   time.steps <- c(time.current)
+#   itnum <- 0
+#   index <- 0
+#   while (index < length(time.draw)) {
+#     itnum <- itnum + 1
+#     index <- index + 1
+#     time.current <- time.draw[index]
+#     # calculate proliferation function at event time
+#     q_t <- q_t1(time.current, prm.test)
+#     if ((q_t < min_q_t| (itnum > max_it))) {
+#       cat(q_t, "\n")
+#       break
+#     }
+#     # determine the probability of each type of division
+#     probs <- c((2-q_t)/k, max(0, (k-2)*(2-q_t)/k), max(0,(2-k + (k-1)*q_t)/k))
+#     if (sum(probs) > 1) {
+#       probs <- probs/sum(probs)
+#     }
+#     # sample the type of division
+#     event_type <- sample(1:3, 1, prob=probs)
+#     switch(event_type,
+#            "1" = {
+#              sc.current <- sc.current + 1
+#              ec.current <- ec.current
+#            },
+#            "2" = {
+#              sc.current <- sc.current
+#              ec.current <- ec.current + 1
+#            },
+#            "3" = {
+#              sc.current <- sc.current - 1
+#              ec.current <- ec.current + 2
+#            })
+#     sc.steps <- c(sc.steps, sc.current)
+#     ec.steps <- c(ec.steps, ec.current)
+#     time.steps <- c(time.steps, time.current)
+#   }
+#   sim.tau <- rbind(sim.tau,cbind(reps = rep(i, length(sc.steps)), time.steps, sc.steps, ec.steps))
+# }
+# 
+# dat.tau <- data.frame(reps = numeric(), time = numeric(), sc = numeric(), ec = numeric(),
+#                   time.collected = numeric())
+# 
+# for (i in 1:reps) {
+#   subset <- sim.tau %>% filter(reps == i)
+#   for (j in 2:length(tms)) {
+#     time.before <- tms[j-1]
+#     time.collected <- tms[j]
+#     if (sum(subset$time <= time.collected  & subset$time > time.before) == 0){
+#       # dat[nrow(dat)+1, ] <- c(dat[nrow(dat), 1:4], time.collected)
+#       dat.tau <- dat.tau
+#     } else{
+#       ind <- max(which(subset$time <= time.collected  & subset$time > time.before))
+#       dat.tau <- rbind(dat.tau, cbind(subset[ind,], time.collected))
+#     }
+#     
+#   }
+# }
+# 
+# 
+# ggplot() +
+#   geom_point(data = dat.tau, aes(x = time.steps, y = ec.steps, col = "differentiated cell"), alpha = 0.5)+
+#   geom_point(data = dat.tau, aes(x = time.steps, y = sc.steps, col = "stem cell"), alpha = 0.5)+
+#   geom_point(data = theo.dat, aes(x = time.steps, y = ec.steps, col = "expected differentiated cell"))+
+#   geom_point(data = theo.dat, aes(x = time.steps, y = sc.steps, col = "expected stem cell"))+
+#   geom_line(data = theo.dat, aes(x = time.steps, y = ec.steps, col = "expected differentiated cell"))+
+#   geom_line(data = theo.dat, aes(x = time.steps, y = sc.steps, col = "expected stem cell"))+
+#   geom_ribbon(data = theo.dat, aes(x = time.steps, 
+#                                    ymin = sc.steps-1.96*sqrt(sc.var), 
+#                                    ymax = sc.steps+1.96*sqrt(sc.var)), color = "gray", alpha = 0.25)+
+#   geom_ribbon(data = theo.dat, aes(x = time.steps, ymin = ec.steps-1.96*sqrt(ec.var), 
+#                                    ymax = ec.steps+1.96*sqrt(ec.var)), color = "gray", alpha = 0.25)+
+#   labs(x = "time (in hours)", y = "cell counts", color = "",
+#        title = "Simulated cell counts")+
+#   scale_color_manual(values = c("differentiated cell" = "skyblue3",
+#                                 "stem cell" = "indianred1",
+#                                 "expected differentiated cell" = "navy",
+#                                 "expected stem cell" = "brown4")) +
+#   theme_classic() +
+#   theme(legend.position = "bottom",
+#         plot.title = element_text(size = 14),
+#         axis.text.x = element_text(size = 14),
+#         axis.title.x = element_text(size = 14),
+#         axis.text.y = element_text(size = 14),
+#         axis.title.y = element_text(size = 14),
+#         legend.text = element_text(size = 13))
+# 
+# plot_ly(dat.tau, x = ~time.collected, y = ~sc.steps, z = ~ec.steps,  
+#         type = "scatter3d", mode = "markers", marker = list(size = 2),
+#         color = I("navyblue")) %>%
+#   add_trace(x = ellipse_dat$time.collected, 
+#             y = ellipse_dat$sc.dim, z = ellipse_dat$ec.dim, 
+#             opacity = 0.5, color = I("skyblue3"),
+#             marker = list(size = 4)) %>%
+#   layout(scene = list(xaxis = list(title = "time"),
+#                       yaxis = list(title = "stem cell"),
+#                       zaxis = list(title = "differentiated cell")))
+# 
+# sim.tau %>% group_by(reps) %>% summarize(n = n(), max.time = max(time.steps), min.sc = min(sc.steps))
+# 
+# prob_func <- function(time.jump, jump.size, prm){
+#   q_t <- q_t1(tms = time.jump, prm = prm)
+#   probs <- c((2-q_t)/k, max(0, (k-2)*(2-q_t)/k), max(0,(2-k + (k-1)*q_t)/k))
+#   if (sum(probs) > 1) {
+#     probs <- probs/sum(probs)
+#   }
+#   if(sum(jump.size == c(1,0)) > 1){
+#     out <- probs[1]
+#   } else if(sum(jump.size == c(0,1))>1) {
+#     out <- probs[2]
+#   } else if(sum(jump.size == c(-1,2))>1){
+#     out <- probs[3]
+#   } else {
+#     out <- 0
+#   }
+# }
+# 
+# 
+# sim.tau.time.jump <- sim.tau %>% filter(reps == 1) %>%
+#   pull(time.steps)
+# sim.tau.sc.steps <- sim.tau %>% filter(reps == 1) %>%
+#   pull(sc.steps)
+# sim.tau.ec.steps <- sim.tau %>% filter(reps == 1) %>%
+#   pull(ec.steps)
+# diff.sc <- diff(sim.tau.sc.steps)
+# diff.ec <- diff(sim.tau.ec.steps)
+# 
+# sim.tau.jump.size<- lapply(seq_along(diff.sc), function(i) c(diff.sc[i], diff.ec[i]))
+# print(sim.tau.jump.size)
+# length(sim.tau.jump.size)
+# 
+# prob.vec <- c()
+# for (i in 1:length(sim.tau.jump.size)) {
+#   probs <- prob_func(time.jump = sim.tau.time.jump[i+1], jump.size = sim.tau.jump.size[[i]], prm = prm.test)
+#   prob.vec <- c(prob.vec, probs)
+# }
+# 
+# log_likelihood <- function(stop.time = 10, prm, rate, time.jump, jump, k =3){
+#   new_intensity_func <- function(t){
+#     out <- rate*s0.test*exp(rate*(t-int_q(t,prm = prm)+int_q(0,prm = prm)))
+#     return(out)
+#   }
+#   cummulative.intensity <- integrate(new_intensity_func, 0, stop.time)$value
+#   log.likelihood <- (-1)*cummulative.intensity
+#   for (i in length(time.jump)) {
+#     intesity.time <- new_intensity_func(time.jump[i])
+#     q_t <- q_t1(tms = time.jump[i], prm = prm)
+#     probs <- c((2-q_t)/k, max(0, (k-2)*(2-q_t)/k), max(0,(2-k + (k-1)*q_t)/k))
+#     if (sum(probs) > 1) {
+#       probs <- probs/sum(probs)
+#     }
+#     jump.size <- jump[[i]]
+#     if(sum(jump.size == c(1,0)) > 1){
+#       out.prob <- probs[1]
+#     } else if(sum(jump.size == c(0,1))>1) {
+#       out.prob <- probs[2]
+#     } else if(sum(jump.size == c(-1,2))>1){
+#       out.prob <- probs[3]
+#     } else {
+#       out.prob <- 0
+#     }
+#     log.likelihood <- log.likelihood + log(intesity.time) + log(out.prob)
+#   }
+#   return(log.likelihood)
+# }
+# 
+# 
+# log_likelihood(stop.time = tau, prm = prm.test, rate = r.test, 
+#                time.jump = sim.tau.time.jump,
+#                jump = sim.tau.jump.size)
+# 
+# sim.tau.time.jump <- diff.sc <- diff.ec <- c()
+# 
+# for (i in 1:reps) {
+#   sim.subset <- sim.tau %>% filter(reps == i) %>% filter(time.steps <= tau)
+#   sim.subset.time.jump <- sim.subset %>% pull(time.steps)
+#   sim.subset.time.jump <- sim.subset.time.jump[-1]
+#   sim.subset.sc.steps <- sim.subset %>% pull(sc.steps)
+#   sim.subset.ec.steps <- sim.subset %>% pull(ec.steps)
+#   diff.subset.sc <- diff(sim.subset.sc.steps)
+#   diff.subset.ec <- diff(sim.subset.ec.steps)
+#   
+#   sim.tau.time.jump <- c(sim.tau.time.jump, sim.subset.time.jump)
+#   diff.sc <- c(diff.sc, diff.subset.sc)
+#   diff.ec <- c(diff.ec, diff.subset.ec)
+# }
+# sim.tau.jump.size<- lapply(seq_along(diff.sc), function(i) c(diff.sc[i], diff.ec[i]))
+# length(sim.tau.time.jump)
+# length(sim.tau.jump.size)
+# length(diff.sc)
+# 
+# r.vals <- seq(0.1, 1, length.out = 10)
+# a1.vals <- seq(1.1,2, length.out = 10)
+# a2.vals <- seq(-0.120, 0.006, length.out = 10)
+# a3.vals <- seq(0.004, 0.013, length.out = 10)
+# k.vals <- seq(0.5, 5, length.out = 10)
+# 
+# grid3D <- expand.grid(y = a1.vals, z = a2.vals, w = a3.vals)
+# grid4D <- expand.grid(x = r.vals, y = a1.vals, z = a2.vals, w = a3.vals)
+# grid5D <- expand.grid(x = r.vals, y = a1.vals, z = a2.vals, w = a3.vals, v = k.vals)
+# 
+# log.likelihood <- c()
+# for (i in 1:nrow(grid5D)) {
+#   r.input <- grid5D$x[i]
+#   prm.input <- c(grid5D$y[i], grid5D$z[i], grid5D$w[i])
+#   k.input <- grid5D$v[i]
+#   output.lik <- log_likelihood(stop.time = 50, prm = prm.input, rate = r.input, 
+#                                time.jump = sim.tau.time.jump,
+#                                jump = sim.tau.jump.size,
+#                                k = k.input)
+#   log.likelihood <- c(log.likelihood, output.lik)
+# }
+# which.max(log.likelihood)
+# grid5D[which.max(log.likelihood),]
+# 
+# 
+# log.likelihood <- c()
+# for (i in 1:nrow(grid4D)) {
+#   r.input <- grid4D$x[i]
+#   prm.input <- c(grid4D$y[i], grid4D$z[i], grid4D$w[i])
+#   output.lik <- log_likelihood(stop.time = 50, prm = prm.input, rate = r.input, 
+#                                time.jump = sim.tau.time.jump,
+#                                jump = sim.tau.jump.size,
+#                                k = 3)
+#   log.likelihood <- c(log.likelihood, output.lik)
+# }
+# which.max(log.likelihood)
+# grid4D[which.max(log.likelihood),]
+# max(log.likelihood)
+# 
+# 
+# log.likelihood <- c()
+# for (i in 1:nrow(grid3D)) {
+#   prm.input <- c(grid4D$y[i], grid4D$z[i], grid4D$w[i])
+#   output.lik <- log_likelihood(stop.time = 50, prm = prm.input, rate = r.test, 
+#                                time.jump = sim.tau.time.jump,
+#                                jump = sim.tau.jump.size,
+#                                k = 3)
+#   log.likelihood <- c(log.likelihood, output.lik)
+# }
+# which.max(log.likelihood)
+# grid3D[which.max(log.likelihood),]
+# max(log.likelihood)
