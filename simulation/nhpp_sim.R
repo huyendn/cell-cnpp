@@ -232,7 +232,8 @@ ggplot() +
   geom_ribbon(data = theo.dat, aes(x = time.steps, ymin = ec.steps-1.96*sqrt(ec.var), 
                                    ymax = ec.steps+1.96*sqrt(ec.var)), color = "gray", alpha = 0.25)+
   labs(x = "time (in hours)", y = "cell counts", color = "",
-       title = "Simulated cell counts")+
+       title = "Simulated cell counts",
+       subtitle = "Compound nonhomogeneous Poisson process")+
   scale_color_manual(values = c("differentiated cell" = "skyblue3",
                                 "stem cell" = "indianred1",
                                 "expected differentiated cell" = "navy",
@@ -491,7 +492,8 @@ ggplot() +
   geom_ribbon(data = theo.dat, aes(x = time.steps, ymin = ec.steps-1.96*sqrt(ec.var), 
                                    ymax = ec.steps+1.96*sqrt(ec.var)), color = "gray", alpha = 0.25)+
   labs(x = "time (in hours)", y = "cell counts", color = "",
-       title = "Simulated cell counts")+
+       title = "Simulated cell counts",
+       subtitle = "Branching process")+
   scale_color_manual(values = c("differentiated cell" = "skyblue3",
                                 "stem cell" = "indianred1",
                                 "expected differentiated cell" = "navy",
