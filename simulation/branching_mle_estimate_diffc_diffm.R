@@ -4,13 +4,14 @@ library(plotly)
 library(tidyr)
 
 # True parameters
-p1.true <- 0.2
+p1.true <- 0.55
 c1.true <- 0.005
 m1.true <- 4
 
-p2.true <- 0.5
-c2.true <- 0.005
-m2.true <- 12
+
+p2.true <- 0.15
+c2.true <- 0.01
+m2.true <- 18
 
 parm.true <- c(p1.true, c1.true, m1.true, p2.true, c2.true, m2.true)
 s0.true <- 200
@@ -23,8 +24,8 @@ seed0 <- 922125
 t_max <- 100
 reps <- 100
 
-
-# plot functions
+###
+### plot probability functions
 p1_fun <- function(t) p1.true / (1 + c1.true * (t - m1.true)^2)
 p2_fun <- function(t) p2.true / (1 + c2.true * (t - m2.true)^2)
 p3_fun <- function(t) 1 - p1_fun(t) - p2_fun(t)
@@ -57,8 +58,8 @@ ggplot(data_long, aes(x = t, y = Value, color = Function)) +
     legend.text.align = 0
   )
 
-
-# Probability mass functions for each component
+### 
+### simulate data
 f_t1 <- function(t, c1, m1) {
   1 / (1 + c1 * (t - m1)^2)
 }
@@ -67,7 +68,6 @@ f_t2 <- function(t, c2, m2) {
   1 / (1 + c2 * (t - m2)^2)
 }
 
-# Combined probabilities
 probs_t <- function(t, p1, p2, c1, c2, m1, m2) {
   f1t <- f_t1(t, c1, m1)
   f2t <- f_t2(t, c2, m2)
@@ -76,14 +76,13 @@ probs_t <- function(t, p1, p2, c1, c2, m1, m2) {
   p2t <- p2 * f2t
   p3t <- 1 - p1t - p2t
   
-  # Optionally check validity
   if (any(p3t < 0)) warning("Some p3(t) values are negative — check parameters!")
   
   cbind(p1t, p2t, p3t)
 }
 
 
-# Simulate data
+# simulate data
 set.seed(seed0)
 
 sim.markov <- data.frame(reps = numeric(), time = numeric(), sc = numeric(), ec = numeric())
@@ -131,6 +130,8 @@ for (i in 1:reps) {
   sim.markov <- rbind(sim.markov,cbind(reps = rep(i, length(sc.steps)), time.steps, sc.steps, ec.steps))
 }
 
+###
+### plot one replication
 
 index.test <- sample(1:100, size = 1) # test the optimization on one replications
 index.test
@@ -153,6 +154,16 @@ sim.markov %>% filter(reps == index.test) %>%
         axis.title.y = element_text(size = 14),
         legend.text = element_text(size = 13))
 
+### plot stopping time
+sim.markov %>% filter(sc.steps == 0) %>%
+  ggplot() +
+  geom_histogram(aes(x = time.steps), 
+                 binwidth = 1.5, 
+                 color = "black",fill = "skyblue3") +
+  labs(x = "time", 
+       title = "Distribution of stopping time",
+       subtitle = paste0("Number of replications: ",reps)) +
+  theme_minimal()
 
 sim.data <- data.frame(X = diff(sim.markov$sc.steps[sim.markov$reps == index.test]),
                        t = sim.markov$time.steps[sim.markov$reps == index.test][-1],
@@ -160,160 +171,100 @@ sim.data <- data.frame(X = diff(sim.markov$sc.steps[sim.markov$reps == index.tes
                        Si = sim.markov$sc.steps[sim.markov$reps == index.test][-length(sim.markov$sc.steps[sim.markov$reps == index.test])])
 head(sim.data)
 
+
 ###
 ###
-neg_log_likelihood <- function(params, data) {
-  # Parameters
-  p1 <- params[1]  # between 0 and 1
-  c1 <- params[2]  # > 0
-  m1 <- params[3]
-  
-  p2 <- params[4]  # between 0 and 1
-  c2 <- params[5]  # > 0
-  m2 <- params[6]
-  
-  # Extract data
+###
+log_likelihood <- function(params, data) {
   x <- data$X
   t <- data$t
   
-  # Compute time-dependent probabilities
-  f1 <- p1 / (1 + c1 * (t - m1)^2)
-  f0 <- p2 / (1 + c2 * (t - m2)^2)
-  f_neg1 <- 1 - f1 - f0
+  p1 <- params["p1"]
+  p2 <- params["p2"]
+  c1 <- params["c1"]
+  c2 <- params["c2"]
+  m1 <- params["m1"]
+  m2 <- params["m2"]
   
-  # Check for invalid probabilities
-  if (any(f1 < 0 | f1 > 1 | f0 < 0 | f0 > 1 | f_neg1 < 0 | f_neg1 > 1)) {
-    return(Inf)
-  }
+  A <- p1 / (1 + c1 * (t - m1)^2)
+  B <- p2 / (1 + c2 * (t - m2)^2)
+  C <- 1 - A - B
   
-  # Assign probabilities based on observed x
-  epsilon <- 1e-12
-  prob <- ifelse(x == 1, f1,
-                 ifelse(x == 0, f0,
-                        f_neg1))
-  
-  # Avoid log(0)
-  prob <- pmax(prob, epsilon)
-  
-  # Negative log-likelihood
-  nll <- -sum(log(prob))
-  return(nll)
+  epsilon <- 1e-10 # small positive number to avoid log(0)
+  ll <- sum((x == 1) * log(pmax(A, epsilon)) + (x == 0) * log(pmax(B, epsilon)) +
+              (x == -1) * log(pmax(C, epsilon))
+  )
+  return(ll)
 }
 
-grad_neg_log_likelihood <- function(params, data) {
-  # Parameters
-  p1 <- params[1]; c1 <- params[2]; m1 <- params[3]
-  p2 <- params[4]; c2 <- params[5]; m2 <- params[6]
-  
-  # Data
-  t <- data$t
+
+log_likelihood_gradient <- function(params, data) {
   x <- data$X
+  t <- data$t
   
-  # Precompute
-  delta1 <- t - m1
-  delta2 <- t - m2
+  p1 <- params["p1"]
+  p2 <- params["p2"]
+  c1 <- params["c1"]
+  c2 <- params["c2"]
+  m1 <- params["m1"]
+  m2 <- params["m2"]
   
-  A <- 1 + c1 * delta1^2
-  B <- 1 + c2 * delta2^2
+  A <- p1 / (1 + c1 * (t - m1)^2)
+  B <- p2 / (1 + c2 * (t - m2)^2)
+  C <- 1 - A - B
   
-  f1 <- p1 / A
-  f0 <- p2 / B
-  f_neg1 <- 1 - f1 - f0
+  dA_dp1 <- 1 / (1 + c1 * (t - m1)^2)
+  dA_dc1 <- -p1 * (t - m1)^2 / (1 + c1 * (t - m1)^2)^2
+  dA_dm1 <- 2 * p1 * c1 * (t - m1) / (1 + c1 * (t - m1)^2)^2
   
-  # Probabilities for each x
-  prob <- ifelse(x == 1, f1,
-                 ifelse(x == 0, f0,
-                        f_neg1))
-  epsilon <- 1e-12
-  prob <- pmax(prob, epsilon)
+  dB_dp2 <- 1 / (1 + c2 * (t - m2)^2)
+  dB_dc2 <- -p2 * (t - m2)^2 / (1 + c2 * (t - m2)^2)^2
+  dB_dm2 <- 2 * p2 * c2 * (t - m2) / (1 + c2 * (t - m2)^2)^2
   
-  # Indicator vectors
-  I1 <- as.numeric(x == 1)
-  I0 <- as.numeric(x == 0)
-  Ineg1 <- as.numeric(x == -1)
+  dC_dp1 <- -dA_dp1
+  dC_dc1 <- -dA_dc1
+  dC_dm1 <- -dA_dm1
+  dC_dp2 <- -dB_dp2
+  dC_dc2 <- -dB_dc2
+  dC_dm2 <- -dB_dm2
   
-  # Compute partial derivatives
-  df1_dp1 <- 1 / A
-  df1_dc1 <- -p1 * delta1^2 / A^2
-  df1_dm1 <- -2 * p1 * c1 * delta1 / A^2
+  grad <- numeric(6)
+  names(grad) <- c("p1", "p2", "c1", "c2", "m1", "m2")
   
-  df0_dp2 <- 1 / B
-  df0_dc2 <- -p2 * delta2^2 / B^2
-  df0_dm2 <- -2 * p2 * c2 * delta2 / B^2
-  
-  dfneg1_dp1 <- -df1_dp1
-  dfneg1_dc1 <- -df1_dc1
-  dfneg1_dm1 <- -df1_dm1
-  
-  dfneg1_dp2 <- -df0_dp2
-  dfneg1_dc2 <- -df0_dc2
-  dfneg1_dm2 <- -df0_dm2
-  
-  # Select relevant derivative based on x
-  dL_dp1 <- -(I1 * df1_dp1 + Ineg1 * dfneg1_dp1) / prob
-  dL_dc1 <- -(I1 * df1_dc1 + Ineg1 * dfneg1_dc1) / prob
-  dL_dm1 <- -(I1 * df1_dm1 + Ineg1 * dfneg1_dm1) / prob
-  
-  dL_dp2 <- -(I0 * df0_dp2 + Ineg1 * dfneg1_dp2) / prob
-  dL_dc2 <- -(I0 * df0_dc2 + Ineg1 * dfneg1_dc2) / prob
-  dL_dm2 <- -(I0 * df0_dm2 + Ineg1 * dfneg1_dm2) / prob
-  
-  # Sum over all observations
-  grad <- c(
-    sum(dL_dp1),
-    sum(dL_dc1),
-    sum(dL_dm1),
-    sum(dL_dp2),
-    sum(dL_dc2),
-    sum(dL_dm2)
-  )
+  grad["p1"] <- sum((x == 1) * (1 / A) * dA_dp1 + (x == -1) * (1 / C) * dC_dp1)
+  grad["p2"] <- sum((x == 0) * (1 / B) * dB_dp2 + (x == -1) * (1 / C) * dC_dp2)
+  grad["c1"] <- sum((x == 1) * (1 / A) * dA_dc1 + (x == -1) * (1 / C) * dC_dc1)
+  grad["c2"] <- sum((x == 0) * (1 / B) * dB_dc2 + (x == -1) * (1 / C) * dC_dc2)
+  grad["m1"] <- sum((x == 1) * (1 / A) * dA_dm1 + (x == -1) * (1 / C) * dC_dm1)
+  grad["m2"] <- sum((x == 0) * (1 / B) * dB_dm2 + (x == -1) * (1 / C) * dC_dm2)
   
   return(grad)
 }
 
-start <- c(p1 = 0.1, c1 = 0.1, m1 = 1, p2 = 0.4, c2 = 0.1, m2 = 1)
-# Define the constraint matrix (ui) and rhs (ci)
-ui <- rbind(
-  c( 1,  0, 0,  0,  0, 0),  # p1 > 0.001
-  c(-1,  0, 0,  0,  0, 0),  # p1 < 0.999
-  c( 0,  1, 0,  0,  0, 0),  # c1 > 1e-6
-  c( 0,  0, 0,  1,  0, 0),  # p2 > 0.001
-  c( 0,  0, 0, -1,  0, 0),  # p2 < 0.999
-  c( 0,  0, 0,  0,  1, 0),  # c2 > 1e-6
-  c( 0,  0, 1,  0,  0, 0),  # m1 > 0
-  c( 0,  0, 0,  0,  0, 1)  # m2 > 0
-)
 
-ci <- c(0.001, -0.999, 1e-6, 0.001, -0.999, 1e-6, 0, 0)
+run_optim <- function(start_params, data) {
+  optim(
+    par = start_params,
+    fn = log_likelihood,
+    gr = log_likelihood_gradient,
+    data = data,
+    method = "L-BFGS-B",
+    lower = c(p1 = 1e-5, p2 = 1e-5, c1 = 1e-5, c2 = 1e-5, m1 = 1e-5, m2 = 1e-5),
+    upper = c(p1 = 1, p2 = 1, c1 = Inf, c2 = Inf, m1 = -Inf, m2 = -Inf),
+    control = list(fnscale = -1)
+  )
+}
 
-
-result <- constrOptim(
-  theta = start,
-  f = neg_log_likelihood,
-  grad = grad_neg_log_likelihood,
-  ui = ui,
-  ci = ci,
-  data = sim.data,
-  control = list(reltol = 1e-8)
-)
-
-# Output results
-cat("Optimized Parameters:\n")
-print(result$par)
-parm.true
-cat("Final NLL:\n")
-print(result$value)
+r_estimator <- function(data){
+  Si <- data$Si
+  deltat <- data$deltat
+  n <- nrow(data)
+  r <- n/(sum(Si*deltat))
+  return(r)
+}
 
 
-###
-###
-### estimate on all replications
-start.time <- Sys.time()
-# start <- c(0.1, 0.1, 5, 5, 1)
-start <- c(p1 = 0.1, c1 = 0.1, m1 = 1, p2 = 0.4, c2 = 0.1, m2 = 1)
-
-res.prm <- data.frame(p1 = numeric(), p2 = numeric(), c = numeric(),
-                      m = numeric(), r = numeric())
+res.prm <- data.frame()
 
 for (j in 1:reps) {
   sim.data <- data.frame(X = diff(sim.markov$sc.steps[sim.markov$reps == j]),
@@ -321,23 +272,13 @@ for (j in 1:reps) {
                          deltat = diff(sim.markov$time.steps[sim.markov$reps == j]),
                          Si = sim.markov$sc.steps[sim.markov$reps == j]
                          [-length(sim.markov$sc.steps[sim.markov$reps == j])])
-  result <- constrOptim(
-    theta = start,
-    f = neg_log_likelihood,
-    grad = grad_neg_log_likelihood,
-    ui = ui,
-    ci = ci,
-    data = sim.data,
-    control = list(reltol = 1e-8)
-  )
-  res.prm <- rbind(res.prm, result$par)
+  results <- lapply(starts, run_optim, data = sim.data)
+  best <- results[[which.max(sapply(results, function(r) r$value))]]
+  r.est <- r_estimator(sim.data)
+  res.prm <- rbind(res.prm, c(best$par,r.est))
 }
-colnames(res.prm) <- c("p1","c1","m1", "p2", "c2", "m2")
-dim(res.prm)
 
-end.time <- Sys.time()
-
-end.time-start.time
+colnames(res.prm) <- c("p1", "p2", "c1", "c2", "m1", "m2", "r")
 
 res.prm %>% 
   pivot_longer(cols = everything(), names_to = "Variable", values_to = "Value") %>%
@@ -353,7 +294,7 @@ res.prm %>%
   ggplot(aes(x = "", y = Value)) +
   geom_violin(aes(fill = Variable), color = "black") +
   geom_boxplot(fill = NA, width = 0.5)+
-  facet_wrap(~ Variable, scale = "free_y", ncol = 5) +
+  facet_wrap(~ Variable, scale = "free_y", ncol = 3) +
   geom_jitter(width = 0.1, alpha = 0.3) + 
   theme_minimal() +
   labs(title = "Violin Plot for Each Parameter Estimates", x = "",
