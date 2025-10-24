@@ -156,13 +156,16 @@ sim.markov %>% filter(reps == index.test) %>%
 
 ### plot stopping time
 sim.markov %>% filter(sc.steps == 0) %>%
-  ggplot() +
-  geom_histogram(aes(x = time.steps), 
+  ggplot(aes(x = time.steps)) +
+  geom_histogram(
+    aes(y = ..count../sum(..count..)),
                  binwidth = 1.5, 
                  color = "black",fill = "skyblue3") +
-  labs(x = "time", 
+  scale_x_continuous(limits = c(20, 100))+
+  scale_y_continuous(limits = c(0, 0.15)) +
+  labs(x = "time", y = "relative frequency",
        title = "Distribution of stopping time",
-       subtitle = paste0("Number of replications: ",reps)) +
+       subtitle = paste0(reps, " replications with ", s0.true, " starting stem cells")) +
   theme_minimal()
 
 sim.data <- data.frame(X = diff(sim.markov$sc.steps[sim.markov$reps == index.test]),
@@ -176,69 +179,75 @@ head(sim.data)
 ###
 ###
 log_likelihood <- function(params, data) {
-  x <- data$X
-  t <- data$t
+  params <- as.numeric(params)
+  names(params) <- c("p1", "p2", "c1", "c2", "m1", "m2")
   
-  p1 <- params["p1"]
-  p2 <- params["p2"]
-  c1 <- params["c1"]
-  c2 <- params["c2"]
-  m1 <- params["m1"]
-  m2 <- params["m2"]
+  x <- as.numeric(data$X)
+  t <- as.numeric(data$t)
+  
+  p1 <- params["p1"]; p2 <- params["p2"]
+  c1 <- params["c1"]; c2 <- params["c2"]
+  m1 <- params["m1"]; m2 <- params["m2"]
   
   A <- p1 / (1 + c1 * (t - m1)^2)
   B <- p2 / (1 + c2 * (t - m2)^2)
-  C <- 1 - A - B
   
-  epsilon <- 1e-10 # small positive number to avoid log(0)
-  ll <- sum((x == 1) * log(pmax(A, epsilon)) + (x == 0) * log(pmax(B, epsilon)) +
-              (x == -1) * log(pmax(C, epsilon))
+  epsilon <- 1e-10
+  A <- pmax(A, epsilon)
+  B <- pmax(B, epsilon)
+  C <- pmax(1 - A - B, epsilon)
+  
+  ll <- sum(
+    (x == 1)  * log(A) +
+      (x == 0)  * log(B) +
+      (x == -1) * log(C)
   )
-  return(ll)
+  
+  return(as.numeric(ll)) 
 }
 
-
 log_likelihood_gradient <- function(params, data) {
-  x <- data$X
-  t <- data$t
+  params <- as.numeric(params)
+  names(params) <- c("p1", "p2", "c1", "c2", "m1", "m2")
   
-  p1 <- params["p1"]
-  p2 <- params["p2"]
-  c1 <- params["c1"]
-  c2 <- params["c2"]
-  m1 <- params["m1"]
-  m2 <- params["m2"]
+  x <- as.numeric(data$X)
+  t <- as.numeric(data$t)
+  
+  p1 <- params["p1"]; p2 <- params["p2"]
+  c1 <- params["c1"]; c2 <- params["c2"]
+  m1 <- params["m1"]; m2 <- params["m2"]
   
   A <- p1 / (1 + c1 * (t - m1)^2)
   B <- p2 / (1 + c2 * (t - m2)^2)
-  C <- 1 - A - B
+  epsilon <- 1e-10
+  C <- pmax(1 - A - B, epsilon)
   
   dA_dp1 <- 1 / (1 + c1 * (t - m1)^2)
   dA_dc1 <- -p1 * (t - m1)^2 / (1 + c1 * (t - m1)^2)^2
-  dA_dm1 <- 2 * p1 * c1 * (t - m1) / (1 + c1 * (t - m1)^2)^2
+  dA_dm1 <-  2 * p1 * c1 * (t - m1) / (1 + c1 * (t - m1)^2)^2
   
   dB_dp2 <- 1 / (1 + c2 * (t - m2)^2)
   dB_dc2 <- -p2 * (t - m2)^2 / (1 + c2 * (t - m2)^2)^2
-  dB_dm2 <- 2 * p2 * c2 * (t - m2) / (1 + c2 * (t - m2)^2)^2
+  dB_dm2 <-  2 * p2 * c2 * (t - m2) / (1 + c2 * (t - m2)^2)^2
   
   dC_dp1 <- -dA_dp1
-  dC_dc1 <- -dA_dc1
-  dC_dm1 <- -dA_dm1
   dC_dp2 <- -dB_dp2
+  dC_dc1 <- -dA_dc1
   dC_dc2 <- -dB_dc2
+  dC_dm1 <- -dA_dm1
   dC_dm2 <- -dB_dm2
   
   grad <- numeric(6)
   names(grad) <- c("p1", "p2", "c1", "c2", "m1", "m2")
   
-  grad["p1"] <- sum((x == 1) * (1 / A) * dA_dp1 + (x == -1) * (1 / C) * dC_dp1)
-  grad["p2"] <- sum((x == 0) * (1 / B) * dB_dp2 + (x == -1) * (1 / C) * dC_dp2)
-  grad["c1"] <- sum((x == 1) * (1 / A) * dA_dc1 + (x == -1) * (1 / C) * dC_dc1)
-  grad["c2"] <- sum((x == 0) * (1 / B) * dB_dc2 + (x == -1) * (1 / C) * dC_dc2)
-  grad["m1"] <- sum((x == 1) * (1 / A) * dA_dm1 + (x == -1) * (1 / C) * dC_dm1)
-  grad["m2"] <- sum((x == 0) * (1 / B) * dB_dm2 + (x == -1) * (1 / C) * dC_dm2)
+  grad["p1"] <- sum((x == 1)  * (dA_dp1 / A) + (x == -1) * (dC_dp1 / C))
+  grad["p2"] <- sum((x == 0)  * (dB_dp2 / B) + (x == -1) * (dC_dp2 / C))
+  grad["c1"] <- sum((x == 1)  * (dA_dc1 / A) + (x == -1) * (dC_dc1 / C))
+  grad["c2"] <- sum((x == 0)  * (dB_dc2 / B) + (x == -1) * (dC_dc2 / C))
+  grad["m1"] <- sum((x == 1)  * (dA_dm1 / A) + (x == -1) * (dC_dm1 / C))
+  grad["m2"] <- sum((x == 0)  * (dB_dm2 / B) + (x == -1) * (dC_dm2 / C))
   
-  return(grad)
+  return(as.numeric(grad))
 }
 
 
@@ -250,7 +259,7 @@ run_optim <- function(start_params, data) {
     data = data,
     method = "L-BFGS-B",
     lower = c(p1 = 1e-5, p2 = 1e-5, c1 = 1e-5, c2 = 1e-5, m1 = 1e-5, m2 = 1e-5),
-    upper = c(p1 = 1, p2 = 1, c1 = Inf, c2 = Inf, m1 = -Inf, m2 = -Inf),
+    upper = c(p1 = 0.99999, p2 = 0.99999, c1 = Inf, c2 = Inf, m1 = Inf, m2 = Inf),
     control = list(fnscale = -1)
   )
 }
@@ -263,6 +272,19 @@ r_estimator <- function(data){
   return(r)
 }
 
+
+starts <- list(
+  c(p1 = 0.3, p2 = 0.3, c1 = 0.05, c2 = 0.05, m1 = 10, m2 = 10),
+  c(p1 = 0.3, p2 = 0.3, c1 = 0.05, c2 = 0.05, m1 = 5, m2 = 5),
+  c(p1 = 0.3, p2 = 0.3, c1 = 0.05, c2 = 0.05, m1 = 45, m2 = 45),
+  c(p1 = 0.3, p2 = 0.3, c1 = 0.2,  c2 = 0.2,  m1 = 25, m2 = 25),
+  c(p1 = 0.3, p2 = 0.3, c1 = 0.001,  c2 = 0.001,  m1 = 25, m2 = 25),
+  c(p1 = 0.3, p2 = 0.3, c1 = 0.02, c2 = 0.03, m1 = 35, m2 = 15),
+  c(p1 = 0.3, p2 = 0.3, c1 = 0.1, c2 = 0.05, m1 = 20, m2 = 30)
+  # c(runif(1, 0.2, 0.5), runif(1, 0.2, 0.5),
+  #   runif(1, 0.001, 0.05), runif(1, 0.001, 0.05),
+  #   runif(1, 0, 45), runif(1, 0, 45))
+)
 
 res.prm <- data.frame()
 
@@ -299,3 +321,17 @@ res.prm %>%
   theme_minimal() +
   labs(title = "Violin Plot for Each Parameter Estimates", x = "",
        fill= "Parameters", y = "Estimates")
+
+
+run_optim <- function(start_params, data) {
+  optim(
+    par = start_params,
+    fn = log_likelihood,
+    gr = log_likelihood_gradient,
+    data,
+    method = "L-BFGS-B",
+    lower = c(p1 = 1e-5, p2 = 1e-5, c1 = 1e-5, c2 = 1e-5, m1 = -Inf, m2 = -Inf),
+    upper = c(p1 = 0.99999, p2 = 0.99999, c1 = Inf, c2 = Inf, m1 = Inf, m2 = Inf),
+    control = list(fnscale = -1)
+  )
+}
