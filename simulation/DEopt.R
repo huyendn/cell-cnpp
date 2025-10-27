@@ -1,3 +1,4 @@
+library(DEoptim)
 log_likelihood <- function(params, data) {
   params <- as.numeric(params)
   names(params) <- c("p1", "p2", "c1", "c2", "m1", "m2")
