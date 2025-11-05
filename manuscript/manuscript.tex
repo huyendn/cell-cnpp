@@ -1,0 +1,94 @@
+\documentclass[pdflatex,sn-mathphys-num]{sn-jnl}
+
+\usepackage{graphicx}%
+\usepackage{multirow}%
+\usepackage{amsmath,amssymb,amsfonts}%
+\usepackage{amsthm}%
+\usepackage{mathrsfs}%
+\usepackage[title]{appendix}%
+\usepackage{xcolor}%
+\usepackage{textcomp}%
+\usepackage{manyfoot}%
+\usepackage{booktabs}%
+\usepackage{algorithm}%
+\usepackage{algorithmicx}%
+\usepackage{algpseudocode}%
+\usepackage{listings}%
+
+\theoremstyle{thmstyleone}%
+\newtheorem{theorem}{Theorem}%  meant for continuous numbers
+%%\newtheorem{theorem}{Theorem}[section]% meant for sectionwise numbers
+%% optional argument [theorem] produces theorem numbering sequence instead of independent numbers for Proposition
+\newtheorem{proposition}[theorem]{Proposition}% 
+%%\newtheorem{proposition}{Proposition}% to get separate numbers for theorem and proposition etc.
+
+\theoremstyle{thmstyletwo}%
+\newtheorem{example}{Example}%
+\newtheorem{remark}{Remark}%
+
+\theoremstyle{thmstylethree}%
+\newtheorem{definition}{Definition}%
+
+\raggedbottom
+%%\unnumbered% uncomment this for unnumbered level heads
+
+\begin{document}
+
+\title[Article Title]{Article Title}
+
+
+\author*[1,2]{\fnm{First} \sur{Author}}\email{iauthor@gmail.com}
+
+\author[2,3]{\fnm{Second} \sur{Author}}\email{iiauthor@gmail.com}
+\equalcont{These authors contributed equally to this work.}
+
+\author[1,2]{\fnm{Third} \sur{Author}}\email{iiiauthor@gmail.com}
+\equalcont{These authors contributed equally to this work.}
+
+\affil*[1]{\orgdiv{Department}, \orgname{Organization}, \orgaddress{\street{Street}, \city{City}, \postcode{100190}, \state{State}, \country{Country}}}
+
+\affil[2]{\orgdiv{Department}, \orgname{Organization}, \orgaddress{\street{Street}, \city{City}, \postcode{10587}, \state{State}, \country{Country}}}
+
+\affil[3]{\orgdiv{Department}, \orgname{Organization}, \orgaddress{\street{Street}, \city{City}, \postcode{610101}, \state{State}, \country{Country}}}
+
+%%==================================%%
+%% Sample for unstructured abstract %%
+%%==================================%%
+
+\abstract{Stem cells, through their ability to produce daughter stem cells and differentiate into specialized cells, are essential in the growth, maintenance, and repair of biological tissues. Understanding the dynamics of cell populations in the proliferation process not only uncovers proliferative properties of stem cells, but also offers insight into tissue development under both normal conditions and pathological disruption. In this paper, we develop a time-dependent branching process model to characterize stem cell proliferation process (\textcolor{red}{need to elaborate}).}
+
+\keywords{branching process, stochastic process, stem cell, cell proliferation, forward algorithm}
+
+%%\pacs[JEL Classification]{D8, H51}
+
+%%\pacs[MSC Classification]{35A01, 65L10, 65L12, 65L20, 65L70}
+
+\maketitle
+
+\section{Introduction}\label{sec1}
+
+Cell proliferation is a fundamental process underlying the growth, maintenance, and repair of biological tissues. Stem cells, in particular, possess the ability to produce identical daughter stem cells and differentiate into specialized cell types that sustain tissue function. There are three types of stem cell division and differentiation outcomes: symmetrical self-renewal to generate two stem cells, asymmetrical division to generate one stem cell and one differentiated cell, and symmetrical differentiation to generate two differentiated cells. The ability of stem cells to both self-renew and differentiate plays a pivotal role both in generative processes during early development and in tissue regeneration following injury. For example, during embryonic development, stem cells drive tissue formation through programmed proliferation and differentiation, as seen in processes such as ependymogenesis and neurogenesis \cite{Co2018, Ba2018}. Hematopoietic stem cells give rise to all blood cell types - red blood cells, white blood cells, and platelets - to maintain lifelong blood production and regenerate the blood system after injury \cite{marciniak2009modeling, wilson2008hematopoietic}. In oncology, cancer stem cells also display self-renewal and differentiation ability to drive and sustain tumor growth. Distinct differences in stemness and proliferative potential between cancer stem cells and non-stem cancer cells have been observed across various tumor types such as brain, breast, colon, and prostate cancer \cite{al2003prospective, cammareri2008isolation, fioriti2008cancer, singh2003identification}.
+
+It is important to study the dynamics of cell populations in cell proliferation process since these dynamics connect individual cell behaviors to tissue-level outcomes, including how tissues grow, maintain homeostasis, and regenerate after injury. In the aforementioned ependymogenesis process, regional stem cells within the ventricular and subventricular zones proliferate to produce both stem cells and differentiated ependymal cells that line the brain’s ventricles, thereby creating a critical barrier between the cerebrospinal fluid and the interstitial fluid of the surrounding brain parenchyma \cite{Co2018}. In the context of cancer study, these population dynamics are particularly important since they reflect the growth of tumor and disease progression. 
+
+Quantitative modeling of these processes can provide a framework to predict population behavior and discover intrinsic proliferative properties of stem cell self-renewal and differentiation ability. Deterministic models with ordinary differential equations are utilized to describe the temporal dynamics of cell population on avearge \cite{marciniak2009modeling, beretta2012mathematical, weekes2014multicompartment, chen2016overshoot}. However, since the dynamics of cell populations emerge from the stochastic behavior of individual stem cells, each of which may divide or differentiate at random times, probabilistic modeling approaches, including birth-death process, Gaussian jump model, and non-homogeneous Markov chain \cite{Tu2009, Ba2018, Sc2022}, are more verisimilar for describing cell proliferation process. Branching process provides a natural and mathematically rigorous framework for describing stochastic reproduction phenomena. In the classical Galton-Watson process and its extensions, each individual acts independently and give rise to a random number of offspring according to specified probability distributions \cite{watson1875probability,harris1948branching, harris1963theory, asmussen1983branching}. The branching process models have become an important tool to investigate population size, growth and extinction in biology, epidemiology, and genetics. In the context of cell proliferation, branching process models have been applied to describe stem cell lineages, where each stem cell may be viewed as an independent reproducing unit. MacMillian et al. \cite{macmillan2011seeing} and Miguez \cite{miguez2015branching} both developed models under the branching process theory for the stem cell proliferation and differentiation during embryonic development. In these models, time is discretized using the average cell cycle length as the unit of generations. Instead of tracking individual cell divisions in continuous time, the model advances steps corresponding to the mean duration of a cell cycle. In addition, MacMillian et al. \cite{macmillan2011seeing} explored the multi-type branching process extension to simulate data for a cell proliferation with more than one cell type with proliferative potential.
+
+However, the classical branching process models typically assume that the reproduction parameters are constant through time. This assumption simplifies the analysis but may not be able to capture the full stochastic nature of cell proliferation processes. Experimental studies have revealed that the probabilities governing self-renewal and differentiation are not always stationary. For example, data collected by Scanlon et al. \cite{Sc2022} on bipotent megakaryocytic erythroid progenitor (MEP) clonal
+expansion and differentiation shows that probabilities of division outcomes change over time: self-renewing events are more likely earlier in the process and differentiating events are more likely toward the end of the process. The previously discussed branching process framework in Miguez \cite{miguez2015branching} adjusted to the time-dependent proliferation by obtaining the average probabilities of division outcomes at different developmental stages. 
+
+In this paper, we develop a continuous-time, time-dependent branching process for stem cell proliferation to address the limitation of the constant reproduction branching process model. In our formulation, the probabilities of division and differentiation outcomes are functions of time. To reflect the variability inherent in stem cell populations, our model incorporates three distinct cell types: viable stem cells capable of division, non-viable stem cells that do not have proliferative potential, and terminally differentiated cells. We also incorporate stochasticity in the timing of the cell divisions events by assuming that each division occurs at a randomly determined time. In particular, the
+interarrival times between division events are exponentially distributed with rate proportional to current number of viable stem cells. This reflects the assumption that a greater number of viable stem cells leads to more frequent division events and shorter expected waiting times between them. We establish a rigorous mathematical formulation of the branching process model, and derive analytical expressions for key quantities, including mean population size, variance, and extinction time.  
+
+The paper is organized as follows. 
+
+
+\section{Time-Dependent Branching Process Model for Stem Cell Proliferation Process}\label{model}
+
+\section{Maximum Likelihood Estimates} \label{mle}
+
+\section{Discussion}
+\bibliography{sn-bibliography}% common bib file
+%% if required, the content of .bbl file can be included here once bbl is generated
+%%\input sn-article.bbl
+
+\end{document}
