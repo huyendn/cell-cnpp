@@ -1,4 +1,7 @@
 library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(reshape2)
 s0.true <- 200
 r.true <- 0.2
 
@@ -88,6 +91,14 @@ sc.var.bp <- function(t) {
 #   # result: A(t) * B(t)
 #   return(A * B)
 # }
+
+sc.autocorr.bp <- function(t, u) {
+  if (t >= u) {
+    return(sc.mean(t) / sc.mean(u) * sc.var.bp(u))
+  } else {
+    return(sc.mean(u) / sc.mean(t) * sc.var.bp(t))
+  }
+}
 
 time.input <- seq(0, 60, by = 0.1)
 
@@ -252,24 +263,30 @@ sim.markov %>% filter(reps <= 50) %>% filter(time.steps <= 60) %>%
 
 tms <- seq(0, 60, by = 5)
 
-dat <- data.frame(reps = numeric(), time = numeric(), sc = numeric(), ec = numeric(),
-                  time.collected = numeric())
+dat_list <- vector("list", reps)
 
-for (i in 1:50) {
-  subset <- sim.markov %>% filter(reps == i)
+for (i in seq_len(reps)) {
+  sim_sub <- sim.markov %>% filter(reps == i)
+  dat_i <- data.frame()
+  
   for (j in 2:length(tms)) {
-    time.before <- tms[j-1]
+    time.before <- tms[j - 1]
     time.collected <- tms[j]
-    if (sum(subset$time <= time.collected  & subset$time > time.before) == 0){
-      # dat[nrow(dat)+1, ] <- c(dat[nrow(dat), 1:4], time.collected)
-      dat <- dat
-    } else{
-      ind <- max(which(subset$time <= time.collected  & subset$time > time.before))
-      dat <- rbind(dat, cbind(subset[ind,], time.collected))
-    }
     
+    # Find observations in the time window
+    valid_idx <- which(sim_sub$time <= time.collected & sim_sub$time > time.before)
+    
+    if (length(valid_idx) > 0) {
+      ind <- max(valid_idx)  # last observation in the window
+      dat_i <- bind_rows(dat_i, cbind(sim_sub[ind, ], time.collected))
+    }
   }
+  
+  dat_list[[i]] <- dat_i
 }
+
+dat <- bind_rows(dat_list)
+
 ggplot() +
   # geom_point(data = dat, aes(x = time.collected, y = ec.steps, col = "differentiated cell"), alpha = 0.5)+
   geom_point(data = dat, aes(x = time.steps, y = sc.steps), alpha = 0.5)+
@@ -300,3 +317,47 @@ ggplot() +
         axis.title.y = element_text(size = 14),
         legend.text = element_text(size = 13))
 
+### check autocorrelation formula
+tms.cor <- seq(5,25, by = 5)
+
+# Create a matrix of E[X(t) X(u)]
+autocorr.matrix <- outer(tms.cor, tms.cor, Vectorize(sc.autocorr.bp))
+
+colnames(autocorr.matrix) <- tms.cor
+rownames(autocorr.matrix) <- tms.cor
+
+theosd_vec <- sqrt(diag(autocorr.matrix))
+theo_corr <- autocorr.matrix / (theosd_vec %o% theosd_vec)
+
+print(round(autocorr.matrix, 4))
+print(round(theo_corr, 4))
+# df <- melt(autocorr.matrix)
+# colnames(df) <- c("t", "u", "E_XtXu")
+# 
+# ggplot(df, aes(x = t, y = u, fill = E_XtXu)) +
+#   geom_tile() +
+#   scale_fill_gradient2(
+#     low = "#4575b4", mid = "white", high = "#d73027",
+#     midpoint = 0,  # center of the scale
+#     name = "E[X(t)X(u)]"
+#   ) +
+#   labs(title = "Theoretical E[X(t)X(u)]", x = "t", y = "u") +
+#   theme_minimal()
+
+dat_wide <- dat %>% filter(time.collected %in% tms.cor)%>%
+  select(reps, time.collected, sc.steps) %>%
+  pivot_wider(names_from = time.collected, values_from = sc.steps)
+
+X <- as.matrix(dat_wide[,-1])  # remove 'reps' column
+R <- nrow(X)
+
+# Center data
+X_centered <- sweep(X, 2, colMeans(X))
+empirical_cov <- (t(X_centered) %*% X_centered) / R
+
+sd_vec <- sqrt(diag(empirical_cov))
+empirical_corr <- empirical_cov / (sd_vec %o% sd_vec)
+
+colnames(empirical_corr) <- time_points
+rownames(empirical_corr) <- time_points
+print(round(empirical_corr, 3))
