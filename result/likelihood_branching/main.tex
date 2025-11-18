@@ -14,6 +14,8 @@
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.15}
 \usepackage{mathrsfs}
+\usepackage{algorithm}
+\usepackage{algorithmic}
 
 \newcommand{\dif}{\mathrm{d}}
 \newcommand{\Var}{\mathbb{V}}
@@ -539,7 +541,699 @@ Table (\ref{tab:multiple_start_case1}) and (\ref{tab:multiple_start_case2}) show
     \caption{Distributions of stopping times from simulated data with varying numbers of initial stem cells and replication counts. The number of starting stem cells is 50 (top row), 200 (middle row), and 1000 (bottom row). Each column represents a different number of replications: 100 (left column) and 1000 (right column). The parameters for the probability function is $p_1 = 0.55, c_1 = 0.005, m_1 =4, p_2 = 0.15, c_2 = 0.01, m_2 = 18$ and division rate is $r = 0.2$. }
     \label{fig:placeholder}
 \end{figure}
+\newpage
+\textbf{Fitting the inverse Gaussian distribution to the shifted stopping times}
 
+We first derive the minimum stopping times. Since the interarrival times between two consecutive division events is the a exponential distribution with rate proportional to the current viable stem cells. Then, the average interarrival time between two consecutive division events $T_{i+1} - T_i$ is $1/(rS_i)$. The minimum stopping times occurs when at each division event is a differentiation event, in which no new viable stem cell is created and the number of viable stem cells decreases by 1. Then the minimum stopping time is
+$$\tau_{\min} = \frac{1}{rS_0} + \frac{1}{r (S_0 -1)} + \cdots + \frac{1}{1}.$$
+Using the harmonic sum approximation,
+$$\tau_{\min} \approx r\log(S_0) + \gamma,$$
+where $\gamma \approx 0.5772$ is the Euler–Mascheroni constant. To fit the inverse Gaussian distribution, we shift the stopping times by $-\tau_{\min}$. 
+
+In the following, we fit the inverse Gaussian distributions to the stopping times of 1000 simulated datasets with the parameters $(p_1, p_2, c_1,c_2, m_1, m_2) = (0.55, 0.15, 0.005, 0.01, 4, 18)$ for the division probabilities, division rate $r = 0.2$, and three different number of initial stem cells $S_0 = 50, 200, 1000$.
+
+For each scenario of initial stem cells, 
+\begin{itemize}
+    \item The simulated stopping time by $-\tau_{\min}$.
+    \item The mean and shape parameters of the inverse Gaussian distribution are estimated using the MLE (using \textit{fitdist} function in the package \textit{fitdistrplus}.
+    \item Distributional tests (Kolmogorov-Smirnov and Anderson-Darling) to evaluate the shifted simulated stopping times for the inverse Gaussian distribution.
+    \item The shifted simulated data are also fitted for the Gamma and Log-normal distribution. The goodness of fit are compared between the three distributions using the AIC and BIC criteria. 
+\end{itemize}
+
+In scenario 1 and 2, with the initial stem cells being 50 and 200, respectively, the distributional tests indicate that the inverse Gaussian distribution is a good fit for the shifted simulated stopping times. Using the AIC and BIC criteria, the fit of the inverse Gaussian distribution and of the log-normal distribution are very compatible, both are good fit for shifted stopping time.
+
+However, in scenario 3 with the initial stem cells being 1000, the distributional tests indicate a poor fit of the inverse Gaussian distribution for the shifted simulated stopping times. Neither the gamma or the log-normal distribution has better fit.
+\newpage
+\textbf{Scenario 1.} $S_0 = 50$
+When $S_0 = 50$, the minimum stopping times is $\tau_{\min} \approx r\log(50) + \gamma =  20.1373$. 
+
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|}
+    \hline
+         & Estimates & Std. Error \\
+         \hline
+         Mean  & 29.1554 & 0.2356\\
+         Shape & 446.1868 & 19.9544 \\
+         \hline
+    \end{tabular}
+    \caption{MLE for mean and shape parameters for the inverse Gaussian distribution with initial stem cells of 50 and 1000 replications.}
+    \label{tab:stoppingtime_start50_rep1000_invgaus_parm}
+\end{table}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.6\linewidth]{stoppingtime_start50_rep1000_invgaus.png}
+    \caption{Diagnostic plots for the fit of shifted stopping times (with initial stem cells of 50) for inverse Gaussian distribution.}
+    \label{fig:stoppingtime_start50_rep1000_invgaus_diagnostics}
+\end{figure}
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|}
+    \hline
+         Test & Test Statistics & P-value \\
+         \hline
+         Kolmogorov-Smirnov & 0.0189 & 0.8637\\
+         Anderson-Darling & 0.5752 & 0.6717\\
+         \hline
+    \end{tabular}
+    \caption{Distributional tests to evaluate the shifted stopping times (with initial stem cells of 50) for inverse Gaussian distribution.}
+    \label{tab:stoppingtime_start50_rep1000_invgaus_dist}
+\end{table}
+
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+         & Inverse Gaussian  & Gamma & Log Normal \\
+         \hline
+         AIC & 6763.453 &   6778.186  &  6761.191 \\
+         BIC & 6773.269 &   6788.001  &  6771.006\\
+         \hline
+    \end{tabular}
+    \caption{Comparing the fit of shifted stopping times (with initial stem cells of 50) with inverse Gaussian, Gamma, and Log-normal distributions.}
+    \label{tab:stoppingtime_start50_rep1000_compare_dist}
+\end{table}
+
+\newpage
+\textbf{Scenario 2.} $S_0 = 200$
+When $S_0 = 200$, the minimum stopping times is $\tau_{\min} \approx r\log(200) + \gamma = 27.0688$. 
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|}
+    \hline
+         & Estimates & Std. Error \\
+         \hline
+         Mean  & 30.0482 &  0.2093\\
+         Shape & 619.2376 & 27.6928  \\
+         \hline
+    \end{tabular}
+    \caption{MLE for mean and shape parameters for the inverse Gaussian distribution with initial stem cells of 200 and 1000 replications.}
+    \label{tab:stoppingtime_start200_rep1000_invgaus_parm}
+\end{table}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.6\linewidth]{stoppingtime_start200_rep1000_invgaus.png}
+    \caption{Diagnostic plots for the fit of shifted stopping times (with initial stem cells of 200) for inverse Gaussian distribution.}
+    \label{fig:stoppingtime_start200_rep1000_invgaus_diagnostics}
+\end{figure}
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|}
+    \hline
+         Test & Test Statistics & P-value \\
+         \hline
+         Kolmogorov-Smirnov & 0.0233 & 0.6475\\
+         Anderson-Darling & 0.8613 & 0.4388\\
+         \hline
+    \end{tabular}
+    \caption{Distributional tests to evaluate the shifted stopping times (with initial stem cells of 200) for inverse Gaussian distribution.}
+    \label{tab:stoppingtime_start200_rep1000_invgaus_dist}
+\end{table}
+
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+         & Inverse Gaussian  & Gamma & Log Normal \\
+         \hline
+         AIC & 6549.471 &   6568.875  &  6549.636 \\
+         BIC & 6559.286 &   6578.691  &  6559.452\\
+         \hline
+    \end{tabular}
+    \caption{Comparing the fit of shifted stopping times (with initial stem cells of 200) with inverse Gaussian, Gamma, and Log-normal distributions.}
+    \label{tab:stoppingtime_start200_rep1000_compare_dist}
+\end{table}
+
+\newpage
+\textbf{Scenario 3.} $S_0 = 1000$
+
+When $S_0 = 1000$, the minimum stopping times is $\tau_{\min} \approx r\log(1000) + \gamma = 35.1159$. 
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|}
+    \hline
+         & Estimates & Std. Error \\
+         \hline
+         Mean  & 31.3807 &  0.2140\\
+         Shape & 674.5831 & 30.1662  \\
+         \hline
+    \end{tabular}
+    \caption{MLE for mean and shape parameters for the inverse Gaussian distribution with initial stem cells of 1000 and 1000 replications.}
+    \label{tab:stoppingtime_start1000_rep1000_invgaus_parm}
+\end{table}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.6\linewidth]{stoppingtime_start1000_rep1000_invgaus.png}
+    \caption{Diagnostic plots for the fit of shifted stopping times (with initial stem cells of 1000) for inverse Gaussian distribution.}
+    \label{fig:stoppingtime_start1000_rep1000_invgaus_diagnostics}
+\end{figure}
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|}
+    \hline
+         Test & Test Statistics & P-value \\
+         \hline
+         Kolmogorov-Smirnov & 0.0507 & 0.0114\\
+         Anderson-Darling & 4.4769 & 0.0051\\
+         \hline
+    \end{tabular}
+    \caption{Distributional tests to evaluate the shifted stopping times (with initial stem cells of 1000) for inverse Gaussian distribution.}
+    \label{tab:stoppingtime_start1000_rep1000_invgaus_dist}
+\end{table}
+
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+         & Inverse Gaussian  & Gamma & Log Normal \\
+         \hline
+         AIC & 6596.175 &   6634.945  &  6596.631 \\
+         BIC & 6605.991  &  6644.761  &  6606.447\\
+         \hline
+    \end{tabular}
+    \caption{Comparing the fit of shifted stopping times (with initial stem cells of 1000) with inverse Gaussian, Gamma, and Log-normal distributions.}
+    \label{tab:stoppingtime_start1000_rep1000_compare_dist}
+\end{table}
+\clearpage
+\newpage
+
+\subsection*{Verify the autocorrelation formula}
+For $t > u$,
+\begin{equation}
+    \begin{split}
+        E[X(t) \cdot X(u)] &= E[E[X(t)\cdot X(u) \vert X(u)]] \\
+        & = E[X(u) \cdot E[(X(t) \vert X(u)]] \\
+        & = E[X(u) \cdot X(u) \cdot \exp \{r [P(t) - P(u)]\}] \\
+        & = E[X(u)^2] \cdot \frac{S(t)}{S(u)}.
+    \end{split}
+\end{equation}
+From the variance derivation, we have
+$$ E[X(u)^2] = S(u)^2\Big[1 + r\int_0^t \frac{p_1(v) + p_3(v)}{S(v)} dv\Big].$$
+Then,
+\begin{equation}
+    \begin{split}
+        E[X(t) \cdot X(u)] - S(t)\cdot S(u) &= S(t) \cdot S(u) \cdot r \int_0^u \frac{p_1(v) + p_3(v)}{S(v)} dv \\
+        & = \frac{S(t)}{S(u)} \cdot V(u)
+    \end{split}
+\end{equation}
+To verify the theoretical result, the process is simulated for $N = 100$ replications with 200 initial stem cells and division rate 0.2 and parameters $(p_1,p_2, c_1,c_2,m_1,m_2) = (0.5, 0.2, 0.005, 0.01, 4, 12)$ of the probability function. The stem cell counts are recorded at time points $t = \{5, 10, 15, 20, 25\}$. The empirical autocovariance are calculated
+\begin{equation}
+    \widehat{\mathbb{E}}[X(t_i)X(t_j)] -\widehat{\mathbb{E}}[X(t_i)] \widehat{\mathbb{E}}[X(t_j)]
+    = \frac{1}{N} \sum_{r=1}^{N} X_r(t_i) \, X_r(t_j) - \frac{1}{N} \sum_{r=1}^{N} X_r(t_i) \, \frac{1}{N} \sum_{r=1}^{N} X_r(t_j).
+\end{equation}
+Normalized to autocorrelation, we have the theoretical autocorrelation 
+\[
+\text{Corr} (X(t_i),X(t_j)) =
+\left[
+\begin{array}{c|ccccc}
+ & 5 & 10 & 15 & 20 & 25 \\ \hline
+5 & 1.000 & 0.738 & 0.617 & 0.525 & 0.434 \\
+10 & 0.738 & 1.000 & 0.837 & 0.711 & 0.588 \\
+15 & 0.617 & 0.837 & 1.000 & 0.849 & 0.703 \\
+20 & 0.525 & 0.711 & 0.849 & 1.000 & 0.827 \\
+25 & 0.434 & 0.588 & 0.703 & 0.827 & 1.000 \\
+\end{array}
+\right],
+\]
+and the empirical autocorrelation
+\[
+\widehat{\text{Corr}} (X(t_i),X(t_j)) =
+\left[
+\begin{array}{c|ccccc}
+ & 5 & 10 & 15 & 20 & 25 \\ \hline
+5 & 1.000 & 0.714 & 0.500 & 0.366 & 0.286 \\
+10 & 0.714 & 1.000 & 0.800 & 0.663 & 0.562 \\
+15 &  0.500 & 0.800 & 1.000 & 0.841 & 0.726 \\
+20 & 0.366 & 0.663 & 0.841 & 1.000 & 0.870  \\
+25 & 0.286 & 0.562 & 0.726 & 0.870 & 1.000 \\
+\end{array}
+\right].
+\]
+
+To further quantify the similarity, I computed the mean absolute difference
+\begin{equation}
+    \text{MAD} = \frac{1}{T^2} \sum_{i,j} 
+    \big| \widehat{\text{Corr}} (X(t_i),X(t_j)) - \text{Corr} (X(t_i),X(t_j)) \big|,
+\end{equation}
+and the Pearson correlation between the vectorized empirical and theoretical matrices. 
+Both metrics indicate strong agreement (see Table~\ref{tab:autocorr_stats}).
+\begin{table}[!ht]
+\centering
+\begin{tabular}{lc}
+\toprule
+Metric  & Value \\
+\midrule
+Mean Absolute Difference &  0.050 \\
+Maximum Absolute Difference &  0.159 \\
+Matrix Correlation &  0.982 \\
+\bottomrule
+\end{tabular}
+\caption{Quantitative comparison between theoretical and empirical autocorrelation matrices.}
+\label{tab:autocorr_stats}
+\end{table}
+\newpage
+\subsection*{Parameter estimates using differential evolution algorithm}
+Since the estimation result using the gradient-based method is highly sensitive to the starting values, I'm trying different optimization method to find the MLE. The method I'm trying is differential evolution optimization algorithm, which is a method used to find minimum or maximum of a function for when the function is nonlinear, non-differentiable, or has many local optima. It works by iteratively searching for a better solution candiate in comparison to the previous one: 
+\begin{itemize}
+    \item DE creates a new trial solution candidate by adding the weighted difference between two randomly chosen individuals to a third one. 
+    \item This new candidate is then mixed with the original solution candidate through crossover, and the better of the two is kept for the next generation. 
+    \item Through repeated mutation, crossover, and selection, the population gradually moves toward the optimal solution.
+\end{itemize}
+Table (\ref{tab:de_est_case1}) and (\ref{tab:de_est_case2}) shows the estimate results for simulated data of two sets of parameters using the differential evolution algorithm with random starting values. The differential evolution algorithm is implemented from the package \textit{DEoptim} in R. The estimates are good in both cases. 
+
+The only issue that might arise with implementing this algorithm is the constraints as we need to provide a finite bound for the parameters. For example, in our case, we have the constraint for parameters $c_1, c_2, m_1, m_2$ to be greater than 0. However, the algorithm requires the parameters to have finite bound, i.e $a_1 < c_1, c_2 <a_2, b_1 <m_1, m_2 < b_2$ for some constants $a_1, a_2, b_1, b_2$. When implementing this algorithm to obtain the result in table (\ref{tab:de_est_case1}) and (\ref{tab:de_est_case2}), I use the bounds $0 < c_1, c_2 < 100$ and $0 < m_1, m_2 < \max(\text{observed time)}$. I will try this optimization method with when we have $p_4 \neq 0$.
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+         Parameter& $p_1$ (0.55)& $p_2$ (0.15) &$c_1$ (0.005) &$c_2$ (0.01) & $m_1$ (4)& $m_2$ (18) \\
+         \hline
+         Mean & 0.558 & 0.153& 0.00515 & 0.011	& 3.780 & 18.100 \\
+         Median	& 0.557 & 0.152 & 0.00507 & 0.010 &3.850& 18.200 \\
+         2.5 Percentile&	0.504&	0.110&	0.00300& 0.00377 &	0.377 & 15.700 \\
+         97.5 Percentile &	0.617&	0.193&	0.00762&	0.021&	6.450&	20.100\\
+         \hline
+    \end{tabular}
+    \caption{Parameters estimate results using differential evolution with 100 replications. The true parameters are $(p_1, p_2, c_1 ,c_2, m_1,m_2) = (0.55, 0.15, 0.005, 0.01, 4, 18)$.}
+    \label{tab:de_est_case1}
+\end{table}
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+         Parameter& $p_1$ (0.2) & $p_2$ (0.7) &$c_1$ (0.005) &$c_2$ (0.01) & $m_1$ (12) & $m_2$ (6) \\
+         \hline
+         Mean&	0.202&	0.701&	0.00543&	0.01030&	11.200&	6.030\\
+         Median&	0.201&	0.699&	0.00490&	0.01020&	11.600&	6.080\\
+         2.5 Percentile&	0.166&	0.640&	0.000973&	0.00675&	5.760&	4.730\\
+         97.5 Percentile&	0.247&	0.766&	0.01150&	0.01500&	14.700&	7.090\\
+         \hline
+    \end{tabular}
+    \caption{Parameters estimate results using differential evolution with 100 replications. The true parameters are $(p_1, p_2, c_1 ,c_2, m_1,m_2) = (0.2, 0.7, 0.005,0.1, 12, 6)$.}
+    \label{tab:de_est_case2}
+\end{table}
+\newpage
+
+\subsection*{Add $p_4$ and use differential evolution for maximum likelihood estimates}
+
+Define the time-dependent probability $p_4(\cdot)$ similar to $p_1(\cdot)$ and $p_2(\cdot)$
+
+$$p_4(t) = \frac{p_4}{1+c_4(t-m_4)^2}.$$
+
+Then the log-likelihood is
+\begin{equation}
+    \begin{split}
+        & \ell(T_1, \cdots, T_n , S_0, \cdots, S_n, D_0, \cdots D_n) \\ 
+        &= \sum_{i=1}^k \Big[ \log \Big(\frac{p_1}{1+c_1(T_i-m_1)^2}\Big) I_{(X_i = 1, Z_i = 0)} \\
+        & + \log \Big(\frac{p_2}{1+c_2(T_i-m_2)^2}\Big) I_{(X_i = 0, Z_i = 0)} \\
+        & + \log \Big(\frac{p_4}{1+c_4(T_i-m_4)^2}\Big) I_{(X_i = 0, Z_i = 1)} \\
+        & + \log \Big(1- \frac{p_1}{1+c_1(T_i-m_1)^2}- \frac{p_2}{1+c_2(T_i-m_2)^2} - \frac{p_4}{1+c_4 (T_i-m_4)^2} \Big) I_{(X_i = -1, Z_i = 0)} \\
+        & + \log r + \log S_{i-1} - rS_{i-1}\Delta_{T_1} \Big].
+    \end{split}
+\end{equation}
+Since the MLE of $r$ has the closed form solution $\hat{r} = \frac{n}{\sum_{i=1}^n S_{i-1} \Delta_{T_i}}$, I applied the differential evolution optimization method to find the maximum likelihood estimates for the parameter of the probability functions $p_1, p_2, p_4, c_1, c_2, c_4, m_1, m_2, m_4$ by maximizing
+\begin{equation*}
+    \begin{split}
+        A &= \sum_{i=1}^k \Big[ \log \Big(\frac{p_1}{1+c_1(T_i-m_1)^2}\Big) I_{(X_i = 1, Z_i = 0)} \\
+        & + \log \Big(\frac{p_2}{1+c_2(T_i-m_2)^2}\Big) I_{(X_i = 0, Z_i = 0)} \\
+        & + \log \Big(\frac{p_4}{1+c_4(T_i-m_4)^2}\Big) I_{(X_i = 0, Z_i = 1)} \\
+        & + \log \Big(1- \frac{p_1}{1+c_1(T_i-m_1)^2}- \frac{p_2}{1+c_2(T_i-m_2)^2} - \frac{p_4}{1+c_4 (T_i-m_4)^2} \Big) I_{(X_i = -1, Z_i = 0)}].
+    \end{split}
+\end{equation*}
+Table (\ref{tab:de_est_full01}) and (\ref{tab:de_est_full02}) show the estimate results for simulated data of two sets of parameters using differential evolution algorithm with random starting values. In both cases the estimates are good. However, compare to the when we only have parameters for $p_1(\cdot)$ and $p_2(\cdot)$ (i.e $p_4(t) = 0 \ \forall t$), the number of iterations required is much larger and thus results in longer computational time. It took between 30-40 minutes to obtain the each result in table (\ref{tab:de_est_full01}) and (\ref{tab:de_est_full02}).
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c}
+    \hline
+        Parameter & $p_1$ (0.55) & $p_2$ (0.20)  & $p_4$(0.15) & $c_1$ (0.005) & $c_2$ (0.012)  & $c_4$ (0.008)  & $m_1$ (4)  & $m_2$ (18)  & $m_4$ (28)  \\
+        \hline
+         Mean & 0.552 & 0.203 & 0.151 & 0.00528 & 0.0127 &  0.00876 & 4.070 & 17.900 & 28.200\\
+         Median & 0.551 & 0.202 & 0.152 & 0.00497 & 0.0122 & 0.00842 & 4.120 & 17.900 & 28.000\\
+         2.5 Percentile & 0.505 & 0.167 & 0.108 & 0.00333 & 0.00618 & 0.00302 & 0.914 & 16.200 & 25.100\\
+         97.5 Percentile & 0.604 & 0.245 & 0.202 & 0.00834  & 0.0208 & 0.0156 & 6.450 & 19.700  & 32.300\\
+         \hline
+    \end{tabular}
+    \caption{Parameters estimate results using differential evolution with 100 replications. The true parameters are $(p_1, p_2, p_4, c_1 ,c_2, c_4, m_1,m_2, m4) = (0.55, 0.20, 0.15, 0.005, 0.012, 0.008, 4, 18, 28)$.}
+    \label{tab:de_est_full01}
+\end{table}
+
+
+\begin{table}
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c}
+    \hline
+        Parameter & $p_1$ (0.20) & $p_2$ (0.70)  & $p_4$(0.10) & $c_1$ (0.005) & $c_2$ (0.012)  & $c_4$ (0.008)  & $m_1$ (12)  & $m_2$ (6)  & $m_4$ (28)  \\
+        \hline
+        Mean & 0.205 & 0.704 & 0.112 & 0.00594 & 0.0122 & 0.0122 & 11.800  & 5.960 & 27.600 \\
+        Median & 0.206 & 0.705 & 0.102  & 0.00541 & 0.0125 & 0.00979  & 11.800 & 5.970 & 26.700\\
+        2.5 Percentile & 0.163 & 0.649 & 0.049 & 0.00195 & 0.00831 & 0.00265  & 8.690 & 4.860 & 20.000\\
+        97.5 Percentile & 0.250 & 0.773  & 0.208 & 0.0120 & 0.0165 & 0.0348 & 14.800 & 7.050  & 39.800 \\
+         \hline
+    \end{tabular}
+    \caption{Parameters estimate results using differential evolution with 100 replications. The true parameters are $(p_1, p_2, p_4, c_1 ,c_2, c_4, m_1,m_2, m4) = (0.20, 0.70, 0.10, 0.005, 0.012, 0.008, 12, 6, 28)$.}
+    \label{tab:de_est_full02}
+\end{table}
+\clearpage
+\newpage
+\subsection*{Estimation for observing data up until predetermined time $t^*$.}
+Suppose we observe the events (both event time and division types) up until time $t^*$. 
+The likelihood of observing the data up until this time point is
+\begin{equation}
+    \begin{split}
+        &L_{t^*}(\boldsymbol{\theta}, \boldsymbol{T, X,Z}) \\
+        & = \prod_{i=1}^n \Big[\frac{p_1}{1+c_1(T_i-m_1)^2} I_{(\Delta X_i = 1, \Delta Z_i = 0)} \\
+        & + \frac{p_2}{1+c_2(T_i-m_2)^2} I_{(\Delta X_i = 0, \Delta Z_i = 0)} \\
+        & + \frac{p_4}{1+c_4(T_i-m_4)^2} I_{(\Delta X_i = 0, \Delta Z_i = 1)} \\
+        & +  \Big(1 - \frac{p_1}{1+c_1(T_i-m_1)^2} - \frac{p_2}{1+c_2(T_i-m_2)^2} -\frac{p_4}{1+c_4(T_i-m_4)^2}\Big) I_{(\Delta X_i = -1, \Delta Z_i = 0)}\Big] \\
+        & \cdot rX_{i-1} e^{-rX_{i-1} \Delta T_i} \cdot e^{-r X_n(t^*-T_n)}.
+    \end{split}
+\end{equation}
+Then the log-likelihood
+\begin{equation}
+    \begin{split}
+        & \ell_{t^*}(\boldsymbol{\theta}, \boldsymbol{T, X,Z}) \\
+        & = \sum_{i=1}^n \Big[\log\frac{p_1}{1+c_1(T_i-m_1)^2} I_{(\Delta X_i = 1, \Delta Z_i = 0)} \\
+        & + \log \frac{p_2}{1+c_2(T_i-m_2)^2} I_{(\Delta X_i = 0, \Delta Z_i = 0)} \\
+        & +\log \frac{p_4}{1+c_4(T_i-m_4)^2} I_{(\Delta X_i = 0, \Delta Z_i = 1)} \\
+        & +  \log\Big(1 - \frac{p_1}{1+c_1(T_i-m_1)^2} - \frac{p_2}{1+c_2(T_i-m_2)^2} -\frac{p_4}{1+c_4(T_i-m_4)^2}\Big) I_{(\Delta X_i = -1, \Delta Z_i = 0)}\Big] \\
+        & + \log r + \log X_{i-1} -rX_{i-1} \Delta T_i -r X_n(t^*-T_n).
+    \end{split}
+\end{equation}
+Then the MLE of $\hat{r}$ has the closed-form
+$$\hat{r} = \frac{n}{ \sum_{i=1}^n X_{i-1} \Delta T_i + X_n (t^* -T_n)}.$$
+The estimates of $p_1, p_2, p_4, c_1, c_2,c_4,m_1,m_2,m_4$ are obtained by the maximimizing the quantity
+\begin{equation*}
+    \begin{split}
+        A & = \sum_{i=1}^n \Big[\log\frac{p_1}{1+c_1(T_i-m_1)^2} I_{(\Delta X_i = 1, \Delta Z_i = 0)} \\
+        & + \log \frac{p_2}{1+c_2(T_i-m_2)^2} I_{(\Delta X_i = 0, \Delta Z_i = 0)} \\
+        & +\log \frac{p_4}{1+c_4(T_i-m_4)^2} I_{(\Delta X_i = 0, \Delta Z_i = 1)} \\
+        & +  \log\Big(1 - \frac{p_1}{1+c_1(T_i-m_1)^2} - \frac{p_2}{1+c_2(T_i-m_2)^2}\Big) I_{(\Delta X_i = -1, \Delta Z_i = 0)}\Big].
+    \end{split}
+\end{equation*}
+Essentially, I'm doing the same optimization as before with less data (only using the data up until the time $t^*$).
+
+Table (\ref{tab:tstop40}) through (\ref{tab:tstop10}) display the parameter estimate results of the same simulated data with different maximum observation times $t^* = 40, 30, 20, 10$. The estimates for $r$ are good in all cases. When $t^* = 40$ and $t^* = 30$ (table (\ref{tab:tstop40}) and (\ref{tab:tstop30}, respectively), the estimates are still good. However, the estimates for the probability parameters get worse as the maximum observation time gets smaller (when $t^* = 20$ and $t^* = 10$ in table (\ref{tab:tstop20}) and (\ref{tab:tstop10}), respectively). 
+
+It's also interesting to note that when $t^* = 20$, the estimates for $p_1, p_2,c_1,c_2, m_1, m_2$ are still good and it coincides with the fact that the true values $m_1, m_2 < t^*$ while the true value of $m_4 > t^*$ in this case. I suspect that with $t^* = 20$, there were not enough events for $p_4(\cdot)$ observed to estimates the parameters of $p_4(\cdot)$. Similarly, when $t^* =10$, the estimates for $p_1(\cdot)$ is still pretty good but those for $p_2(\cdot)$ and $p_4(\cdot)$ are not, and when $t^* =10$, the true value $m_1 < t^*$ and the true values of $m_2, m_4 > t^*$.
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+        Parameter & $p_1$ (0.55) & $p_2$ (0.15)  & $p_4$(0.20) & $c_1$ (0.005) & $c_2$ (0.012)  & $c_4$ (0.008)  & $m_1$ (4)  & $m_2$ (18)  & $m_4$ (28)  \\
+        \hline
+         Mean & 0.556 & 0.156 & 0.207 & 0.00535 & 0.0138 &  0.00849 & 3.960 & 18.000 & 28.600\\
+         Median & 0.557 & 0.155 & 0.204 & 0.00527 & 0.0139 & 0.00785 & 4.140 & 18.000 & 28.100\\
+         2.5 Percentile & 0.500 & 0.123 & 0.162 & 0.00331 & 0.00657 & 0.00313 & 0.425 & 16.100 & 25.500\\
+         97.5 Percentile & 0.609 & 0.190 & 0.263 & 0.00805  & 0.0231 & 0.0149 & 6.460 & 20.300  & 33.900\\
+         \hline
+    \end{tabular}
+    \begin{tabular}{|c|c|}
+    \hline
+         Parameter & $r$ (0.2)  \\
+         \hline
+         Mean & 0.199\\
+         Median & 0.199\\
+         2.5 Percentile & 0.189 \\
+         97.5 Percentile & 0.209\\
+         \hline
+    \end{tabular}
+    \caption{Parameter estimates using data up until time point $t^* = 40$. The estimates of the probability parameters $p_i,c_i,m_i$ are obtained by the optimize the quantity $A$ with differential evolution and the estimates of $r$ are obtained by the closed-form solution. The true parameters are $(p_1,p_2,p_4, c_1,c_2,c_4,$$m_1,m_2,m_4,r) =$ $(0.55, 0.15, 0.20, 0.005, 0.012, 0.008,$$4, 18, 28, 0.2)$.}
+    \label{tab:tstop40}
+\end{table}
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+        Parameter & $p_1$ (0.55) & $p_2$ (0.15)  & $p_4$(0.20) & $c_1$ (0.005) & $c_2$ (0.012)  & $c_4$ (0.008)  & $m_1$ (4)  & $m_2$ (18)  & $m_4$ (28)  \\
+        \hline
+         Mean & 0.556 & 0.158 & 0.265 & 0.00536 & 0.0142 &  0.00959 & 3.962 & 17.900 & 29.900\\
+         Median & 0.560 & 0.156 & 0.218 & 0.00534 & 0.0139 & 0.00899 & 4.340 & 17.800 & 27.300\\
+         2.5 Percentile & 0.497 & 0.125 & 0.149 & 0.00332 & 0.00610 & 0.00381 & 0.296 & 15.800 & 24.200\\
+         97.5 Percentile & 0.606 & 0.192 & 0.840 & 0.00840  & 0.0259 & 0.0171 & 6.470 & 20.400  & 47.800\\
+         \hline
+    \end{tabular}
+    \begin{tabular}{|c|c|}
+    \hline
+         Parameter & $r$ (0.2)  \\
+         \hline
+         Mean & 0.199\\
+         Median & 0.199\\
+         2.5 Percentile & 0.188 \\
+         97.5 Percentile & 0.209\\
+         \hline
+    \end{tabular}
+    \caption{Parameter estimates using data up until time point $t^* = 30$. The estimates of the probability parameters $p_i,c_i,m_i$ are obtained by the optimize the quantity $A$ with differential evolution and the estimates of $r$ are obtained by the closed-form solution. The true parameters are $(p_1,p_2,p_4, c_1,c_2,c_4,$$m_1,m_2,m_4,r) =$ $(0.55, 0.15, 0.20, 0.005, 0.012, 0.008,$$4, 18, 28, 0.2)$.}
+    \label{tab:tstop30}
+\end{table}
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+        Parameter & $p_1$ (0.55) & $p_2$ (0.15)  & $p_4$(0.20) & $c_1$ (0.005) & $c_2$ (0.012)  & $c_4$ (0.008)  & $m_1$ (4)  & $m_2$ (18)  & $m_4$ (28)  \\
+        \hline
+         Mean & 0.559 & 0.236 & 0.575 & 0.00579 & 0.0189 &  0.0259 & 4.120 & 19.400 & 28.700\\
+         Median & 0.560 & 0.167 & 0.670 & 0.00563 & 0.0174 & 0.0258 & 4.230 & 17.300 & 29.900\\
+         2.5 Percentile & 0.500 & 0.119 & 0.0736 & 0.00292 & 0.00527 & 0.00367 & 0.827 & 14.200 & 15.600\\
+         97.5 Percentile & 0.610 & 0.908 & 0.990 & 0.00928  & 0.0416 & 0.0593 & 6.600 & 33.000  & 40.900\\
+         \hline
+    \end{tabular}
+    \begin{tabular}{|c|c|}
+    \hline
+         Parameter & $r$ (0.2)  \\
+         \hline
+         Mean & 0.199\\
+         Median & 0.199\\
+         2.5 Percentile & 0.188 \\
+         97.5 Percentile & 0.211\\
+         \hline
+    \end{tabular}
+    \caption{Parameter estimates using data up until time point $t^* = 20$. The estimates of the probability parameters $p_i,c_i,m_i$ are obtained by the optimize the quantity $A$ with differential evolution and the estimates of $r$ are obtained by the closed-form solution. The true parameters are $(p_1,p_2,p_4, c_1,c_2,c_4,$$m_1,m_2,m_4,r) =$ $(0.55, 0.15, 0.20, 0.005, 0.012, 0.008,$$4, 18, 28, 0.2)$.}
+    \label{tab:tstop20}
+\end{table}
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+        Parameter & $p_1$ (0.55) & $p_2$ (0.15)  & $p_4$(0.20) & $c_1$ (0.005) & $c_2$ (0.012)  & $c_4$ (0.008)  & $m_1$ (4)  & $m_2$ (18)  & $m_4$ (28)  \\
+        \hline
+         Mean & 0.572 & 0.490 & 0.450 & 0.00815 & 0.125 &  0.139 & 4.030 & 14.900 & 13.800\\
+         Median & 0.572 & 0.537 & 0.465 & 0.00701 & 0.0914 & 0.0837 & 4.140 & 15.300 & 14.800\\
+         2.5 Percentile & 0.502 & 0.0629 & 0.0470 & 0.00077 & 0.00544 & 0.00769 & 0.386 & 4.260 & 0.898\\
+         97.5 Percentile & 0.644 & 0.983 & 0.975 & 0.0197  & 0.375 & 0.577 & 8.440 & 26.700  & 25.800\\
+         \hline
+    \end{tabular}
+    \begin{tabular}{|c|c|}
+    \hline
+         Parameter & $r$ (0.2)  \\
+         \hline
+         Mean & 0.200\\
+         Median & 0.201\\
+         2.5 Percentile & 0.186 \\
+         97.5 Percentile & 0.214\\
+         \hline
+    \end{tabular}
+    \caption{Parameter estimates using data up until time point $t^* = 10$. The estimates of the probability parameters $p_i,c_i,m_i$ are obtained by the optimize the quantity $A$ with differential evolution and the estimates of $r$ are obtained by the closed-form solution. The true parameters are $(p_1,p_2,p_4, c_1,c_2,c_4,$$m_1,m_2,m_4,r) =$ $(0.55, 0.15, 0.20, 0.005, 0.012, 0.008,$$4, 18, 28, 0.2)$.}
+    \label{tab:tstop10}
+\end{table}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{probability_plot_055015020.png}
+    \caption{Functions $p_1(t),p_2(t), p_3(t), p_4(t)$ with parameters $(p_1,p_2,p_4, c_1,c_2,c_4,$$m_1,m_2,m_4,r) =$ $(0.55, 0.15, 0.20, 0.005, 0.012, 0.008,$$4, 18, 28, 0.2)$}
+    \label{fig:placeholder}
+\end{figure}
+\clearpage
+\subsection*{Forward algorithm for when viable and non-viable stem cells are not observed}
+Let $(X_{t_i}, Y_{t_i} Z_{t_i})$ denote numbers of viable stem cells, differentiated cells, and nonviable stem cells. Assume that we can not differentiate between viable and non-viable stem cells, we have the hidden states $$ V_{t_i} = (X_{t_i}, Y_{t_i}, Z_{t_i}) $$we can only observe $$M_{t_i} = X_{t_i} + Z_{t_i} \ \text{and} \ Y_{t_i}.$$
+Then, the probability of observing $(M_{t_i}, Y_{t_i})$ given the hidden states $V_{t_i} = (X_{t_i}, Y_{t_i}, Z_{t_i})$ (emission probability) is $$P( (M_{t_i}, Y_{t_i}) \vert V_{t_i}) = I_{(M_{t_i} =X_{t_i} + Z_{t_i})}.$$
+Each hidden state $v = (x,y,z)$ can transition to a new states $v' = (x', y', z')$ through one of the four events. 
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+    \hline
+        Event $k$ & Probability & $\Delta X$  & $\Delta Y$  & $\Delta Z$ \\
+        \hline
+        1 & $p_1(t_i)$ & +1 & 0  & 0\\
+        2 & $p_2(t_i)$ & 0  & +1 & 0\\
+        3 & $1- p_1(t_i)- p_2(t_i) - p_4(t_i)$ & -1 & 2  & 0\\
+        4 & $p_4(t_i)$ & 0  & 0  & +1\\
+        \hline
+    \end{tabular}
+    \caption{Division event type and resulting change of cell counts.}
+    \end{table}
+The transition probability of transitioning from hidden state $v = (x,y,z)$ to the new hidden state $v' = (x',y',z')$ is
+$$P(V_{t_i} = v' \vert V_{t_{i-1}} = v) = rx e^ {-rx \Delta t_i}\sum_{k=1}^4 p_k (t_i) I_{(v' = v + \Delta V_k)}.$$
+We want the likelihood of observed data sequence of cell counts and of even time $$P((M_{T_1},Y_{T_1}), (M_{T_2}, Y_{T_2}), \cdots, (M_{T_n}, Y_{T_n}), T_1, \cdots T_n).$$
+We define the forward variable $\alpha_i(v)$ as the probability of being in hidden state $v = (x,y,z)$ after $i$-th event, and having seen all previous observation. Then, the forward recursion is
+\begin{equation}
+    \begin{split}
+        \alpha_i(v') = \sum_{v\in \mathcal{V}} \alpha_{i-1}(v) P(V_{t_i} = v' \vert V_{t_{i-1}} = v) P( (M_{t_i}, Y_{t_i}) \vert V_{t_i}).
+    \end{split}
+\end{equation}
+\textbf{Number of hidden states exploding}
+
+I'm trying to figure out how to address the issue of number of hidden states exploding as the number of division increases. For example, 
+\begin{itemize}
+    \item after the first division, there are three possible hidden states with number of stem cells as $X_{t_1} = \{S_0-1, S_0, S_0 + 1\}$
+    \item after the second division, there are five possible hidden states with number of stem cells $X_{t_2} = \{S_0 - 2, S_0 -1, S_0, S_0 +1, S_0 + 2\}.$
+\end{itemize}
+However, since we can observe the number of differentiated cells $Y_{t_i}$ and how it changes, we know some of these hidden states are not possible. For example, after the first division
+\begin{itemize}
+    \item if $\Delta Y_{t_1} = 1$, then $X_{t_1} = S_0$,
+    \item if $\Delta Y_{t_1} = 2$, then $X_{t_1} = S_0+2$,
+    \item $\Delta Y_{t_1} = 0$, then $X_{t_1} = \{S_0, S_1\}$.
+\end{itemize}
+Maybe this could be used to eliminate some of the possible hidden states.
+
+Another consideration is that the hidden states directly affect the interarrival times since the rate of arrival times depends on the number of viable stem cells, but the probability of event types given that we observe the interarrival times does not. In other word, given the event times $T_i$'s, the conditional likelihood of observing the cell count change is 
+\begin{equation*}
+    \begin{split}
+        L(M_{t_i}, Y_{t_i} \vert T_i) & = \prod_{i=1}^n \Big[ \Big(\frac{p_1}{1+c_1(T_i-m_1)^2} + \frac{p_4}{1+c_4(T_i-m_4)^2}\Big) I_{(\Delta M_i = 1, \Delta Y_i = 0)} \\
+        & + \frac{p_2}{1+c_2(T_i-m_2)^2} I_{(\Delta M_i = 0, \Delta Y_i = 1)} \\
+        & +  \Big(1 - \frac{p_1}{1+c_1(T_i-m_1)^2} - \frac{p_2}{1+c_2(T_i-m_2)^2} -\frac{p_4}{1+c_4(T_i-m_4)^2}\Big) I_{(\Delta M_i = -1, \Delta Y_i = 2)}\Big].
+    \end{split}
+\end{equation*}
+I'm not quite sure if this could be useful to simplify the expression/calculation of the forward variable yet.
+\clearpage
+\subsection*{Forward algorithm}
+Let $(X_{i}, Y_{i}, Z_{i})$ denote viable stem cells, differentiated cells, and non-viable stem cells and $T_i$ are event times. Let $M_{i}$ denote the sum of the viable and non-viable stem cells. Note that $(M_{i},Y_{i}, T_{i}), \ k =1,2,\cdots, n$ are observable and 
+$$T_0 = 0, M_0 = S_0, Y_0 = 0, Z_0 = 0.$$
+Forward variables (for $k = 1, \cdots, n$)
+$$\alpha_k(u) = \ell(T_1, \cdots, T_k, Y_1, \cdots Y_k, M_1, \cdots M_k, Z_k = u),$$
+where $u$ is an integer, $0 \leq z \leq M_k$. Then for $0 \leq k \leq n-1$,
+$$\alpha_{k+1} (v) = \sum_{u \in\{v, v-1\}} \alpha_k(u) \cdot h_k(u,v),$$
+where $0 \leq v \leq M_{k+1}$. Here $h_k(u,v)$ are transitional "probabilities, and for $i \leq m \leq 4$
+\begin{equation*}
+    \begin{split}
+        h_k(u,v) = \begin{cases}
+            h_{mk}(u,v), & \text{event}\ m \ \text{at} \ T_{k+1}\\
+            0, & \text{otherwise},
+        \end{cases}
+    \end{split}
+\end{equation*}
+$h_{mk}(u,v) = r(M_k-u) e^{-r(M_k-u) (T_{k+1}-T_k)}\cdot p_m(T_{k+1})$.
+
+The events in terms of $(Y,M,Z)$
+\begin{itemize}
+    \item Event 1: $Y_{k+1} = Y_k, M_{k+1} = M_k +1, v = u$
+    \item Event 2: $Y_{k+1} = Y_k +1, M_{k+1} =M_k, v = u$
+    \item Event 3: $Y_{k+1} = Y_k +2, M_{k+1} = M_k -1, v = u$
+    \item Event 4: $Y_{k+1} = Y_k, M_{k+1} = M_k + 1, v = u+1$
+\end{itemize}
+Finally, the likelihood is given by $$L_n = \sum_{0 \leq u \leq M_n} \alpha_n(u).$$
+\subsection*{Normalization}
+Let $$L_k = \sum_{0 \leq u \leq M_k} \alpha_k (u), \quad k=1, \cdots, n.$$
+Consider $\bar{\alpha}_k(v) = \frac{\alpha_k(v)}{L_k}$ then
+\begin{equation}
+    \begin{split}
+        \bar{\alpha}_{k+1}(v) & = \frac{\alpha_{k+1} (v)}{L_{k+1}} \\
+        & = \frac{1}{L_{k+1}} \sum_{u = v-1,v} \alpha_k(u) h_k(u,v) \\
+        & = \frac{L_k}{L_{k+1}} \sum_{u = v-1,v} \bar{\alpha}_k h_k(u,v).
+    \end{split}
+\end{equation}
+Now for $0 \leq k \leq n-1$ let
+\begin{equation}
+    \begin{split}
+        d_{k+1} & = \frac{L_{k+1}}{L_k} \\
+        & = \frac{1}{L_k} \sum_{0 \leq v\leq M_{k+1}} \alpha_{k+1}(v) \\
+        & = \frac{1}{L_k} \sum_{0 \leq v \leq M_{k+1}} \sum_{u = v-1, v} \alpha_k(u) h_k (u,v)\\
+        & = \sum_{0\leq v\leq M_{k+1}} \sum_{u=v-1,v} \bar{\alpha_k(u)} h_k(u,v)
+    \end{split}
+\end{equation}
+So, $\bar{\alpha}_0(0) = 1$ and $\bar{\alpha}_k \rightarrow d_{k+1} \rightarrow \bar{\alpha}_{k+1}.$
+$$\log(L_n)=\sum_{k=0}^{n-1}  \log(d_{k+1})$$
+
+\subsection*{Code implementation}
+
+\begin{algorithm}
+\caption{Forward Log-Likelihood Computation}
+\begin{algorithmic}[1]
+
+\STATE Extract $M, Y, t$ from data
+\STATE Extract parameters $p_1, p_2, p_4, c_1, c_2, c_4, m_1, m_2, m_4, r$
+
+\STATE Initialize hidden states: $H \gets \{0\}$
+\STATE $\alpha_{\text{prev}} \gets \mathbf{1}$ (vector of ones)
+\STATE $n \gets \text{length}(t)$
+\STATE $\text{scale}[1] \gets 1$
+
+\FOR{$k = 2$ to $n$}
+
+    \STATE $\Delta T = t_k - t_{k-1}$
+    \STATE $\Delta Y = Y_k - Y_{k-1}$
+    \STATE $\Delta M = M_k - M_{k-1}$
+
+    \STATE Compute time–varying probabilities:
+    \[
+    p_{1,t} = \frac{p_1}{1 + c_1 (t_k - m_1)^2}, \quad
+    p_{2,t} = \frac{p_2}{1 + c_2 (t_k - m_2)^2}, \quad
+    p_{4,t} = \frac{p_4}{1 + c_4 (t_k - m_4)^2}
+    \]
+
+    \IF{$\Delta Y = 1$ and $\Delta M = 0$}
+        \STATE Construct diagonal transition matrix $T$
+        \FOR{each state $h \in H$}
+            \STATE $\lambda = r (M_{k-1} - h)$
+            \STATE $T_{hh} = f_{\exp}(\Delta T; \lambda) \cdot p_{2,t}$
+        \ENDFOR
+        \STATE $\alpha_{\text{new}} = \alpha_{\text{prev}} T$
+
+    \ELSIF{$\Delta Y = 2$ and $\Delta M = -1$}
+        \STATE $p_{3,t} = \max(1 - p_{1,t} - p_{2,t} - p_{4,t}, \varepsilon)$
+        \STATE Construct diagonal transition matrix $T$
+        \FOR{each state $h \in H$}
+            \STATE $\lambda = r (M_{k-1} - h)$
+            \STATE $T_{hh} = f_{\exp}(\Delta T; \lambda)\cdot p_{3,t}$
+        \ENDFOR
+        \STATE $\alpha_{\text{new}} = \alpha_{\text{prev}} T$
+        \STATE Remove states in $H$ exceeding $M_k$
+        \STATE Truncate $\alpha_{\text{new}}$ accordingly
+
+    \ELSIF{$\Delta Y = 0$ and $\Delta M = 1$}
+        \STATE Construct transition matrix $T$ with one extra column
+        \FOR{each state $h \in H$}
+            \STATE $\lambda = r(M_{k-1} - h)$
+            \STATE $T_{h,h}     = f_{\exp}(\Delta T; \lambda) \cdot p_{1,t}$
+            \STATE $T_{h,h+1}   = f_{\exp}(\Delta T; \lambda) \cdot p_{4,t}$
+        \ENDFOR
+        \STATE $\alpha_{\text{new}} = \alpha_{\text{prev}} T$
+        \STATE Add new state to $H$ if $\le M_k$
+        \STATE Truncate $\alpha_{\text{new}}$ to match $H$
+    \ENDIF
+
+    \STATE $\alpha_{\Sigma} = \sum_i \alpha_{\text{new}}[i]$
+    \IF{$\alpha_{\Sigma} \le \varepsilon$}
+        \STATE $\alpha_{\Sigma} \gets \varepsilon$
+    \ENDIF
+
+    \STATE $\text{scale}[k] = \alpha_{\Sigma} / \text{scale}[k-1]$
+    \STATE $\alpha_{\text{prev}} = \alpha_{\text{new}} / \alpha_{\Sigma}$
+
+\ENDFOR
+
+\STATE Compute log-likelihood:
+\[
+\ell = \sum_{k=1}^n \log(\text{scale}[k])
+\]
+\RETURN $-\ell$
+
+\end{algorithmic}
+\end{algorithm}
 
 \end{document}
 
