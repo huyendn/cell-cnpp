@@ -68,7 +68,7 @@ for (i in 1:reps) {
                      p4 = p4.true, c1 = c1.true, c2 = c2.true, c4 = c4.true, m1 = m1.true, m2 = m2.true, m4 = m4.true)
     
     if ((sum(probs < min_p_t) > 0 | (itnum > max_it))) {
-      cat(q_t, "\n")
+      # cat(q_t, "\n")
       break}
     if (sum(probs) > 1) {
       probs <- probs/sum(probs)
@@ -215,11 +215,13 @@ loglik <- function(params, data) {
     s <- sum(alpha_new)
     if (!is.finite(s) || s <= 0) return(safe_fail())
     
-    scale_factor[step] <- s / scale_factor[step-1]
+    # scale_factor[step] <- s / scale_factor[step-1]
+    scale_factor[step] <- s 
     alpha_prev <- alpha_new / s
   }
   
   total <- sum(log(scale_factor))
+  
   if (!is.finite(total)) return(safe_fail())
   
   return(-total)
@@ -357,7 +359,8 @@ forward_log_likelihood <- function(params, data){
     alpha_sum <- sum(alpha_new)
     if (alpha_sum == 0 || is.na(alpha_sum)) alpha_sum <- 1e-12
     
-    scale_factor[step] <- alpha_sum/scale_factor[step-1]
+    # scale_factor[step] <- alpha_sum/scale_factor[step-1]
+    scale_factor[step] <-  alpha_sum
     alpha_prev <- alpha_new / alpha_sum
   }
   
