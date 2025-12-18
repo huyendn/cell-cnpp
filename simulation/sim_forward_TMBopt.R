@@ -26,7 +26,7 @@ m4.true <- 20
 s0.true <- 200
 r.true <- 0.2
 
-reps <- 100 
+reps <- 3
 simulate_markov <- function(
     reps = 100,
     p1, p2, p4,

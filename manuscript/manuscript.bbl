@@ -1,0 +1,542 @@
+%% BioMed_Central_Bib_Style_v1.01
+
+\begin{thebibliography}{31}
+% BibTex style file: bmc-mathphys.bst (version 2.1), 2014-07-24
+\ifx \bisbn   \undefined \def \bisbn  #1{ISBN #1}\fi
+\ifx \binits  \undefined \def \binits#1{#1}\fi
+\ifx \bauthor  \undefined \def \bauthor#1{#1}\fi
+\ifx \batitle  \undefined \def \batitle#1{#1}\fi
+\ifx \bjtitle  \undefined \def \bjtitle#1{#1}\fi
+\ifx \bvolume  \undefined \def \bvolume#1{\textbf{#1}}\fi
+\ifx \byear  \undefined \def \byear#1{#1}\fi
+\ifx \bissue  \undefined \def \bissue#1{#1}\fi
+\ifx \bfpage  \undefined \def \bfpage#1{#1}\fi
+\ifx \blpage  \undefined \def \blpage #1{#1}\fi
+\ifx \burl  \undefined \def \burl#1{\textsf{#1}}\fi
+\ifx \doiurl  \undefined \def \doiurl#1{\url{https://doi.org/#1}}\fi
+\ifx \betal  \undefined \def \betal{\textit{et al.}}\fi
+\ifx \binstitute  \undefined \def \binstitute#1{#1}\fi
+\ifx \binstitutionaled  \undefined \def \binstitutionaled#1{#1}\fi
+\ifx \bctitle  \undefined \def \bctitle#1{#1}\fi
+\ifx \beditor  \undefined \def \beditor#1{#1}\fi
+\ifx \bpublisher  \undefined \def \bpublisher#1{#1}\fi
+\ifx \bbtitle  \undefined \def \bbtitle#1{#1}\fi
+\ifx \bedition  \undefined \def \bedition#1{#1}\fi
+\ifx \bseriesno  \undefined \def \bseriesno#1{#1}\fi
+\ifx \blocation  \undefined \def \blocation#1{#1}\fi
+\ifx \bsertitle  \undefined \def \bsertitle#1{#1}\fi
+\ifx \bsnm \undefined \def \bsnm#1{#1}\fi
+\ifx \bsuffix \undefined \def \bsuffix#1{#1}\fi
+\ifx \bparticle \undefined \def \bparticle#1{#1}\fi
+\ifx \barticle \undefined \def \barticle#1{#1}\fi
+\bibcommenthead
+\ifx \bconfdate \undefined \def \bconfdate #1{#1}\fi
+\ifx \botherref \undefined \def \botherref #1{#1}\fi
+\ifx \url \undefined \def \url#1{\textsf{#1}}\fi
+\ifx \bchapter \undefined \def \bchapter#1{#1}\fi
+\ifx \bbook \undefined \def \bbook#1{#1}\fi
+\ifx \bcomment \undefined \def \bcomment#1{#1}\fi
+\ifx \oauthor \undefined \def \oauthor#1{#1}\fi
+\ifx \citeauthoryear \undefined \def \citeauthoryear#1{#1}\fi
+\ifx \endbibitem  \undefined \def \endbibitem {}\fi
+\ifx \bconflocation  \undefined \def \bconflocation#1{#1}\fi
+\ifx \arxivurl  \undefined \def \arxivurl#1{\textsf{#1}}\fi
+\csname PreBibitemsHook\endcsname
+
+%%% 1
+\bibitem[\protect\citeauthoryear{Coletti et~al.}{2018}]{Co2018}
+\begin{barticle}
+\bauthor{\bsnm{Coletti}, \binits{A.M.}},
+\bauthor{\bsnm{Singh}, \binits{D.}},
+\bauthor{\bsnm{Kumar}, \binits{S.}},
+\bauthor{\bsnm{Shafin}, \binits{T.N.}},
+\bauthor{\bsnm{Briody}, \binits{P.J.}},
+\bauthor{\bsnm{Babbitt}, \binits{B.F.}},
+\bauthor{\bsnm{Pan}, \binits{D.}},
+\bauthor{\bsnm{Norton}, \binits{E.S.}},
+\bauthor{\bsnm{Brown}, \binits{E.C.}},
+\bauthor{\bsnm{Kahle}, \binits{K.T.}}, \betal:
+\batitle{Characterization of the ventricular-subventricular stem cell niche
+  during human brain development}.
+\bjtitle{Development}
+\bvolume{145}(\bissue{20}),
+\bfpage{170100}
+(\byear{2018})
+\end{barticle}
+\endbibitem
+
+%%% 2
+\bibitem[\protect\citeauthoryear{Bast et~al.}{2018}]{Ba2018}
+\begin{barticle}
+\bauthor{\bsnm{Bast}, \binits{L.}},
+\bauthor{\bsnm{Calzolari}, \binits{F.}},
+\bauthor{\bsnm{Strasser}, \binits{M.K.}},
+\bauthor{\bsnm{Hasenauer}, \binits{J.}},
+\bauthor{\bsnm{Theis}, \binits{F.J.}},
+\bauthor{\bsnm{Ninkovic}, \binits{J.}},
+\bauthor{\bsnm{Marr}, \binits{C.}}:
+\batitle{Increasing neural stem cell division asymmetry and quiescence are
+  predicted to contribute to the age-related decline in neurogenesis}.
+\bjtitle{{Cell Reports}}
+\bvolume{25}(\bissue{12}),
+\bfpage{3231}--\blpage{3240}
+(\byear{2018})
+\end{barticle}
+\endbibitem
+
+%%% 3
+\bibitem[\protect\citeauthoryear{Marciniak-Czochra
+  et~al.}{2009}]{marciniak2009modeling}
+\begin{barticle}
+\bauthor{\bsnm{Marciniak-Czochra}, \binits{A.}},
+\bauthor{\bsnm{Stiehl}, \binits{T.}},
+\bauthor{\bsnm{Wagner}, \binits{W.}}:
+\batitle{Modeling of replicative senescence in hematopoietic development}.
+\bjtitle{Aging (Albany NY)}
+\bvolume{1}(\bissue{8}),
+\bfpage{723}
+(\byear{2009})
+\end{barticle}
+\endbibitem
+
+%%% 4
+\bibitem[\protect\citeauthoryear{Wilson et~al.}{2008}]{wilson2008hematopoietic}
+\begin{barticle}
+\bauthor{\bsnm{Wilson}, \binits{A.}},
+\bauthor{\bsnm{Laurenti}, \binits{E.}},
+\bauthor{\bsnm{Oser}, \binits{G.}},
+\bauthor{\bsnm{Wath}, \binits{R.C.}},
+\bauthor{\bsnm{Blanco-Bose}, \binits{W.}},
+\bauthor{\bsnm{Jaworski}, \binits{M.}},
+\bauthor{\bsnm{Offner}, \binits{S.}},
+\bauthor{\bsnm{Dunant}, \binits{C.F.}},
+\bauthor{\bsnm{Eshkind}, \binits{L.}},
+\bauthor{\bsnm{Bockamp}, \binits{E.}}, \betal:
+\batitle{Hematopoietic stem cells reversibly switch from dormancy to
+  self-renewal during homeostasis and repair}.
+\bjtitle{Cell}
+\bvolume{135}(\bissue{6}),
+\bfpage{1118}--\blpage{1129}
+(\byear{2008})
+\end{barticle}
+\endbibitem
+
+%%% 5
+\bibitem[\protect\citeauthoryear{Al-Hajj et~al.}{2003}]{al2003prospective}
+\begin{barticle}
+\bauthor{\bsnm{Al-Hajj}, \binits{M.}},
+\bauthor{\bsnm{Wicha}, \binits{M.S.}},
+\bauthor{\bsnm{Benito-Hernandez}, \binits{A.}},
+\bauthor{\bsnm{Morrison}, \binits{S.J.}},
+\bauthor{\bsnm{Clarke}, \binits{M.F.}}:
+\batitle{Prospective identification of tumorigenic breast cancer cells}.
+\bjtitle{Proceedings of the National Academy of Sciences}
+\bvolume{100}(\bissue{7}),
+\bfpage{3983}--\blpage{3988}
+(\byear{2003})
+\end{barticle}
+\endbibitem
+
+%%% 6
+\bibitem[\protect\citeauthoryear{Cammareri
+  et~al.}{2008}]{cammareri2008isolation}
+\begin{barticle}
+\bauthor{\bsnm{Cammareri}, \binits{P.}},
+\bauthor{\bsnm{Lombardo}, \binits{Y.}},
+\bauthor{\bsnm{Francipane}, \binits{M.G.}},
+\bauthor{\bsnm{Bonventre}, \binits{S.}},
+\bauthor{\bsnm{Todaro}, \binits{M.}},
+\bauthor{\bsnm{Stassi}, \binits{G.}}:
+\batitle{Isolation and culture of colon cancer stem cells}.
+\bjtitle{Methods in Cell Biology}
+\bvolume{86},
+\bfpage{311}--\blpage{324}
+(\byear{2008})
+\end{barticle}
+\endbibitem
+
+%%% 7
+\bibitem[\protect\citeauthoryear{Fioriti et~al.}{2008}]{fioriti2008cancer}
+\begin{barticle}
+\bauthor{\bsnm{Fioriti}, \binits{D.}},
+\bauthor{\bsnm{Mischitelli}, \binits{M.}},
+\bauthor{\bsnm{Monaco}, \binits{F.D.}},
+\bauthor{\bsnm{Silverio}, \binits{F.D.}},
+\bauthor{\bsnm{Petrangeli}, \binits{E.}},
+\bauthor{\bsnm{Russo}, \binits{G.}},
+\bauthor{\bsnm{Giordano}, \binits{A.}},
+\bauthor{\bsnm{Pietropaolo}, \binits{V.}}:
+\batitle{Cancer stem cells in prostate adenocarcinoma: a target for new
+  anticancer strategies}.
+\bjtitle{Journal of cellular physiology}
+\bvolume{216}(\bissue{3}),
+\bfpage{571}--\blpage{575}
+(\byear{2008})
+\end{barticle}
+\endbibitem
+
+%%% 8
+\bibitem[\protect\citeauthoryear{Singh et~al.}{2003}]{singh2003identification}
+\begin{barticle}
+\bauthor{\bsnm{Singh}, \binits{S.K.}},
+\bauthor{\bsnm{Clarke}, \binits{I.D.}},
+\bauthor{\bsnm{Terasaki}, \binits{M.}},
+\bauthor{\bsnm{Bonn}, \binits{V.E.}},
+\bauthor{\bsnm{Hawkins}, \binits{C.}},
+\bauthor{\bsnm{Squire}, \binits{J.}},
+\bauthor{\bsnm{Dirks}, \binits{P.B.}}:
+\batitle{Identification of a cancer stem cell in human brain tumors}.
+\bjtitle{Cancer Research}
+\bvolume{63}(\bissue{18}),
+\bfpage{5821}--\blpage{5828}
+(\byear{2003})
+\end{barticle}
+\endbibitem
+
+%%% 9
+\bibitem[\protect\citeauthoryear{Beretta
+  et~al.}{2012}]{beretta2012mathematical}
+\begin{barticle}
+\bauthor{\bsnm{Beretta}, \binits{E.}},
+\bauthor{\bsnm{Capasso}, \binits{V.}},
+\bauthor{\bsnm{Morozova}, \binits{N.}}:
+\batitle{Mathematical modelling of cancer stem cells population behavior}.
+\bjtitle{Mathematical Modelling of Natural Phenomena}
+\bvolume{7}(\bissue{1}),
+\bfpage{279}--\blpage{305}
+(\byear{2012})
+\end{barticle}
+\endbibitem
+
+%%% 10
+\bibitem[\protect\citeauthoryear{Weekes
+  et~al.}{2014}]{weekes2014multicompartment}
+\begin{barticle}
+\bauthor{\bsnm{Weekes}, \binits{S.L.}},
+\bauthor{\bsnm{Barker}, \binits{B.}},
+\bauthor{\bsnm{Bober}, \binits{S.}},
+\bauthor{\bsnm{Cisneros}, \binits{K.}},
+\bauthor{\bsnm{Cline}, \binits{J.}},
+\bauthor{\bsnm{Thompson}, \binits{A.}},
+\bauthor{\bsnm{Hlatky}, \binits{L.}},
+\bauthor{\bsnm{Hahnfeldt}, \binits{P.}},
+\bauthor{\bsnm{Enderling}, \binits{H.}}:
+\batitle{A multicompartment mathematical model of cancer stem cell-driven tumor
+  growth dynamics}.
+\bjtitle{Bulletin of Mathematical Biology}
+\bvolume{76},
+\bfpage{1762}--\blpage{1782}
+(\byear{2014})
+\end{barticle}
+\endbibitem
+
+%%% 11
+\bibitem[\protect\citeauthoryear{Chen et~al.}{2016}]{chen2016overshoot}
+\begin{barticle}
+\bauthor{\bsnm{Chen}, \binits{X.}},
+\bauthor{\bsnm{Wang}, \binits{Y.}},
+\bauthor{\bsnm{Feng}, \binits{T.}},
+\bauthor{\bsnm{Yi}, \binits{M.}},
+\bauthor{\bsnm{Zhang}, \binits{X.}},
+\bauthor{\bsnm{Zhou}, \binits{D.}}:
+\batitle{The overshoot and phenotypic equilibrium in characterizing cancer
+  dynamics of reversible phenotypic plasticity}.
+\bjtitle{Journal of theoretical biology}
+\bvolume{390},
+\bfpage{40}--\blpage{49}
+(\byear{2016})
+\end{barticle}
+\endbibitem
+
+%%% 12
+\bibitem[\protect\citeauthoryear{Turner et~al.}{2009}]{Tu2009}
+\begin{barticle}
+\bauthor{\bsnm{Turner}, \binits{C.}},
+\bauthor{\bsnm{Stinchcombe}, \binits{A.}},
+\bauthor{\bsnm{Kohandel}, \binits{M.}},
+\bauthor{\bsnm{Singh}, \binits{S.}},
+\bauthor{\bsnm{Sivaloganathan}, \binits{S.}}:
+\batitle{Characterization of brain cancer stem cells: a mathematical approach}.
+\bjtitle{{Cell Proliferation}}
+\bvolume{42}(\bissue{4}),
+\bfpage{529}--\blpage{540}
+(\byear{2009})
+\end{barticle}
+\endbibitem
+
+%%% 13
+\bibitem[\protect\citeauthoryear{Scanlon et~al.}{2022}]{Sc2022}
+\begin{barticle}
+\bauthor{\bsnm{Scanlon}, \binits{V.M.}},
+\bauthor{\bsnm{Thompson}, \binits{E.N.}},
+\bauthor{\bsnm{Lawton}, \binits{B.R.}},
+\bauthor{\bsnm{Kochugaeva}, \binits{M.}},
+\bauthor{\bsnm{Ta}, \binits{K.}},
+\bauthor{\bsnm{Mayday}, \binits{M.Y.}},
+\bauthor{\bsnm{Xavier-Ferrucio}, \binits{J.}},
+\bauthor{\bsnm{Kang}, \binits{E.}},
+\bauthor{\bsnm{Eskow}, \binits{N.M.}},
+\bauthor{\bsnm{Lu}, \binits{Y.-C.}}, \betal:
+\batitle{Multiparameter analysis of timelapse imaging reveals kinetics of
+  megakaryocytic erythroid progenitor clonal expansion and differentiation}.
+\bjtitle{{Scientific Reports}}
+\bvolume{12}(\bissue{1}),
+\bfpage{16218}
+(\byear{2022})
+\end{barticle}
+\endbibitem
+
+%%% 14
+\bibitem[\protect\citeauthoryear{Watson and
+  Galton}{1875}]{watson1875probability}
+\begin{barticle}
+\bauthor{\bsnm{Watson}, \binits{H.W.}},
+\bauthor{\bsnm{Galton}, \binits{F.}}:
+\batitle{On the probability of the extinction of families}.
+\bjtitle{The Journal of the Anthropological Institute of Great Britain and
+  Ireland}
+\bvolume{4},
+\bfpage{138}--\blpage{144}
+(\byear{1875})
+\end{barticle}
+\endbibitem
+
+%%% 15
+\bibitem[\protect\citeauthoryear{Harris}{1948}]{harris1948branching}
+\begin{botherref}
+\oauthor{\bsnm{Harris}, \binits{T.E.}}:
+Branching processes.
+The Annals of Mathematical Statistics,
+474--494
+(1948)
+\end{botherref}
+\endbibitem
+
+%%% 16
+\bibitem[\protect\citeauthoryear{Harris}{1963}]{harris1963theory}
+\begin{bbook}
+\bauthor{\bsnm{Harris}, \binits{T.E.}}:
+\bbtitle{The Theory of Branching Processes}.
+\bpublisher{Springer},
+\blocation{Berlin}
+(\byear{1963})
+\end{bbook}
+\endbibitem
+
+%%% 17
+\bibitem[\protect\citeauthoryear{Asmussen and
+  Hering}{1983}]{asmussen1983branching}
+\begin{botherref}
+\oauthor{\bsnm{Asmussen}, \binits{S.}},
+\oauthor{\bsnm{Hering}, \binits{H.}}:
+Branching processes
+(1983)
+\end{botherref}
+\endbibitem
+
+%%% 18
+\bibitem[\protect\citeauthoryear{MacMillan and
+  McConnell}{2011}]{macmillan2011seeing}
+\begin{barticle}
+\bauthor{\bsnm{MacMillan}, \binits{H.R.}},
+\bauthor{\bsnm{McConnell}, \binits{M.J.}}:
+\batitle{Seeing beyond the average cell: branching process models of cell
+  proliferation, differentiation, and death during mouse brain development}.
+\bjtitle{Theory in Biosciences}
+\bvolume{130}(\bissue{1}),
+\bfpage{31}--\blpage{43}
+(\byear{2011})
+\end{barticle}
+\endbibitem
+
+%%% 19
+\bibitem[\protect\citeauthoryear{M{\'\i}guez}{2015}]{miguez2015branching}
+\begin{barticle}
+\bauthor{\bsnm{M{\'\i}guez}, \binits{D.G.}}:
+\batitle{A branching process to characterize the dynamics of stem cell
+  differentiation}.
+\bjtitle{{Scientific reports}}
+\bvolume{5}(\bissue{1}),
+\bfpage{13265}
+(\byear{2015})
+\end{barticle}
+\endbibitem
+
+%%% 20
+\bibitem[\protect\citeauthoryear{Folks and Chhikara}{1978}]{folks1978inverse}
+\begin{barticle}
+\bauthor{\bsnm{Folks}, \binits{J.L.}},
+\bauthor{\bsnm{Chhikara}, \binits{R.S.}}:
+\batitle{The inverse {G}aussian distribution and its statistical
+  application—a review}.
+\bjtitle{Journal of the Royal Statistical Society Series B: Statistical
+  Methodology}
+\bvolume{40}(\bissue{3}),
+\bfpage{263}--\blpage{275}
+(\byear{1978})
+\end{barticle}
+\endbibitem
+
+%%% 21
+\bibitem[\protect\citeauthoryear{Rabiner}{2002}]{rabiner2002tutorial}
+\begin{barticle}
+\bauthor{\bsnm{Rabiner}, \binits{L.R.}}:
+\batitle{A tutorial on hidden {M}arkov models and selected applications in
+  speech recognition}.
+\bjtitle{Proceedings of the IEEE}
+\bvolume{77}(\bissue{2}),
+\bfpage{257}--\blpage{286}
+(\byear{2002})
+\end{barticle}
+\endbibitem
+
+%%% 22
+\bibitem[\protect\citeauthoryear{Storn and Price}{1997}]{storn1997differential}
+\begin{barticle}
+\bauthor{\bsnm{Storn}, \binits{R.}},
+\bauthor{\bsnm{Price}, \binits{K.}}:
+\batitle{Differential evolution--a simple and efficient heuristic for global
+  optimization over continuous spaces}.
+\bjtitle{{Journal of Global Optimization}}
+\bvolume{11}(\bissue{4}),
+\bfpage{341}--\blpage{359}
+(\byear{1997})
+\end{barticle}
+\endbibitem
+
+%%% 23
+\bibitem[\protect\citeauthoryear{Ardia et~al.}{2011}]{ardia2011differential}
+\begin{barticle}
+\bauthor{\bsnm{Ardia}, \binits{D.}},
+\bauthor{\bsnm{Boudt}, \binits{K.}},
+\bauthor{\bsnm{Carl}, \binits{P.}},
+\bauthor{\bsnm{Mullen}, \binits{K.}},
+\bauthor{\bsnm{Peterson}, \binits{B.G.}}:
+\batitle{Differential evolution with {DEoptim}: an application to non-convex
+  portfolio optimization}.
+\bjtitle{The R Journal}
+\bvolume{3}(\bissue{1}),
+\bfpage{27}--\blpage{34}
+(\byear{2011})
+\end{barticle}
+\endbibitem
+
+%%% 24
+\bibitem[\protect\citeauthoryear{Mullen et~al.}{2011}]{mullen2011deoptim}
+\begin{barticle}
+\bauthor{\bsnm{Mullen}, \binits{K.M.}},
+\bauthor{\bsnm{Ardia}, \binits{D.}},
+\bauthor{\bsnm{Gil}, \binits{D.L.}},
+\bauthor{\bsnm{Windover}, \binits{D.}},
+\bauthor{\bsnm{Cline}, \binits{J.}}:
+\batitle{{DEoptim}: An {R} package for global optimization by differential
+  evolution}.
+\bjtitle{Journal of Statistical Software}
+\bvolume{40},
+\bfpage{1}--\blpage{26}
+(\byear{2011})
+\end{barticle}
+\endbibitem
+
+%%% 25
+\bibitem[\protect\citeauthoryear{Fournier et~al.}{2012}]{fournier2012ad}
+\begin{barticle}
+\bauthor{\bsnm{Fournier}, \binits{D.A.}},
+\bauthor{\bsnm{Skaug}, \binits{H.J.}},
+\bauthor{\bsnm{Ancheta}, \binits{J.}},
+\bauthor{\bsnm{Ianelli}, \binits{J.}},
+\bauthor{\bsnm{Magnusson}, \binits{A.}},
+\bauthor{\bsnm{Maunder}, \binits{M.N.}},
+\bauthor{\bsnm{Nielsen}, \binits{A.}},
+\bauthor{\bsnm{Sibert}, \binits{J.}}:
+\batitle{{AD} {M}odel {B}uilder: using automatic differentiation for
+  statistical inference of highly parameterized complex nonlinear models}.
+\bjtitle{Optimization Methods and Software}
+\bvolume{27}(\bissue{2}),
+\bfpage{233}--\blpage{249}
+(\byear{2012})
+\end{barticle}
+\endbibitem
+
+%%% 26
+\bibitem[\protect\citeauthoryear{Kristensen et~al.}{2016}]{kristensen2016tmb}
+\begin{barticle}
+\bauthor{\bsnm{Kristensen}, \binits{K.}},
+\bauthor{\bsnm{Nielsen}, \binits{A.}},
+\bauthor{\bsnm{Berg}, \binits{C.W.}},
+\bauthor{\bsnm{Skaug}, \binits{H.}},
+\bauthor{\bsnm{Bell}, \binits{B.M.}}:
+\batitle{{TMB}: automatic differentiation and {L}aplace approximation}.
+\bjtitle{Journal of statistical software}
+\bvolume{70},
+\bfpage{1}--\blpage{21}
+(\byear{2016})
+\end{barticle}
+\endbibitem
+
+%%% 27
+\bibitem[\protect\citeauthoryear{{R Core Team}}{2024}]{R-base}
+\begin{bbook}
+\bauthor{\bsnm{{R Core Team}}}:
+\bbtitle{R: A Language and Environment for Statistical Computing}.
+\bpublisher{R Foundation for Statistical Computing},
+\blocation{Vienna, Austria}
+(\byear{2024}).
+\bcomment{R Foundation for Statistical Computing}.
+\burl{https://www.R-project.org/}
+\end{bbook}
+\endbibitem
+
+%%% 28
+\bibitem[\protect\citeauthoryear{Delignette-Muller and
+  Dutang}{2015}]{fitdistrplus2015}
+\begin{barticle}
+\bauthor{\bsnm{Delignette-Muller}, \binits{M.L.}},
+\bauthor{\bsnm{Dutang}, \binits{C.}}:
+\batitle{{fitdistrplus}: An {R} package for fitting distributions}.
+\bjtitle{Journal of Statistical Software}
+\bvolume{64}(\bissue{4}),
+\bfpage{1}--\blpage{34}
+(\byear{2015})
+\doiurl{10.18637/jss.v064.i04}
+\end{barticle}
+\endbibitem
+
+%%% 29
+\bibitem[\protect\citeauthoryear{Faraway et~al.}{2021}]{goftest2021}
+\begin{botherref}
+\oauthor{\bsnm{Faraway}, \binits{J.}},
+\oauthor{\bsnm{Marsaglia}, \binits{G.}},
+\oauthor{\bsnm{Marsaglia}, \binits{J.}},
+\oauthor{\bsnm{Baddeley}, \binits{A.}}:
+{goftest}: {C}lassical Goodness-of-Fit Tests for Univariate Distributions.
+(2021).
+R package version 1.2-3.
+\url{https://CRAN.R-project.org/package=goftest}
+\end{botherref}
+\endbibitem
+
+%%% 30
+\bibitem[\protect\citeauthoryear{Bengtsson}{2025}]{bengtsson2025parallelly}
+\begin{botherref}
+\oauthor{\bsnm{Bengtsson}, \binits{H.}}:
+{p}arallelly: {E}nhancing the `parallel' Package.
+(2025).
+R package version 1.45.
+\url{https://parallelly.futureverse.org}
+\end{botherref}
+\endbibitem
+
+%%% 31
+\bibitem[\protect\citeauthoryear{Wickham}{2016}]{wickham2016ggplot2}
+\begin{bbook}
+\bauthor{\bsnm{Wickham}, \binits{H.}}:
+\bbtitle{{g}gplot2: {E}legant Graphics for Data Analysis}.
+\bpublisher{Springer},
+\blocation{New York}
+(\byear{2016}).
+\burl{https://ggplot2.tidyverse.org}
+\end{bbook}
+\endbibitem
+
+\end{thebibliography}
