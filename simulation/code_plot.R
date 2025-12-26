@@ -128,7 +128,7 @@ make_plot <- function(index, configuration) {
   p1_fun <- function(t) p1.true / (1 + c1.true * (t - m1.true)^2)
   p2_fun <- function(t) p2.true / (1 + c2.true * (t - m2.true)^2)
   p4_fun <- function(t) p4.true / (1 + c4.true * (t - m4.true)^2)
-  p3_fun <- function(t) 1 - p1_fun(t) - p2_fun(t)
+  p3_fun <- function(t) 1 - p1_fun(t) - p2_fun(t) - p4_fun(t)
   
   t_vals <- seq(0, 60, length.out = 500)
   
