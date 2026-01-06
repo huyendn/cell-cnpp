@@ -21,7 +21,7 @@
 \newtheorem{theorem}{Theorem}%  meant for continuous numbers
 %%\newtheorem{theorem}{Theorem}[section]% meant for sectionwise numbers
 %% optional argument [theorem] produces theorem numbering sequence instead of independent numbers for Proposition
-\newtheorem{proposition}[theorem]{Proposition}% 
+\newtheorem{proposition}[theorem]{Proposition}%
 %%\newtheorem{proposition}{Proposition}% to get separate numbers for theorem and proposition etc.
 
 \theoremstyle{thmstyletwo}%
@@ -75,12 +75,12 @@
 
 Cell proliferation is a fundamental process underlying the growth, maintenance, and repair of biological tissues. Stem cells, in particular, possess the ability to produce identical daughter stem cells and differentiate into specialized cell types that sustain tissue function. There are three types of stem cell division and differentiation outcomes: symmetrical self-renewal to generate two stem cells, asymmetrical division to generate one stem cell and one differentiated cell, and symmetrical differentiation to generate two differentiated cells. The ability of stem cells to both self-renew and differentiate plays a pivotal role both in generative processes during early development and in tissue regeneration following injury. For example, during embryonic development, stem cells drive tissue formation through programmed proliferation and differentiation, as seen in processes such as ependymogenesis and neurogenesis \cite{Co2018, Ba2018}. Hematopoietic stem cells give rise to all blood cell types - red blood cells, white blood cells, and platelets - to maintain lifelong blood production and regenerate the blood system after injury \cite{marciniak2009modeling, wilson2008hematopoietic}. In oncology, cancer stem cells also display self-renewal and differentiation ability to drive and sustain tumor growth. Distinct differences in stemness and proliferative potential between cancer stem cells and non-stem cancer cells have been observed across various tumor types such as brain, breast, colon, and prostate cancer \cite{al2003prospective, cammareri2008isolation, fioriti2008cancer, singh2003identification}.
 
-It is important to study the dynamics of cell populations in cell proliferation process since these dynamics connect individual cell behaviors to tissue-level outcomes, including how tissues grow, maintain homeostasis, and regenerate after injury. In the aforementioned ependymogenesis process, regional stem cells within the ventricular and subventricular zones proliferate to produce both stem cells and differentiated ependymal cells that line the brain’s ventricles, thereby creating a critical barrier between the cerebrospinal fluid and the interstitial fluid of the surrounding brain parenchyma \cite{Co2018}. In the context of cancer study, these population dynamics are particularly important since they reflect the growth of tumor and disease progression. 
+It is important to study the dynamics of cell populations in cell proliferation process since these dynamics connect individual cell behaviors to tissue-level outcomes, including how tissues grow, maintain homeostasis, and regenerate after injury. In the aforementioned ependymogenesis process, regional stem cells within the ventricular and subventricular zones proliferate to produce both stem cells and differentiated ependymal cells that line the brain’s ventricles, thereby creating a critical barrier between the cerebrospinal fluid and the interstitial fluid of the surrounding brain parenchyma \cite{Co2018}. In the context of cancer study, these population dynamics are particularly important since they reflect the growth of tumor and disease progression.
 
 Quantitative modeling of these processes can provide a framework to predict population behavior and discover intrinsic proliferative properties of stem cell self-renewal and differentiation ability. Deterministic models with ordinary differential equations are utilized to describe the temporal dynamics of cell population on avearge \cite{marciniak2009modeling, beretta2012mathematical, weekes2014multicompartment, chen2016overshoot}. However, since the dynamics of cell populations emerge from the stochastic behavior of individual stem cells, each of which may divide or differentiate at random times, probabilistic modeling approaches, including birth-death process, Gaussian jump model, and non-homogeneous Markov chain \cite{Tu2009, Ba2018, Sc2022}, are more verisimilar for describing cell proliferation process. Branching process provides a natural and mathematically rigorous framework for describing stochastic reproduction phenomena. In the classical Galton-Watson process and its extensions, each individual acts independently and give rise to a random number of offspring according to specified probability distributions \cite{watson1875probability,harris1948branching, harris1963theory, asmussen1983branching}. The branching process models have become an important tool to investigate population size, growth and extinction in biology, epidemiology, and genetics. In the context of cell proliferation, branching process models have been applied to describe stem cell lineages, where each stem cell may be viewed as an independent reproducing unit. MacMillian et al. \cite{macmillan2011seeing} and Miguez \cite{miguez2015branching} both developed models under the branching process theory for the stem cell proliferation and differentiation during embryonic development. In these models, time is discretized using the average cell cycle length as the unit of generations. Instead of tracking individual cell divisions in continuous time, the model advances steps corresponding to the mean duration of a cell cycle. In addition, MacMillian et al. \cite{macmillan2011seeing} explored the multi-type branching process extension to simulate data for a cell proliferation with more than one cell type with proliferative potential.
 
 However, the classical branching process models typically assume that the reproduction parameters are constant through time. This assumption simplifies the analysis but may not be able to capture the full stochastic nature of cell proliferation processes. Experimental studies have revealed that the probabilities governing self-renewal and differentiation are not always stationary. For example, data collected by Scanlon et al. \cite{Sc2022} on bipotent megakaryocytic erythroid progenitor (MEP) clonal
-expansion and differentiation shows that probabilities of division outcomes change over time: self-renewing events are more likely earlier in the process and differentiating events are more likely toward the end of the process. The previously discussed branching process framework in Miguez \cite{miguez2015branching} adjusted to the time-dependent proliferation by obtaining the average probabilities of division outcomes at different developmental stages. 
+expansion and differentiation shows that probabilities of division outcomes change over time: self-renewing events are more likely earlier in the process and differentiating events are more likely toward the end of the process. The previously discussed branching process framework in Miguez \cite{miguez2015branching} adjusted to the time-dependent proliferation by obtaining the average probabilities of division outcomes at different developmental stages.
 
 In this paper, we develop a continuous-time, time-dependent branching process for stem cell proliferation to address the limitation of the constant reproduction branching process model. In our formulation, the probabilities of division and differentiation outcomes are functions of time. To reflect the variability inherent in stem cell populations, our model incorporates three distinct cell types: viable stem cells capable of division, non-viable stem cells that do not have proliferative potential, and terminally differentiated cells. We also incorporate stochasticity in the timing of the cell division events by assuming that each division occurs at a randomly determined time. In particular, the
 interarrival times between division events are exponentially distributed with rate proportional to current number of viable stem cells. This reflects the assumption that a greater number of viable stem cells leads to more frequent division events and shorter expected waiting times between them. Our work makes the following contributions. We first establish a rigorous mathematical formulation of the branching process model and derive analytical expressions for key quantities, including mean population size, variance, and extinction time. We also construct likelihood function based on the observed counts of each cell type for the probabilities of division and differentiation outcomes, providing a framework for statistical inference. Finally, we develop a forward-algorithm-based likelihood approach to handle situations where viable and nonviable stem cells cannot be distinguished, allowing for estimation of model parameters even when some cell types cannot be directly observed. This gives a practical modeling approach of stem cell dynamics in experiments where direct observation of all cell types is not possible.
@@ -142,7 +142,7 @@ For each fixed time point, the expected value, variance, and autocovariance of t
 
     \item \textbf{Variance.}
     \[
-        \operatorname{Var}(X(t)) 
+        \operatorname{Var}(X(t))
         = r S(t)^2 \int_0^t \frac{p_1(u) + p_3(u)}{S(u)}du.
     \]
 
@@ -161,44 +161,27 @@ $S(0)=S_0$ is given by
 \label{eq:S_solution}
 S(t)=S_0 \exp\!\left\{ r\int_0^t \bigl[p_1(u)-p_3(u)\bigr]\,du \right\}.
 \end{equation}
-We first show that $E[X(t)] = S(t)$. For $\Delta>0$, conditional on $X(t)$,
+We first show that $E[X(t)] = S(t)$. Note that for a small $\Delta>0$, conditional on $X(t)$, the arrival times in the interval $[t, t+\Delta]$ essentially follow a Poisson process with rate $rX(t)$. Since $p_i(t)$ are continuous functions, we have
 \begin{equation}
 \label{eq:increment_mean}
-\begin{split}
-E\!\left[X(t+\Delta)-X(t)\mid X(t)\right]
-&=\bigl[p_1(t)-p_3(t)+O(\Delta)\bigr]\,rX(t)\Delta \\
-&=\bigl[p_1(t)-p_3(t)\bigr]\,rX(t)\Delta+o(\Delta).
-\end{split}
+\lim_{\Delta\to 0}\frac{1}{\Delta}E\!\left[X(t+\Delta)-X(t)\mid X(t)\right]=\bigl[p_1(t)-p_3(t)\bigr]\,rX(t).
 \end{equation}
-Taking expectations yields
-\begin{equation}
-E[X(t+\Delta)]-E[X(t)]
-=\bigl[p_1(t)-p_3(t)\bigr]\,rE[X(t)]\Delta+o(\Delta).
-\end{equation}
-Dividing by $\Delta$ and letting $\Delta\to0$ gives
+with probability 1.
+At each arrival time, the number of stem cells can increase by at most one. Therefore, the stochastic process $X(t)$ is dominated by the Yule process ({\it insert here reference to Eq. (16.23.40) from Siegrist}).   Therefore, by the dominated convergence theorem we obtain
 \begin{equation}
 \frac{d}{dt}E[X(t)]
 =\bigl[p_1(t)-p_3(t)\bigr]\,rE[X(t)].
 \end{equation}
 Since $E[X(0)]=S_0$, uniqueness of solutions to linear ODEs implies
-$E[X(t)]=S(t)$. 
+$E[X(t)]=S(t)$.
 
-We next derive the variance of $X(t)$. Define $M(t)=E[X(t)^2]$ and $V(t)=\operatorname{Var}(X(t))=M(t)-S(t)^2$.
-Conditioning on $X(t)$,
+Next, we derive the variance of $X(t)$. Define $M(t)=E[X(t)^2]$ and $V(t)=\operatorname{Var}(X(t))=M(t)-S(t)^2$.
+In a similar fashion, conditioning on $X(t)$ gives us
 \begin{equation}
 \label{eq:increment_second}
-\begin{split}
-E\!\left[X(t+\Delta)^2-X(t)^2\mid X(t)\right]
-&=\bigl[2X(t)(p_1(t)-p_3(t))+(p_1(t)+p_3(t))\bigr]\,rX(t)\Delta.
-\end{split}
+\lim_{\Delta\to 0}\frac{1}{\Delta}E\!\left[X(t+\Delta)^2-X(t)^2\mid X(t)\right]=\bigl[2X(t)(p_1(t)-p_3(t))+(p_1(t)+p_3(t))\bigr]\,rX(t)
 \end{equation}
-Taking expectations yields
-\begin{equation}
-M(t+\Delta)-M(t)
-=2\bigl[p_1(t)-p_3(t)\bigr]\,rM(t)\Delta
-+\bigl[p_1(t)+p_3(t)\bigr]\,rS(t)\Delta.
-\end{equation}
-Letting $\Delta\to0$ gives
+with probability one. Taking expectations and letting $\Delta\to 0$ yields
 \begin{equation}
 \label{eq:Mprime}
 M'(t)
@@ -356,7 +339,7 @@ For fixed $t$, as $S_0 \rightarrow \infty$,
 \end{proof}
 This result implies that, when starting with a large number of initial stem cells, the stem-cell population in the branching process can be well approximated by the deterministic model with the differential equation in (\ref{transition1}).
 \subsection{Stopping Time}
-Since viable stem cells are the only cell type with proliferative capability in our model, the process terminates when they become extinct. In this section, we analyze the stopping time of the process, defined as the time at which the number of viable stem cells reach 0. 
+Since viable stem cells are the only cell type with proliferative capability in our model, the process terminates when they become extinct. In this section, we analyze the stopping time of the process, defined as the time at which the number of viable stem cells reach 0.
 
 We first consider the lower bound of the stopping times. Under the model assumption that interarrival times between two consecutive division events is the a exponential distribution with rate proportional to the current viable stem cells, the average interarrival time between two consecutive division events $T_{i+1} - T_i$ is $1/(rS_i)$. The minimum stopping times occurs when every event is a differentiation event, in which no new viable stem cell is created and the number of viable stem cells decreases by 1. Then the minimum expected stopping time is
 $$\tau_{\min} = \frac{1}{rS_0} + \frac{1}{r (S_0 -1)} + \cdots + \frac{1}{r}.$$
@@ -366,7 +349,7 @@ Using the harmonic sum approximation,
 \end{equation}
 where $\gamma \approx 0.5772$ is the Euler–Mascheroni constant. Note that this is a conservative lower bound of the stopping time since we assume that every division results in a loss of one stem cell (i.e. $p_3(t) = 1 \ \forall t$). Figure \ref{fig:sim_plot} (right) presents an example of stopping time distribution from simulated data. The minimum expected stopping time lies below all simulated stopping times.
 
-We next fit the stopping times from simulated data using the inverse Gaussian distribution. The inverse Gaussian distribution is commonly used to model first passage or stopping times of processes such as Brownian motion with drift \cite{folks1978inverse}. In our context, the inverse Gaussian distribution provides a natural model for the time it takes for the number of viable stem cells to reach 0. The simulated stopping data is obtained from 100 realizations of the process with the initial count of 200, division rate of 0.2, and division probabilities $p_1(t) = \frac{0.55}{1 + 0.005(t-4)^2}$, $p_2(t) = \frac{0.15}{1 + (t-12)^2}$, $p_4(t) = \frac{0.20}{1+(t-20)^2}$, and $p_3(t) = 1-p_1(t)-p_2(t)-p_4(t)$. Since the support of the inverse Gaussian is the positive real line, we shift the stopping times by $-\tau_{\min}$. Using these data, we estimate the mean and shape parameter of the inverse Gaussian distribution by the maximum likelihood method. The estimated parameters are then used to fit the distribution to the simulated data, and the goodness-of-fit is assessed through standard distributional tests. The results of distributional tests in table \ref{tab:stopping_time_dist} and diagnostic plots in figure \ref{fig:stopping_time_dist} in the Supplementary Materials indicate that the inverse Gaussian distribution is a good fit for the shifted simulated stopping times. 
+We next fit the stopping times from simulated data using the inverse Gaussian distribution. The inverse Gaussian distribution is commonly used to model first passage or stopping times of processes such as Brownian motion with drift \cite{folks1978inverse}. In our context, the inverse Gaussian distribution provides a natural model for the time it takes for the number of viable stem cells to reach 0. The simulated stopping data is obtained from 100 realizations of the process with the initial count of 200, division rate of 0.2, and division probabilities $p_1(t) = \frac{0.55}{1 + 0.005(t-4)^2}$, $p_2(t) = \frac{0.15}{1 + (t-12)^2}$, $p_4(t) = \frac{0.20}{1+(t-20)^2}$, and $p_3(t) = 1-p_1(t)-p_2(t)-p_4(t)$. Since the support of the inverse Gaussian is the positive real line, we shift the stopping times by $-\tau_{\min}$. Using these data, we estimate the mean and shape parameter of the inverse Gaussian distribution by the maximum likelihood method. The estimated parameters are then used to fit the distribution to the simulated data, and the goodness-of-fit is assessed through standard distributional tests. The results of distributional tests in table \ref{tab:stopping_time_dist} and diagnostic plots in figure \ref{fig:stopping_time_dist} in the Supplementary Materials indicate that the inverse Gaussian distribution is a good fit for the shifted simulated stopping times.
 \begin{table}[h]
     \centering
     \begin{tabular}{lcc}
@@ -384,14 +367,14 @@ We next fit the stopping times from simulated data using the inverse Gaussian di
 In practice, the division probabilities $p_1(t), p_2(t), p_3(t), p_4(t)$ are unknown and must be estimated using the observed cell proliferation data from experiments. In this section, we develop a likelihood-based framework for parameter estimation. When we observe all the events, both the timing of the events and the number of cells, we can write down the full likelihood of the observed data
 \begin{equation} \label{likelihood}
     \begin{split}
-        & \LL(\boldsymbol{\theta}; \mathbb{T},\mathbb{X},  \mathbb{Y},\mathbb{Z}) = \prod_{i=1}^n P(\Delta X_i, \Delta Y_i, \Delta Z_i \vert T_i) f(\Delta T_i\vert X_{i-1}), 
+        & \LL(\boldsymbol{\theta}; \mathbb{T},\mathbb{X},  \mathbb{Y},\mathbb{Z}) = \prod_{i=1}^n P(\Delta X_i, \Delta Y_i, \Delta Z_i \vert T_i) f(\Delta T_i\vert X_{i-1}),
     \end{split}
 \end{equation}
-where $\theta$ denotes the set of parameters for $p_j(t)$ and division rate $r$, $P(\Delta X_i, \Delta Y_i, \Delta Z_i \vert T_i)$ is the distribution of the change of cell counts in (\ref{marginal}), and $f(\cdot\vert  X_{i-1})$ denotes the density function of the exponential distribution with rate $rX_{i-1}$. Note that in the likelihood for fully observed data, we only need to use the observed viable stem cells and non-viable stem cells to determine which division event occurs. The likelihood can be optimized to obtain the maximum likelihood estimates of $p_i(t)$ parameters and $r$. In practical experiments, we may encouter situations in which viable and non-viable stem cells cannot be distinguished. As a result, instead of observing $X(t)$ and $Z(t)$, we observe the sum of the viable and non-viable stem cell denoted by $M(t)$. As seen in (\ref{likelihood}), the unobserved number of nonviable stem cells plays an important role in exact likelihood evaluation. A na\"ive approach to evaluate the likelihood when the nonviable stem cells are not distinguishable from viable stem cells is to sum out all the trajectories of possible numbers of nonviable stem cells, which is computationally inefficient. In such cases, we employ a modification of the forward algorithm, which is a dynamic programming technique developed for hidden Markov models  \cite{rabiner2002tutorial}, to write the likelihood of partially observed data. 
+where $\theta$ denotes the set of parameters for $p_j(t)$ and division rate $r$, $P(\Delta X_i, \Delta Y_i, \Delta Z_i \vert T_i)$ is the distribution of the change of cell counts in (\ref{marginal}), and $f(\cdot\vert  X_{i-1})$ denotes the density function of the exponential distribution with rate $rX_{i-1}$. Note that in the likelihood for fully observed data, we only need to use the observed viable stem cells and non-viable stem cells to determine which division event occurs. The likelihood can be optimized to obtain the maximum likelihood estimates of $p_i(t)$ parameters and $r$. In practical experiments, we may encouter situations in which viable and non-viable stem cells cannot be distinguished. As a result, instead of observing $X(t)$ and $Z(t)$, we observe the sum of the viable and non-viable stem cell denoted by $M(t)$. As seen in (\ref{likelihood}), the unobserved number of nonviable stem cells plays an important role in exact likelihood evaluation. A na\"ive approach to evaluate the likelihood when the nonviable stem cells are not distinguishable from viable stem cells is to sum out all the trajectories of possible numbers of nonviable stem cells, which is computationally inefficient. In such cases, we employ a modification of the forward algorithm, which is a dynamic programming technique developed for hidden Markov models  \cite{rabiner2002tutorial}, to write the likelihood of partially observed data.
 
 We first define the forward variables $\alpha_k(u)$ (for $k = 1, \cdots, n$) as the likelihood that there are $u$ unobserved non-viable stem cells at step $k$, given all observations $(M_i, Y_i, T_i)$ up to and including step $k$
 $$\alpha_k(u) = \LL(\mathbb{T}_k,\mathbb{Y}_k, \mathbb{M}_k, Z_k = u, \boldsymbol{\theta}),$$
-where $u$ is an integer and $0 \leq u \leq M_k$, $\mathbb{T}_k, \mathbb{Y}_k, \mathbb{M}_k$ are the observations of event times, differentiated cells, and total stem cells up to step $k$, respectively. The forward variables can be computed recursively by 
+where $u$ is an integer and $0 \leq u \leq M_k$, $\mathbb{T}_k, \mathbb{Y}_k, \mathbb{M}_k$ are the observations of event times, differentiated cells, and total stem cells up to step $k$, respectively. The forward variables can be computed recursively by
 $$\alpha_{k+1} (v) = \sum_{u \in\{v, v-1\}} \alpha_k(u) \cdot h_k(u,v), \quad 0 \leq k \leq n-1$$
 where $0 \leq v \leq M_{k+1}$. Note that since we assume $T_0 = 0, M_0 = S_0, Y_0 = 0, Z_0 = 0$, we have $\alpha_0(0) = 1$ and $\alpha_0(u) = 0$ for $u >0$. Since the number of nonviable stem cell either stay the same or increase by 1 after each division, we only need to sum over these two cases. Here, $h_k(u,v)$ are analogous to transitional probabilities from having $u$ unobserved non-viable stem cells at step $k$ to having $v$ unobserved non-viable stem cells at step $k+1$. For $i \leq j \leq 4$
 \begin{equation*}
@@ -427,14 +410,14 @@ For $0 \leq k \leq n-1$, we define the sequential likelihood ratio
         & = \sum_{0\leq v\leq M_{k+1}} \sum_{u=v-1,v} \bar{\alpha}_k(u) h_k(u,v)
     \end{split}
 \end{equation}
-The log-likelihood of the observed data is obtained by taking the logarithm of the sequential likelihood ratios, and performing the telescopic summation 
+The log-likelihood of the observed data is obtained by taking the logarithm of the sequential likelihood ratios, and performing the telescopic summation
 $$\log(\LL_n)=\sum_{k=0}^{n-1}  \log(d_{k+1}).$$
 Algorithm (\ref{forward_algorithm}) provides a formal description of the normalized forward algorithm. It can be used to optimize and obtain the maximum likelihood estimation. The results of the algorithm implementation and parameter estimation are presented in the next section.
 
-\begin{algorithm} 
+\begin{algorithm}
 \caption{Normalized Forward Algorithm to Compute Log-likelihood ($\log \mathbb{L}_n$)}
 \begin{algorithmic}[1]
-\Require 
+\Require
 Parameter of probabilities $p_j(t)$ and division rate $r$, observed event times $\mathbb{T} = (t_1, \cdots, t_n),$ observed total stem cells $\mathbb{M} = (m_1, \cdots m_n)$ and differentiated cells $\mathbb{Y} = (y_1, \cdots, y_n)$.
 \Ensure Log-likelihood $\log \mathbb{L}_n$.
 
@@ -443,7 +426,7 @@ Parameter of probabilities $p_j(t)$ and division rate $r$, observed event times 
 \Statex \textbf{Recursion:}
 \For{$k = 0$ to $n-1$}
     \For{$u \in \{v-1,v\}$, $0 \leq v \leq M_{k+1}$}
-        \State $h_k(u,v)$ 
+        \State $h_k(u,v)$
     \EndFor
 
     \State $d_{k+1}
@@ -457,7 +440,7 @@ Parameter of probabilities $p_j(t)$ and division rate $r$, observed event times 
 \EndFor
 
 \Statex \textbf{Termination:}
-\State $\log \mathbb{L}_n 
+\State $\log \mathbb{L}_n
     = \displaystyle\sum_{k=0}^{n-1} \log d_{k+1}$
 
 \State \Return $\log \mathbb{L}_n$
@@ -477,7 +460,7 @@ Configuration 1 represents an early dominance of the symmetric self-renewal divi
 The likelihood of fully observed data is computed based on equation (\ref{likelihood}). For numerical stability, we take the logarithm of the likelihood of fully observed data
 \begin{equation*}
     \begin{split}
-        & \ell(\boldsymbol{\theta},\mathbb{T}, \mathbb{X}, \mathbb{Y}, \mathbb{Z}) \\ 
+        & \ell(\boldsymbol{\theta},\mathbb{T}, \mathbb{X}, \mathbb{Y}, \mathbb{Z}) \\
         &= \sum_{i=1}^k \Big[ \log \Big(\frac{p_1}{1+c_1(T_i-m_1)^2}\Big) I_{(\Delta X_i = 1, \Delta Z_i = 0)} \\
         & + \log \Big(\frac{p_2}{1+c_2(T_i-m_2)^2}\Big) I_{(\Delta X_i = 0,\Delta Z_i = 0)} \\
         & + \log \Big(\frac{p_4}{1+c_4(T_i-m_4)^2}\Big) I_{(\Delta X_i = 0,\Delta Z_i = 1)} \\
@@ -485,7 +468,7 @@ The likelihood of fully observed data is computed based on equation (\ref{likeli
         & + \log r + \log S_{i-1} - rS_{i-1}\Delta_{T_1} \Big].
     \end{split}
 \end{equation*}
-The closed-form solution of the MLE for division rate $r$ can be obtained by taking the derivative of the log-likelihood with respect to $r$. The likelihood of the partially observed cell counts is computed using the forward algorithm described in section \ref{mle}. Parameters are estimated by numerical maximization of the likelihood: for fully observed data, we use the differential evolution (DE) algorithm for parameters of $p_j(t)$, while the MLE of division rate can be obtained through its closed-form solution. DE is a global optimization algorithm which maintains a population of candidate solutions and iteratively improves them through mutation, crossover, and selection. In the mutation step, new candidate solutions are generated by adding a scaled difference between two population members to a third member, allowing the algorithm to explore the parameter space efficiently. These candidates are then mixed with existing solutions through crossover to increase diversity of the population of candidates, with the best-performing candidates are selected to retain for the next generation. DE is particularly well-suited for complex or non-convex likelihood surfaces, as it does not require gradient information and is less likely to be trapped in local optima \cite{storn1997differential, ardia2011differential, mullen2011deoptim}. For partially observed data, DE is combined with the gradient-based Broyden-Fletcher-Goldfarb-Shanno (BFGS) optimization, with the gradient computed by automatic differentiation \cite{fournier2012ad, kristensen2016tmb} to refine estimates near local maxima. This hybrid approach takes advantage of the global search capability of DE to explore the parameter space broadly, while BFGS with automatic differentiation refines solutions locally, improving convergence speed and numerical stability. Note that although we employ automatic differentiation to evaluate the gradient of the normalized forward-algorithm-based likelihood, the gradient can also be computed dynamically. The full derivation is provided in the Supplementary Materials. 
+The closed-form solution of the MLE for division rate $r$ can be obtained by taking the derivative of the log-likelihood with respect to $r$. The likelihood of the partially observed cell counts is computed using the forward algorithm described in section \ref{mle}. Parameters are estimated by numerical maximization of the likelihood: for fully observed data, we use the differential evolution (DE) algorithm for parameters of $p_j(t)$, while the MLE of division rate can be obtained through its closed-form solution. DE is a global optimization algorithm which maintains a population of candidate solutions and iteratively improves them through mutation, crossover, and selection. In the mutation step, new candidate solutions are generated by adding a scaled difference between two population members to a third member, allowing the algorithm to explore the parameter space efficiently. These candidates are then mixed with existing solutions through crossover to increase diversity of the population of candidates, with the best-performing candidates are selected to retain for the next generation. DE is particularly well-suited for complex or non-convex likelihood surfaces, as it does not require gradient information and is less likely to be trapped in local optima \cite{storn1997differential, ardia2011differential, mullen2011deoptim}. For partially observed data, DE is combined with the gradient-based Broyden-Fletcher-Goldfarb-Shanno (BFGS) optimization, with the gradient computed by automatic differentiation \cite{fournier2012ad, kristensen2016tmb} to refine estimates near local maxima. This hybrid approach takes advantage of the global search capability of DE to explore the parameter space broadly, while BFGS with automatic differentiation refines solutions locally, improving convergence speed and numerical stability. Note that although we employ automatic differentiation to evaluate the gradient of the normalized forward-algorithm-based likelihood, the gradient can also be computed dynamically. The full derivation is provided in the Supplementary Materials.
 \begin{table}[h]
     \centering
     \begin{tabular}{lccccc}
@@ -578,7 +561,7 @@ For the fully observed data case (Table \ref{tab:par_est_full}), the means and m
     \caption{Parameter estimation when viable and nonviable stem cells cannot be distinguised using normalized forward algorithm and hybrid optimization.}
     \label{tab:par_est_forward}
 \end{table}
-We assess the fit of the model by comparing the expected cell count trajectories generated from the estimated parameters from the partially observed data and forward algorithm likelihood with the corresponding observed simulated data. We use the ratio between the observed and expected cell counts 
+We assess the fit of the model by comparing the expected cell count trajectories generated from the estimated parameters from the partially observed data and forward algorithm likelihood with the corresponding observed simulated data. We use the ratio between the observed and expected cell counts
 $$ \frac{X(t)}{\hat{X}(t)}, \frac{Z(t)}{\hat{Z}(t)}, \frac{M(t)}{\hat{M}(t)}, \frac{Y(t)}{\hat{Y}(t)},$$
 goodness-of-fit assessment metrics. If the ratios are close to 1, the model provides a good estimation of the trajectory of cell counts. Figure \ref{fig:prediction_ratio} depicts the observed-to-expected cell count ratios across four panels: viable stem cells, nonviable stem cells, total stem cells, and differentiated cells. The ratios for differentiated cells are tightly clustered around one, indicating a good fit of the model to the observed data. Total stem cell ratios are also well reproduced. The ratios for nonviable stem cells show the greatest variability, especially at early time points. Overall, these results suggest that the estimation of the model parameters accurately captures the dynamics of differentiated and total stem cells, with larger discrepancies primarily occurring for nonviable stem cells during the initial phase.
 \begin{figure}
@@ -588,11 +571,15 @@ goodness-of-fit assessment metrics. If the ratios are close to 1, the model prov
     \label{fig:prediction_ratio}
 \end{figure}
 \section{Discussion} \label{discussion}
-In this work, we have formulated a continuous-time branching process model for cell proliferation with time-dependent division probabilities. Unlike classical branching models with fixed offspring distribution, our framework accommodates proliferation processes in which the cell fate decisions may evolve during development. 
+In this work, we have formulated a continuous-time branching process model for cell proliferation with time-dependent division probabilities. Unlike classical branching models with fixed offspring distribution, our framework accommodates proliferation processes in which the cell fate decisions may evolve during development.
 
 One key contribution of this work is the development of the likelihood-based inference procedures under two different observation scenarios. When all division events and cell counts are observable, we derived a full likelihood that allows direct parameter estimation. More importantly, when cell counts are partially unobservable - viable and non-vaible stem cells cannot be distinguished - we constructed a forward algorithm likelihood. This approach avoids the need to calculate the likelihood from all possible divisions resulting in the observed cell counts, greatly reducing the complexity of the likelihood computation. Simulation studies demonstrate that the proposed estimation recovers the time-dependent division probabilities with good accuracy under both scenarios from the aggregate cell count data and the timing of the division events. In both scenarios, our method does not require to track individual cell lineage, which are often difficult to obtain in experiments. Our results suggest that meaningful information about proliferation probabilities can still be recovered where lineage tracking is not feasible. From an experimental perspective, this substantially reduces the work required to track and collect data.
 
-Our proposed framework can be extended in useful ways to study more complex cell proliferation processes. The number of division outcomes to can be expanded to include additional progenitor or differentiated cell types, leading to higher-dimensional multi-type branching processes. In addition, while the current model allows division probabilities to be time-dependent, they can be generalized to depend on other covariates, such as spatial location or local cell density. We expect that our approach will be useful for analyzing a wide range of biological processes in which cell fate decisions evolve dynamically and are only partially observable. 
+Our proposed framework can be extended in useful ways to study more complex cell proliferation processes. The number of division outcomes to can be expanded to include additional progenitor or differentiated cell types, leading to higher-dimensional multi-type branching processes. In addition, while the current model allows division probabilities to be time-dependent, they can be generalized to depend on other covariates, such as spatial location or local cell density. We expect that our approach will be useful for analyzing a wide range of biological processes in which cell fate decisions evolve dynamically and are only partially observable.
+
+\section*{Conflict of Interest Declaration}
+Vladimir Pozdnyakov is a member of the MCAP editorial board. 
+
 
 \section*{Supplementary Materials} \label{supplement}
 \subsection*{Fitting Inverse Gaussian Distribution to the Stopping Time}
@@ -621,7 +608,7 @@ Since $$d_{k+1} = \displaystyle \sum_{0 \leq v \leq M_{k+1}} \displaystyle\sum_{
 Using the chain rule again, the recursion of the gradient of the normalized forward variable is given by
 \begin{equation}
     \begin{split}
-        \bar{\alpha}_{k+1}(v) = \frac{d'_{k+1}}{(d_{k+1})^2} \sum_{u = v-1, v} \bar{\alpha}_k h_k(u,v) + \frac{1}{d_{k+1}} \sum_{u = v-1, v} \Big[ \bar{\alpha}'_k h_k(u,v) + \bar{\alpha}_k h'_k(u,v) \Big]. 
+        \bar{\alpha}_{k+1}(v) = \frac{d'_{k+1}}{(d_{k+1})^2} \sum_{u = v-1, v} \bar{\alpha}_k h_k(u,v) + \frac{1}{d_{k+1}} \sum_{u = v-1, v} \Big[ \bar{\alpha}'_k h_k(u,v) + \bar{\alpha}_k h'_k(u,v) \Big].
     \end{split}
 \end{equation}
 The gradient of the log-likelihood is then
