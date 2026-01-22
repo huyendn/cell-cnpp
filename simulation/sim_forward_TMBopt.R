@@ -332,7 +332,7 @@ for (j in 1:reps) {
     p1_raw = qlogis(as.numeric(de.est["p1"])),
     p2_raw = qlogis(as.numeric(de.est["p2"])),
     p4_raw = qlogis(as.numeric(de.est["p4"])),
-    r_raw  = qlogis(as.numeric(de.est["p1"])),
+    r_raw  = qlogis(as.numeric(de.est["r"])),
     logit_c1 = qlogis(as.numeric(de.est["c1"]/100)),
     logit_c2 = qlogis(as.numeric(de.est["c2"]/100)),
     logit_c4 = qlogis(as.numeric(de.est["c4"]/100)),

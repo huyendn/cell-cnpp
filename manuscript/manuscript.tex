@@ -40,22 +40,24 @@
 \newcommand{\LL}{\mathbb{L}}
 \begin{document}
 
-\title[Article Title]{Article Title}
+\title[Article Title]{A Time-Varying Branching Process Approach to Model Self-Renewing Cells}
 
+\author[1]{\fnm{Huyen} \sur{Nguyen}}\email{huyen.d.nguyen@uconn.edu}
 
-\author*[1,2]{\fnm{First} \sur{Author}}\email{iauthor@gmail.com}
-
-\author[2,3]{\fnm{Second} \sur{Author}}\email{iiauthor@gmail.com}
+\author[1]{\fnm{Haim} \sur{Bar}}\email{haim.bar@uconn.edu}
 \equalcont{These authors contributed equally to this work.}
 
-\author[1,2]{\fnm{Third} \sur{Author}}\email{iiiauthor@gmail.com}
+\author[1]{\fnm{Zhiyi} \sur{Chi}}\email{zhiyi.chi@uconn.edu}
 \equalcont{These authors contributed equally to this work.}
 
-\affil*[1]{\orgdiv{Department}, \orgname{Organization}, \orgaddress{\street{Street}, \city{City}, \postcode{100190}, \state{State}, \country{Country}}}
+\author*[1]{\fnm{Vladimir} \sur{Pozdnyakov}}\email{vladimir.pozdnyakov@uconn.edu}
+\equalcont{These authors contributed equally to this work.}
 
-\affil[2]{\orgdiv{Department}, \orgname{Organization}, \orgaddress{\street{Street}, \city{City}, \postcode{10587}, \state{State}, \country{Country}}}
+\affil[1]{\orgdiv{Department of Statistics}, \orgname{University of Connecticut}, \orgaddress{\street{215 Glenbrook Road}, \city{Storrs}, \postcode{06269}, \state{Connecticut}, \country{United States}}}
 
-\affil[3]{\orgdiv{Department}, \orgname{Organization}, \orgaddress{\street{Street}, \city{City}, \postcode{610101}, \state{State}, \country{Country}}}
+% \affil[2]{\orgdiv{Department}, \orgname{Organization}, \orgaddress{\street{Street}, \city{City}, \postcode{10587}, \state{State}, \country{Country}}}
+
+% \affil[3]{\orgdiv{Department}, \orgname{Organization}, \orgaddress{\street{Street}, \city{City}, \postcode{610101}, \state{State}, \country{Country}}}
 
 %%==================================%%
 %% Sample for unstructured abstract %%
@@ -85,7 +87,7 @@ expansion and differentiation shows that probabilities of division outcomes chan
 In this paper, we develop a continuous-time, time-dependent branching process for stem cell proliferation to address the limitation of the constant reproduction branching process model. In our formulation, the probabilities of division and differentiation outcomes are functions of time. To reflect the variability inherent in stem cell populations, our model incorporates three distinct cell types: viable stem cells capable of division, non-viable stem cells that do not have proliferative potential, and terminally differentiated cells. We also incorporate stochasticity in the timing of the cell division events by assuming that each division occurs at a randomly determined time. In particular, the
 interarrival times between division events are exponentially distributed with rate proportional to current number of viable stem cells. This reflects the assumption that a greater number of viable stem cells leads to more frequent division events and shorter expected waiting times between them. Our work makes the following contributions. We first establish a rigorous mathematical formulation of the branching process model and derive analytical expressions for key quantities, including mean population size, variance, and extinction time. We also construct likelihood function based on the observed counts of each cell type for the probabilities of division and differentiation outcomes, providing a framework for statistical inference. Finally, we develop a forward-algorithm-based likelihood approach to handle situations where viable and nonviable stem cells cannot be distinguished, allowing for estimation of model parameters even when some cell types cannot be directly observed. This gives a practical modeling approach of stem cell dynamics in experiments where direct observation of all cell types is not possible.
 
-The remainder of this paper is organized as follows. In Section \ref{model}, we introduce the time-dependent branching process model and derive analytical expressions for key quantities. Section \ref{mle} presents the likelihood-based framework for parameter estimation, including the forward-algorithm approach for partially observed cell types. Section \ref{simulation} provides simulation results \textcolor{red}{and an illustrative example of experiment data}, and Section \ref{discussion} concludes with a discussion of the findings and potential directions for future work.
+The remainder of this paper is organized as follows. In Section \ref{model}, we introduce the time-dependent branching process model and derive analytical expressions for key quantities. Section \ref{mle} presents the likelihood-based framework for parameter estimation, including the forward-algorithm approach for partially observed cell types. Section \ref{simulation} provides simulation results, Section \ref{application} illustrates an example of experiment data application, and Section \ref{discussion} concludes with a discussion of the findings and potential directions for future work.
 
 \section{Time-Dependent Branching Process Model for Stem Cell Proliferation Process}\label{model}
 \subsection{Model Description}
@@ -167,7 +169,7 @@ We first show that $E[X(t)] = S(t)$. Note that for a small $\Delta>0$, condition
 \lim_{\Delta\to 0}\frac{1}{\Delta}E\!\left[X(t+\Delta)-X(t)\mid X(t)\right]=\bigl[p_1(t)-p_3(t)\bigr]\,rX(t).
 \end{equation}
 with probability 1.
-At each arrival time, the number of stem cells can increase by at most one. As a consequence, the stochastic process $X(t)$ is dominated by the Yule process ({\it insert here reference to Eq. (16.23.40) from Siegrist}).   Therefore, by the dominated convergence theorem we obtain
+At each arrival time, the number of stem cells can increase by at most one. As a consequence, the stochastic process $X(t)$ is dominated by the Yule process (as shown in Siegrist (2021, Eq.~(16.23.40)) \cite{Siegrist2021}).   Therefore, by the dominated convergence theorem we obtain
 \begin{equation}
 \frac{d}{dt}E[X(t)]
 =\bigl[p_1(t)-p_3(t)\bigr]\,rE[X(t)].
@@ -570,6 +572,20 @@ goodness-of-fit assessment metrics. If the ratios are close to 1, the model prov
     \caption{Ratios of observed-to-expected cell counts. The expected cell counts are generated by using the parameter estimates for partially observed data with forward algorithm likelihood in table \ref{tab:par_est_forward}}
     \label{fig:prediction_ratio}
 \end{figure}
+
+\section{Application to Bipotent Megakaryocytic Erythroid Progenitor Clonal Expansion and Differentiation} \label{application}
+We apply our branching process model to bipotent megakaryocytic erythroid progenitor (MEP) cell proliferation. MEPs are hemtopoietic progenitors that generate both megakryocytic destined progenitors (MkPs) and erythroid destined progenitors (ErPs), which ultimately proceduce platelets and red blood cells, respectively. MEPs are not stem cells, however, they display stem cell-like behavior by undergoing self-renewal divisions that maintain bipotency or differentiation events that yield progenitors restricted to a single lineage. The data on MEP clonal expansion and differentiation, collected by Scanlon et al. \cite{Sc2022} using single-cell time-lapse imaging with \textit{in situ} fluorescence staining, indicated that MEPs exhibit division patterns similar to stem cells, including symmetric divisions that produce two bipotent MEPs, asymmetric divisions that generate one bipotent MEP and one megakaryocytic or erythroid progenitor, and differentiative divisions that result in lineage-committed progeny. Furthermore, the probability that MEPs undergo either symmetric or asymmetric self-renewal changes dynamically over time. In the experiment, MEPs were cultured in a medium containing the standard cytokine cocktail: recombinant human Interleukin-3, Interleukin-6, Stem Cell Factor, thrombopoietin (TPO), and erythropoietin (EPO). An additional group of MEPs were also cultured in the same medium without TPO to assess its role in regulating MEPs fate decision. 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\linewidth]{experiment.png}
+    \caption{Observed and estimated cell counts calculated from the estimated parameters for the experimental MEP clonal expansion and differentiation data.}
+    \label{fig:MEPexperiement}
+\end{figure}
+
+The originally published data in Scanlon et al. \cite{Sc2022} recorded each cell's generation, first and last observation times, and division outcomes. This allowed each cell to be followed from its parent to any daughter cells resulting from division. Cell counts were updated based on the observed outcomes, organized according to the time of division. Accurate timing is critical for preserving the time-dependent patterns to estimate the rate of division and the probability of division events. Therefore, divisions occurring very early in the experiment, where exact timing could not be precisely determined, were excluded to ensure reliable lineage tracking. The processed data thus capture the counts of MEPs and the combined MkP and ErP progeny at each division event. Since there are very small numbers of MEPs retained at the end of the process (3 MEPs retained in the data of MEPs cultured in control condition and no MEP retained in the data of MEPs cultured in lacking TPO condition), we apply the model without the nonviable stem cells and estimate the parameters using the fully observed data likelihood estimation. 
+
+Figure \ref{fig:MEPexperiement} compares the experimentally observed counts of MEPs and of the total differentiated progeny with the estimated counts computed by the model based on the estimated parameters. We use the functions described in (\ref{lorentzian}) for the division probabilities with the exceptions of $p_4(t) = 0 \ \forall t$. In the TPO-depleted condition, the estimated counts closely match the observed numbers. In the control condition, the model slightly underestimates the number of total differentiated progeny at later time points, but the overall trends are still well-represented. The estimated division rate of MEPs in the control condition and lacking TPO condition is 0.059 and 0.045, respectively. Consistent with the result in Scanlon et al. \cite{Sc2022}, the decreased division rate observed in the MEPs cultured in the TPO-deplete condition reflects an increase in the time between consecutive division compared with those cultured in control condition.
+
 \section{Discussion} \label{discussion}
 In this work, we have formulated a continuous-time branching process model for cell proliferation with time-dependent division probabilities. Unlike classical branching models with fixed offspring distribution, our framework accommodates proliferation processes in which the cell fate decisions may evolve during development.
 
@@ -614,7 +630,7 @@ Using the chain rule again, the recursion of the gradient of the normalized forw
 The gradient of the log-likelihood is then
 $$ (\log \LL_n)' = \sum_{k=1}^{n-1} \frac{d'_{k+1}}{d_{k+1}}.$$
 \subsection*{R packages}
-All analyses, simulations, and computational implementations in this study were performed R version 4.4.2.\cite{R-base}. Distribution fitting and goodness-of-fit diagnostics were performed using packages \textbf{fitdistrplus, goftest,} and \textbf{stats} \cite{fitdistrplus2015, goftest2021, R-base}. Likelihood-based parameter estimation via differential evolution algorithm, gradient-based optimization, and automatic differentiation were carried out using \textbf{DEoptim}, \textbf{parallelly}, \textbf{base R}, and \textbf{TMB} \cite{mullen2011deoptim,  bengtsson2025parallelly, R-base,kristensen2016tmb}. All figures were generated using \textbf{ggplot2} \cite{wickham2016ggplot2}.
+All analyses, simulations, and computational implementations in this study were performed R version 4.4.2.\cite{R-base}. Distribution fitting and goodness-of-fit diagnostics were performed using packages \textbf{fitdistrplus, goftest,} and \textbf{stats} \cite{fitdistrplus2015, goftest2021, R-base}. Likelihood-based parameter estimation via differential evolution algorithm, gradient-based optimization, and automatic differentiation were carried out using \textbf{DEoptim}, \textbf{parallelly}, \textbf{base R}, and \textbf{TMB} \cite{mullen2011deoptim,  bengtsson2025parallelly, R-base,kristensen2016tmb}. Figures were generated using \textbf{ggplot2} \cite{wickham2016ggplot2} and base R \cite{R-base}.
 \bibliography{sn-bibliography}% common bib file
 %% if required, the content of .bbl file can be included here once bbl is generated
 %%\input sn-article.bbl
