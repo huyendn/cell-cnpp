@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.1.22)  22 JAN 2026 14:49
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.1.22)  22 JAN 2026 15:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -956,12 +956,16 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 Package natbib Warning: Citation `Siegrist2021' on page 6 undefined on input li
 ne 172.
 
-<theo_mean_var.png, id=135, 803.0pt x 467.7475pt>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [6]
+<theo_mean_var.png, id=152, 803.0pt x 467.7475pt>
 File: theo_mean_var.png Graphic file (type png)
 <use theo_mean_var.png>
 Package pdftex.def Info: theo_mean_var.png  used on input line 231.
 (pdftex.def)             Requested size: 178.55841pt x 104.01103pt.
-<stop_time.png, id=136, 803.0pt x 451.6875pt>
+<stop_time.png, id=153, 803.0pt x 451.6875pt>
 File: stop_time.png Graphic file (type png)
 <use stop_time.png>
 Package pdftex.def Info: stop_time.png  used on input line 236.
@@ -969,23 +973,19 @@ Package pdftex.def Info: stop_time.png  used on input line 236.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [6]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
  [7
 pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.308 \end{equation}
-                    
+l.301 \]
+        
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.308 \end{equation}
-                     <./theo_mean_var.png (PNG copy)> <./stop_time.png (PNG cop
-y)>]
+l.301 \]
+         <./theo_mean_var.png (PNG copy)> <./stop_time.png (PNG copy)>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [8]
@@ -996,15 +996,12 @@ LaTeX Font Warning: Font shape `U/rsfs/m/n' in size <4.015> not available
 (Font)              size <5> substituted on input line 357.
 
 
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [9
-pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has
- been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.370 \begin{equation}
-                       \label{likelihood}]
+ [9]
 Underfull \hbox (badness 6078) in paragraph at lines 374--376
 \OT1/cmr/m/n/10 where $\OML/cmm/m/it/10.03749 ^^R$ \OT1/cmr/m/n/10 denotes the 
 set of param-e-ters for $\OML/cmm/m/it/10.03749 p[]\OT1/cmr/m/n/10 (\OML/cmm/m/
@@ -1015,7 +1012,13 @@ T1/cmr/m/n/10 ,
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [10]
+ [10
+pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has
+ been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.382 \begin{equation*}
+                       ]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [11{c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
@@ -1042,28 +1045,23 @@ pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.518 
-       <./prob_plot.png (PNG copy)>]
+l.472 \end{equation*}
+                      <./prob_plot.png (PNG copy)>]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<prediction_ratio.png, id=236, 803.0pt x 602.25pt>
-File: prediction_ratio.png Graphic file (type png)
-<use prediction_ratio.png>
-Package pdftex.def Info: prediction_ratio.png  used on input line 571.
-(pdftex.def)             Requested size: 372.0pt x 279.00493pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [14]
-<experiment.png, id=250, 803.0pt x 501.875pt>
-File: experiment.png Graphic file (type png)
-<use experiment.png>
-Package pdftex.def Info: experiment.png  used on input line 580.
-(pdftex.def)             Requested size: 372.0pt x 232.5041pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<prediction_ratio.png, id=246, 803.0pt x 602.25pt>
+File: prediction_ratio.png Graphic file (type png)
+<use prediction_ratio.png>
+Package pdftex.def Info: prediction_ratio.png  used on input line 571.
+(pdftex.def)             Requested size: 372.0pt x 279.00493pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
@@ -1072,8 +1070,17 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.584 
+l.575 
       ]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<experiment.png, id=254, 803.0pt x 501.875pt>
+File: experiment.png Graphic file (type png)
+<use experiment.png>
+Package pdftex.def Info: experiment.png  used on input line 580.
+(pdftex.def)             Requested size: 372.0pt x 232.5041pt.
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [16
@@ -1094,7 +1101,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.588 
+l.586 
        <./prediction_ratio.png (PNG copy)>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
@@ -1103,8 +1110,8 @@ pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.593 
-       <./experiment.png (PNG copy)>]
+l.589 \section
+              {Discussion} \label{discussion} <./experiment.png (PNG copy)>]
 <invgauss.png, id=273, 803.0pt x 791.95876pt>
 File: invgauss.png Graphic file (type png)
 <use invgauss.png>
@@ -1113,38 +1120,38 @@ Package pdftex.def Info: invgauss.png  used on input line 616.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [19
+ [19]
+(./manuscript.bbl
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [20
 pdfTeX warning (ext4): destination with the same identifier (name{table.4}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.622 ...um_{u = v-1,v} \bar{\alpha}_k h_k(u,v).$$
-                                                  ]
+l.3 \begin{thebibliography}{31}
+                               ]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [20
+ [21
 pdfTeX warning (ext4): destination with the same identifier (name{figure.6}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.623 ...k(u,v) + \bar{\alpha}_k h'_k(u,v)\Big].$$
-                                                   <./invgauss.png (PNG copy)>]
-(./manuscript.bbl
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [21]
+l.86 
+      <./invgauss.png (PNG copy)>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [22]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [23]
 Underfull \hbox (badness 1033) in paragraph at lines 508--518
 []\OT1/cmr/m/n/10 Faraway, J., Marsaglia, G., Marsaglia, J., Bad-de-ley, A.: go
 ftest: Clas-si-cal
  []
 
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [23])
+)
 
 Package natbib Warning: There were undefined citations.
 
@@ -1168,11 +1175,11 @@ Package rerunfilecheck Info: File `manuscript.out' has not changed.
 Here is how much of TeX's memory you used:
  14844 strings out of 467533
  226405 string characters out of 5423668
- 675449 words of memory out of 5000000
+ 674449 words of memory out of 5000000
  43402 multiletter control sequences out of 15000+600000
  661064 words of font info for 168 fonts, out of 8000000 for 9000
  1151 hyphenation exceptions out of 8191
- 90i,23n,93p,2284b,785s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 90i,23n,93p,2284b,783s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pfb><c:/te
 xlive/2025/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmbsy7.pfb><c:/texliv
 e/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2025/te
@@ -1205,7 +1212,7 @@ onts/cm/cmti9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbo
 ls/msam10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/m
 sbm10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
 
-Output written on manuscript.pdf (24 pages, 656014 bytes).
+Output written on manuscript.pdf (24 pages, 655733 bytes).
 PDF statistics:
  504 PDF objects out of 1000 (max. 8388607)
  398 compressed objects within 4 object streams
