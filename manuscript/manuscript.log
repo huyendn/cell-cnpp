@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.1.22)  22 JAN 2026 15:04
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.1.22)  23 JAN 2026 21:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -952,20 +952,15 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [5]
-
-Package natbib Warning: Citation `Siegrist2021' on page 6 undefined on input li
-ne 172.
-
-
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [6]
-<theo_mean_var.png, id=152, 803.0pt x 467.7475pt>
+<theo_mean_var.png, id=154, 803.0pt x 467.7475pt>
 File: theo_mean_var.png Graphic file (type png)
 <use theo_mean_var.png>
 Package pdftex.def Info: theo_mean_var.png  used on input line 231.
 (pdftex.def)             Requested size: 178.55841pt x 104.01103pt.
-<stop_time.png, id=153, 803.0pt x 451.6875pt>
+<stop_time.png, id=155, 803.0pt x 451.6875pt>
 File: stop_time.png Graphic file (type png)
 <use stop_time.png>
 Package pdftex.def Info: stop_time.png  used on input line 236.
@@ -1024,7 +1019,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
  [11{c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
 put line 420.
-<prob_plot.png, id=214, 1204.5pt x 401.5pt>
+<prob_plot.png, id=216, 1204.5pt x 401.5pt>
 File: prob_plot.png Graphic file (type png)
 <use prob_plot.png>
 Package pdftex.def Info: prob_plot.png  used on input line 458.
@@ -1057,7 +1052,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<prediction_ratio.png, id=246, 803.0pt x 602.25pt>
+<prediction_ratio.png, id=248, 803.0pt x 602.25pt>
 File: prediction_ratio.png Graphic file (type png)
 <use prediction_ratio.png>
 Package pdftex.def Info: prediction_ratio.png  used on input line 571.
@@ -1075,7 +1070,7 @@ l.575
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<experiment.png, id=254, 803.0pt x 501.875pt>
+<experiment.png, id=256, 803.0pt x 501.875pt>
 File: experiment.png Graphic file (type png)
 <use experiment.png>
 Package pdftex.def Info: experiment.png  used on input line 580.
@@ -1112,7 +1107,7 @@ s been already used, duplicate ignored
                                                   \__shipout_drop_firstpage_...
 l.589 \section
               {Discussion} \label{discussion} <./experiment.png (PNG copy)>]
-<invgauss.png, id=273, 803.0pt x 791.95876pt>
+<invgauss.png, id=275, 803.0pt x 791.95876pt>
 File: invgauss.png Graphic file (type png)
 <use invgauss.png>
 Package pdftex.def Info: invgauss.png  used on input line 616.
@@ -1129,8 +1124,8 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.4}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.3 \begin{thebibliography}{31}
-                               ]
+l.2 
+    ]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [21
@@ -1146,16 +1141,12 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [23]
-Underfull \hbox (badness 1033) in paragraph at lines 508--518
+Underfull \hbox (badness 1033) in paragraph at lines 518--528
 []\OT1/cmr/m/n/10 Faraway, J., Marsaglia, G., Marsaglia, J., Bad-de-ley, A.: go
 ftest: Clas-si-cal
  []
 
 )
-
-Package natbib Warning: There were undefined citations.
-
-
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [24]
@@ -1173,10 +1164,10 @@ Package rerunfilecheck Info: File `manuscript.out' has not changed.
 (rerunfilecheck)             Checksum: 1EA917D959F19DA16630E05E4157813E;2112.
  ) 
 Here is how much of TeX's memory you used:
- 14844 strings out of 467533
- 226405 string characters out of 5423668
- 674449 words of memory out of 5000000
- 43402 multiletter control sequences out of 15000+600000
+ 14848 strings out of 467533
+ 226482 string characters out of 5423668
+ 674484 words of memory out of 5000000
+ 43405 multiletter control sequences out of 15000+600000
  661064 words of font info for 168 fonts, out of 8000000 for 9000
  1151 hyphenation exceptions out of 8191
  90i,23n,93p,2284b,783s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1212,10 +1203,10 @@ onts/cm/cmti9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbo
 ls/msam10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/m
 sbm10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
 
-Output written on manuscript.pdf (24 pages, 655733 bytes).
+Output written on manuscript.pdf (24 pages, 655525 bytes).
 PDF statistics:
- 504 PDF objects out of 1000 (max. 8388607)
- 398 compressed objects within 4 object streams
- 109 named destinations out of 1000 (max. 500000)
+ 506 PDF objects out of 1000 (max. 8388607)
+ 400 compressed objects within 4 object streams
+ 110 named destinations out of 1000 (max. 500000)
  103 words of extra memory for PDF output out of 10000 (max. 10000000)
 

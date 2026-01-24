@@ -1,6 +1,6 @@
 %% BioMed_Central_Bib_Style_v1.01
 
-\begin{thebibliography}{31}
+\begin{thebibliography}{32}
 % BibTex style file: bmc-mathphys.bst (version 2.1), 2014-07-24
 \ifx \bisbn   \undefined \def \bisbn  #1{ISBN #1}\fi
 \ifx \binits  \undefined \def \binits#1{#1}\fi
@@ -355,7 +355,7 @@ Branching processes
 \bauthor{\bsnm{M{\'\i}guez}, \binits{D.G.}}:
 \batitle{A branching process to characterize the dynamics of stem cell
   differentiation}.
-\bjtitle{{Scientific reports}}
+\bjtitle{Scientific reports}
 \bvolume{5}(\bissue{1}),
 \bfpage{13265}
 (\byear{2015})
@@ -363,6 +363,16 @@ Branching processes
 \endbibitem
 
 %%% 20
+\bibitem[\protect\citeauthoryear{Siegrist}{2021}]{siegrist2021}
+\begin{botherref}
+\oauthor{\bsnm{Siegrist}, \binits{K.}}:
+Probability, {Mathematical} {Statistics}, and {Stochastic} {Processes}.
+University of Alabama in Huntsville
+(2021)
+\end{botherref}
+\endbibitem
+
+%%% 21
 \bibitem[\protect\citeauthoryear{Folks and Chhikara}{1978}]{folks1978inverse}
 \begin{barticle}
 \bauthor{\bsnm{Folks}, \binits{J.L.}},
@@ -377,7 +387,7 @@ Branching processes
 \end{barticle}
 \endbibitem
 
-%%% 21
+%%% 22
 \bibitem[\protect\citeauthoryear{Rabiner}{2002}]{rabiner2002tutorial}
 \begin{barticle}
 \bauthor{\bsnm{Rabiner}, \binits{L.R.}}:
@@ -390,21 +400,21 @@ Branching processes
 \end{barticle}
 \endbibitem
 
-%%% 22
+%%% 23
 \bibitem[\protect\citeauthoryear{Storn and Price}{1997}]{storn1997differential}
 \begin{barticle}
 \bauthor{\bsnm{Storn}, \binits{R.}},
 \bauthor{\bsnm{Price}, \binits{K.}}:
 \batitle{Differential evolution--a simple and efficient heuristic for global
   optimization over continuous spaces}.
-\bjtitle{{Journal of Global Optimization}}
+\bjtitle{Journal of global optimization}
 \bvolume{11}(\bissue{4}),
 \bfpage{341}--\blpage{359}
 (\byear{1997})
 \end{barticle}
 \endbibitem
 
-%%% 23
+%%% 24
 \bibitem[\protect\citeauthoryear{Ardia et~al.}{2011}]{ardia2011differential}
 \begin{barticle}
 \bauthor{\bsnm{Ardia}, \binits{D.}},
@@ -421,7 +431,7 @@ Branching processes
 \end{barticle}
 \endbibitem
 
-%%% 24
+%%% 25
 \bibitem[\protect\citeauthoryear{Mullen et~al.}{2011}]{mullen2011deoptim}
 \begin{barticle}
 \bauthor{\bsnm{Mullen}, \binits{K.M.}},
@@ -438,7 +448,7 @@ Branching processes
 \end{barticle}
 \endbibitem
 
-%%% 25
+%%% 26
 \bibitem[\protect\citeauthoryear{Fournier et~al.}{2012}]{fournier2012ad}
 \begin{barticle}
 \bauthor{\bsnm{Fournier}, \binits{D.A.}},
@@ -458,7 +468,7 @@ Branching processes
 \end{barticle}
 \endbibitem
 
-%%% 26
+%%% 27
 \bibitem[\protect\citeauthoryear{Kristensen et~al.}{2016}]{kristensen2016tmb}
 \begin{barticle}
 \bauthor{\bsnm{Kristensen}, \binits{K.}},
@@ -474,7 +484,7 @@ Branching processes
 \end{barticle}
 \endbibitem
 
-%%% 27
+%%% 28
 \bibitem[\protect\citeauthoryear{{R Core Team}}{2024}]{R-base}
 \begin{bbook}
 \bauthor{\bsnm{{R Core Team}}}:
@@ -487,7 +497,7 @@ Branching processes
 \end{bbook}
 \endbibitem
 
-%%% 28
+%%% 29
 \bibitem[\protect\citeauthoryear{Delignette-Muller and
   Dutang}{2015}]{fitdistrplus2015}
 \begin{barticle}
@@ -502,7 +512,7 @@ Branching processes
 \end{barticle}
 \endbibitem
 
-%%% 29
+%%% 30
 \bibitem[\protect\citeauthoryear{Faraway et~al.}{2021}]{goftest2021}
 \begin{botherref}
 \oauthor{\bsnm{Faraway}, \binits{J.}},
@@ -516,7 +526,7 @@ R package version 1.2-3.
 \end{botherref}
 \endbibitem
 
-%%% 30
+%%% 31
 \bibitem[\protect\citeauthoryear{Bengtsson}{2025}]{bengtsson2025parallelly}
 \begin{botherref}
 \oauthor{\bsnm{Bengtsson}, \binits{H.}}:
@@ -527,11 +537,11 @@ R package version 1.45.
 \end{botherref}
 \endbibitem
 
-%%% 31
+%%% 32
 \bibitem[\protect\citeauthoryear{Wickham}{2016}]{wickham2016ggplot2}
 \begin{bbook}
 \bauthor{\bsnm{Wickham}, \binits{H.}}:
-\bbtitle{{g}gplot2: {E}legant Graphics for Data Analysis}.
+\bbtitle{Ggplot2: Elegant Graphics for Data Analysis}.
 \bpublisher{Springer},
 \blocation{New York}
 (\byear{2016}).
