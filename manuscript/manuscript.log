@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.1.22)  23 JAN 2026 21:27
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.1.22)  25 JAN 2026 17:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1110,13 +1110,12 @@ l.589 \section
 <invgauss.png, id=275, 803.0pt x 791.95876pt>
 File: invgauss.png Graphic file (type png)
 <use invgauss.png>
-Package pdftex.def Info: invgauss.png  used on input line 616.
+Package pdftex.def Info: invgauss.png  used on input line 618.
 (pdftex.def)             Requested size: 372.0pt x 366.8915pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [19]
-(./manuscript.bbl
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [20
@@ -1124,8 +1123,8 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.4}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.2 
-    ]
+l.633 ...m_{k=1}^{n-1} \frac{d'_{k+1}}{d_{k+1}}.$$
+                                                  ] (./manuscript.bbl
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [21
@@ -1133,8 +1132,8 @@ pdfTeX warning (ext4): destination with the same identifier (name{figure.6}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.86 
-      <./invgauss.png (PNG copy)>]
+l.2 
+     <./invgauss.png (PNG copy)>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [22]
@@ -1160,12 +1159,15 @@ L3 programming layer <2026-01-19>
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 0.985pt have occurred.
 
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package rerunfilecheck Info: File `manuscript.out' has not changed.
 (rerunfilecheck)             Checksum: 1EA917D959F19DA16630E05E4157813E;2112.
  ) 
 Here is how much of TeX's memory you used:
- 14848 strings out of 467533
- 226482 string characters out of 5423668
+ 14849 strings out of 467533
+ 226492 string characters out of 5423668
  674484 words of memory out of 5000000
  43405 multiletter control sequences out of 15000+600000
  661064 words of font info for 168 fonts, out of 8000000 for 9000
@@ -1203,10 +1205,10 @@ onts/cm/cmti9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbo
 ls/msam10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/m
 sbm10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
 
-Output written on manuscript.pdf (24 pages, 655525 bytes).
+Output written on manuscript.pdf (24 pages, 656020 bytes).
 PDF statistics:
- 506 PDF objects out of 1000 (max. 8388607)
- 400 compressed objects within 4 object streams
- 110 named destinations out of 1000 (max. 500000)
+ 508 PDF objects out of 1000 (max. 8388607)
+ 401 compressed objects within 5 object streams
+ 111 named destinations out of 1000 (max. 500000)
  103 words of extra memory for PDF output out of 10000 (max. 10000000)
 
