@@ -3,6 +3,8 @@ library(dplyr)
 library(ggplot2)
 library(DEoptim)
 library(patchwork)
+library(goftest)
+library(fitdistrplus)
 
 ### functions for estimation
 log_likelihood_noduds_de <- function(params, data) {
@@ -301,9 +303,74 @@ tpo_est_plot <- ggplot() +
     legend.text.align = 0,
     legend.position = "bottom"
   )
+##
+## check if the interarrival time is exponential with constant rate
+mep_tpo_count <- read.csv("mep_tpo_count.csv")
+mep_tpo_count <- mep_tpo_count[-c(1:4),]
+head(mep_tpo_count)
+tpo_interarrival <- diff(mep_tpo_count$time)
+tpo_scale_interarrival <- tpo_interarrival*mep_tpo_count$mep[-nrow(mep_tpo_count)]
+tpo_scale_interarrival <- tpo_scale_interarrival[tpo_scale_interarrival != 0]
 
+lambda_hat <- 1 / mean(tpo_scale_interarrival)
+
+
+# convert to data frame
+df.arrival <- data.frame(arr.time = tpo_scale_interarrival)
+
+# plot
+hist.arr.plot <- ggplot(df.arrival, aes(x = arr.time)) +
+  geom_histogram(aes(y = after_stat(density)),
+                 bins = 10,
+                 fill = "gray",
+                 color = "black") +
+  stat_function(fun = dexp,
+                args = list(rate = lambda_hat),
+                color = "indianred3",
+                linewidth = 1) +
+  labs(title = "Histogram of Scaled Interarrival Times",
+       x = "Scaled interarrival times",
+       y = "Density") +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    legend.title = element_blank(),
+    legend.text.align = 0,
+    legend.position = "bottom"
+  )
+
+# create data for QQ plot
+df.arrival$sort.arr.time <- sort(tpo_scale_interarrival)
+df.arrival$theoretical <- qexp(ppoints(length(tpo_scale_interarrival)), rate = lambda_hat)
+
+# plot
+qq.arr.plot <- ggplot(df.arrival, aes(x = theoretical, y = sort.arr.time)) +
+  geom_point(color = "black") +
+  geom_abline(slope = 1, intercept = 0, color = "indianred3") +
+  labs(title = "Exponential Q-Q Plot for Scaled Interarrival Times",
+       x = "Theoretical Quantiles",
+       y = "Sample Quantiles") +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    legend.title = element_blank(),
+    legend.text.align = 0,
+    legend.position = "bottom"
+  )
+##
+## formal test
+ad.test(tpo_scale_interarrival, null = "pexp", rate = lambda_hat)
+gofstat(fitdist(tpo_scale_interarrival, "exp"))
+
+(hist.arr.plot | qq.arr.plot) +  plot_annotation(
+  title = "Interarrival Times of Division Events of MEPs Cultured in Lacking TPO Condition"
+) &
+  theme(
+    plot.title = element_text(size = 14, face = "bold", hjust = 0.5)
+  )
 ##
 ##
+
 mep_ctrl_count <- read.csv("mep_ctrl_count.csv")
 mep_ctrl_count <- mep_ctrl_count[-c(1:14),]
 
