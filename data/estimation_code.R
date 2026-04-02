@@ -371,6 +371,79 @@ gofstat(fitdist(tpo_scale_interarrival, "exp"))
 ##
 ##
 
+
+###
+###
+## check if the interarrival time is exponential with constant rate
+mep_ctrl_count <- read.csv("mep_ctrl_count.csv")
+mep_ctrl_count <- mep_ctrl_count[-c(1:14),]
+head(mep_tpo_count)
+ctrl_interarrival <- diff(mep_ctrl_count$time)
+ctrl_scale_interarrival <- ctrl_interarrival*mep_ctrl_count$mep[-nrow(mep_ctrl_count)]
+ctrl_scale_interarrival <- ctrl_scale_interarrival[ctrl_scale_interarrival != 0]
+
+lambda_hat_ctrl <- 1 / mean(ctrl_scale_interarrival)
+
+
+# convert to data frame
+df.arrival.ctrl <- data.frame(arr.time = ctrl_scale_interarrival)
+
+# plot
+hist.arr.ctrl.plot <- ggplot(df.arrival.ctrl, aes(x = arr.time)) +
+  geom_histogram(aes(y = after_stat(density)),
+                 bins = 10,
+                 fill = "gray",
+                 color = "black") +
+  stat_function(fun = dexp,
+                args = list(rate = lambda_hat),
+                color = "indianred3",
+                linewidth = 1) +
+  labs(title = "Histogram of Scaled Interarrival Times",
+       x = "Scaled interarrival times",
+       y = "Density") +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    legend.title = element_blank(),
+    legend.text.align = 0,
+    legend.position = "bottom"
+  )
+
+# create data for QQ plot
+df.arrival.ctrl$sort.arr.time <- sort(ctrl_scale_interarrival)
+df.arrival.ctrl$theoretical <- qexp(ppoints(length(ctrl_scale_interarrival)), rate = lambda_hat)
+
+# plot
+qq.arr.ctrl.plot <- ggplot(df.arrival.ctrl, aes(x = theoretical, y = sort.arr.time)) +
+  geom_point(color = "black") +
+  geom_abline(slope = 1, intercept = 0, color = "indianred3") +
+  labs(title = "Exponential Q-Q Plot for Scaled Interarrival Times",
+       x = "Theoretical Quantiles",
+       y = "Sample Quantiles") +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    legend.title = element_blank(),
+    legend.text.align = 0,
+    legend.position = "bottom"
+  )
+##
+## formal test
+ad.test(ctrl_scale_interarrival, null = "pexp", rate = lambda_hat_ctrl)
+gofstat(fitdist(ctrl_scale_interarrival, "exp"))
+
+(hist.arr.ctrl.plot | qq.arr.ctrl.plot) +  plot_annotation(
+  title = "Interarrival Times of Division Events of MEPs Cultured in Control Condition"
+) &
+  theme(
+    plot.title = element_text(size = 14, face = "bold", hjust = 0.5)
+  )
+##
+##
+
+###
+###
+
 mep_ctrl_count <- read.csv("mep_ctrl_count.csv")
 mep_ctrl_count <- mep_ctrl_count[-c(1:14),]
 
