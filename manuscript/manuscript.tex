@@ -202,17 +202,18 @@ Assuming $V(0)=0$, the solution of \eqref{eq:Vprime} is
 \begin{equation}
 \label{eq:Vsolution}
 V(t)
-=rS(t)^2\int_0^t \frac{p_1(u)+p_3(u)}{S(u)}\,du,
+=rS(t)^2\int_0^t \frac{p_1(u)+p_3(u)}{S(u)}\,du.
 \end{equation}
-where $P(t)=\int_0^t[p_1(u)-p_3(u)]\,du$. Finally, for $t>u$, the tower property and conditional expectation give
+Finally, for $t>u$, the tower property and conditional expectation give
 \begin{equation}
 \begin{split}
 E[X(t)X(u)]
 &=E\!\left[E[X(t)\mid X(u)]\,X(u)\right] \\
 &=E\!\left[X(u)^2 \exp\{r[P(t)-P(u)]\}\right] \\
-&=\frac{S(t)}{S(u)}\,E[X(u)^2].
+&=\frac{S(t)}{S(u)}\,E[X(u)^2],
 \end{split}
 \end{equation}
+where $P(t)=\int_0^t[p_1(u)-p_3(u)]\,du$.
 Using \eqref{eq:Vsolution} with $M(u)=S(u)^2+V(u)$, we obtain
 \begin{equation}
 \begin{split}
@@ -222,6 +223,37 @@ E[X(t)X(u)]-S(t)S(u)
 \end{equation}
 This completes the proof.
 \end{proof}
+
+\begin{remark}
+{\rm
+Note that in Proposition~\ref{prop:moments} the division rate $r$ may be a deterministic function of time.
+As long as the rate function $r(t)$ is sufficiently well behaved to allow the
+application of the Dominated Convergence Theorem (for example, if $r(t)$ is continuous),
+all derivations remain valid with only minimal adjustments. In particular, in the case 
+of a non-constant rate $r(t)$, the formulas for $S(t)$ and $V(t)$ are modified as follows:
+\begin{equation*}
+S(t)=S_0 \exp\!\left\{\int_0^t \bigl[p_1(u)-p_3(u)\bigr]r(u)\,du \right\},\quad\quad
+V(t)=S(t)^2\int_0^t \frac{p_1(u)+p_3(u)}{S(u)}r(u)\,du.
+\end{equation*}
+
+However, for the data sets considered here, we believe that the assumption of a constant
+division rate is appropriate. There are several reasons for this. First, our experimental
+data are collected over relatively short time horizons (ranging from days to a few weeks).
+Second, from a biological perspective, the choice of a specific functional form for $r(t)$
+is not immediately clear. Third, allowing $r$ to depend on time would require introducing
+additional parameters that are likely unnecessary for our model.
+
+In fact, since we observe every arrival time $T_i$ and the corresponding stem cell count $X(T_i)$,
+under the assumption of a constant division rate $r$ the random variables $X(T_i)\bigl(T_{i+1}-T_i\bigr)$
+are independent and identically distributed with an exponential distribution of rate $r$.
+This allows, for example, the use of an Anderson–Darling test to assess the validity of the
+constant-rate assumption. We performed this test for the two data sets analyzed in Section~\ref{application}
+and found that the assumption of constant $r$ is supported by the data.
+
+Nevertheless, we emphasize that if a non-constant division rate $r(t)$ is required,
+the model readily accommodates this type of modification.
+}\end{remark}
+
 We validate the theoretical moments of stem cell count using simulated data. Details on how the data is simulated is discussed in section \ref{simulation}. Figure \ref{fig:sim_plot} (left) and table \ref{tab:autocorrelation} illustrate an example of empirical mean, variance and autocorrelation of stem cell counts obtained from simulated data. The empirical results closely match with their theoretical counterparts derived in proposition \ref{prop:moments}.
 \begin{figure}[ht]
 \centering

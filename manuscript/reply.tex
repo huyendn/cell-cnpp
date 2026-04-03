@@ -1,0 +1,93 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{rotating, graphicx}
+\usepackage{booktabs, natbib}
+
+\usepackage{amsmath, enumerate, quoting, amssymb, bm}
+%\usepackage{configuration, subfigure, url}
+\usepackage{subfigure, url}
+
+\usepackage{color}
+
+\definecolor{blue2}{rgb}{0.1, 0.2, 0.6}
+%
+%\renewcommand{\red}[1]{\textcolor{red}{#1}}
+%\renewcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\gv}[1]{\textcolor{blue}{(GV: #1)}}
+\newcommand{\jy}[1]{\textcolor{red}{(JY: #1)}}
+\newcommand{\why}[1]{\textcolor{red}{(WHY: #1)}}
+\newcommand{\zhy}[1]{\textcolor{green}{(ZHY: #1)}}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\cov}{Cov}
+\DeclareMathOperator*{\corr}{Corr}
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	filecolor=blue,
+	citecolor = blue,
+	urlcolor=cyan,
+}
+
+%\usepackage{xr}
+%\externaldocument{isgee}
+%\externaldocument{supp}
+
+% remove left indentation in itemize
+\usepackage{enumitem}
+\setlist[itemize]{leftmargin=*}
+
+% graph path
+\graphicspath{{./figs/}}
+
+\quotingsetup{leftmargin = 0pt}
+
+\newenvironment{comment}%
+{\begin{quoting}\noindent\small\it\color{blue2}\ignorespaces%
+  }{\end{quoting}}
+
+
+
+
+\begin{document}
+
+\begin{center}
+  {\Large\bf Response to the Comments}
+\end{center}
+
+\section*{Summary}
+
+We thank the Editor and the referee for the time spent reviewing our manuscript 
+and for the insightful comment. We have revised the paper to address this 
+comment and hope that the changes meet your expectations. We look forward 
+to the possibility of our article appearing in your journal.
+
+\section*{Reviewer 1}
+
+\begin{comment}
+Specific comment: In the developed model, the ‘baseline rate of occurrence’ is 
+assumed to be constant $r$. Can the authors extend their model to the case when 
+it is a function of time, say, $r(t)$? This extension will also have meaningful 
+practical meaning as the division rate of a stem cell may change in time as it 
+ages? I assume that, under this generalized setting, the proof of Proposition 1 
+can be derived similarly?
+\end{comment}
+
+The referee is absolutely correct. The proof of Proposition 1 continues to hold 
+even when $r$ is a deterministic function of time, provided it satisfies 
+appropriate regularity conditions that allow the use of the Dominated Convergence 
+Theorem. We have added a remark immediately following the proposition that includes 
+modified formulas for both the expectation and the variance of the stem cell count. 
+In the same remark, we also discuss why, for our particular data sets, 
+the assumption of a constant division rate remains a practical and reasonable 
+modeling choice.
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
