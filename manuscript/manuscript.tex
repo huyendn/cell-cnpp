@@ -268,7 +268,7 @@ We validate the theoretical moments of stem cell count using simulated data. Det
 \includegraphics[width=\linewidth]{stop_time.png}
 \end{minipage}
 
-\caption{Left: Fifty realizations of simulated stem cell count trajectories with initial count of 200, division rate of 0.2, and division probabilities $p_1(t) = \frac{0.55}{1 + 0.005(t-4)^2}$, $p_2(t) = \frac{0.15}{1 + (t-12)^2}$, $p_4(t) = \frac{0.20}{1+(t-20)^2}$, and $p_3(t) = 1-p_1(t)-p_2(t)-p_4(t)$. The blue curve shows the expected cell count and the shaded band indicates $\pm$2 standard deviations. Right: Distribution of stopping time, i.e. the time when all the viable stem cells are exhausted from 100 realizations of the simulated stem cell count trajectories with the same parameters, with the minimum expected stopping times is $\tau_{\min} = 26.491$.}
+\caption{Left: Fifty realizations of simulated stem cell count trajectories with initial count of 200, division rate of 0.2, and division probabilities $p_1(t) = \frac{0.55}{1 + 0.005(t-4)^2}$, $p_2(t) = \frac{0.15}{1 + 0.012(t-12)^2}$, $p_4(t) = \frac{0.20}{1+0.008(t-20)^2}$, and $p_3(t) = 1-p_1(t)-p_2(t)-p_4(t)$. The blue curve shows the expected cell count and the shaded band indicates $\pm$2 standard deviations. Right: Distribution of stopping time, i.e. the time when all the viable stem cells are exhausted from 100 realizations of the simulated stem cell count trajectories with the same parameters, with the minimum expected stopping times is $\tau_{\min} = 26.491$.}
 \label{fig:sim_plot}
 \end{figure}
 
@@ -317,8 +317,8 @@ $t$ & 5 & 10 & 15 & 20 & 25 \\
 $t = 5, 10, 15, 20, 25$. The empirical autocorrelation is calculated from realizations of
 simulated stem cell count trajectories with initial count of 200, division rate of 0.2,
 and division probabilities $p_1(t) = \frac{0.55}{1 + 0.005(t-4)^2}$,
-$p_2(t) = \frac{0.15}{1 + (t-12)^2}$,
-$p_4(t) = \frac{0.20}{1+(t-20)^2}$,
+$p_2(t) = \frac{0.15}{1 + 0.012(t-12)^2}$,
+$p_4(t) = \frac{0.20}{1+0.008(t-20)^2}$,
 and $p_3(t) = 1-p_1(t)-p_2(t)-p_4(t)$.}
 \label{tab:autocorrelation}
 \end{table}
@@ -395,7 +395,7 @@ Using the harmonic sum approximation,
 \end{equation}
 where $\gamma \approx 0.5772$ is the Euler–Mascheroni constant. Note that this is a conservative lower bound of the stopping time since we assume that every division results in a loss of one stem cell (i.e. $p_3(t) = 1 \ \forall t$). Figure \ref{fig:sim_plot} (right) presents an example of stopping time distribution from simulated data. The minimum expected stopping time lies below all simulated stopping times.
 
-We next fit the stopping times from simulated data using the inverse Gaussian distribution. The inverse Gaussian distribution is commonly used to model first passage or stopping times of processes such as Brownian motion with drift \cite{folks1978inverse}. In our context, the inverse Gaussian distribution provides a natural model for the time it takes for the number of viable stem cells to reach 0. The simulated stopping data is obtained from 100 realizations of the process with the initial count of 200, division rate of 0.2, and division probabilities $p_1(t) = \frac{0.55}{1 + 0.005(t-4)^2}$, $p_2(t) = \frac{0.15}{1 + (t-12)^2}$, $p_4(t) = \frac{0.20}{1+(t-20)^2}$, and $p_3(t) = 1-p_1(t)-p_2(t)-p_4(t)$. Since the support of the inverse Gaussian is the positive real line, we shift the stopping times by $-\tau_{\min}$. Using these data, we estimate the mean and shape parameter of the inverse Gaussian distribution by the maximum likelihood method. The estimated parameters are then used to fit the distribution to the simulated data, and the goodness-of-fit is assessed through standard distributional tests. The results of distributional tests in table \ref{tab:stopping_time_dist} and diagnostic plots in figure \ref{fig:stopping_time_dist} in the Supplementary Materials indicate that the inverse Gaussian distribution is a good fit for the shifted simulated stopping times.
+We next fit the stopping times from simulated data using the inverse Gaussian distribution. The inverse Gaussian distribution is commonly used to model first passage or stopping times of processes such as Brownian motion with drift \cite{folks1978inverse}. In our context, the inverse Gaussian distribution provides a natural model for the time it takes for the number of viable stem cells to reach 0. The simulated stopping data is obtained from 100 realizations of the process with the initial count of 200, division rate of 0.2, and division probabilities $p_1(t) = \frac{0.55}{1 + 0.005(t-4)^2}$, $p_2(t) = \frac{0.15}{1 + 0.012(t-12)^2}$, $p_4(t) = \frac{0.20}{1+0.008(t-20)^2}$, and $p_3(t) = 1-p_1(t)-p_2(t)-p_4(t)$. Since the support of the inverse Gaussian is the positive real line, we shift the stopping times by $-\tau_{\min}$. Using these data, we estimate the mean and shape parameter of the inverse Gaussian distribution by the maximum likelihood method. The estimated parameters are then used to fit the distribution to the simulated data, and the goodness-of-fit is assessed through standard distributional tests. The results of distributional tests in table \ref{tab:stopping_time_dist} and diagnostic plots in figure \ref{fig:stopping_time_dist} in the Supplementary Materials indicate that the inverse Gaussian distribution is a good fit for the shifted simulated stopping times.
 \begin{table}[h]
     \centering
     \begin{tabular}{lcc}

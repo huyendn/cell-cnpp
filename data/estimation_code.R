@@ -377,7 +377,7 @@ gofstat(fitdist(tpo_scale_interarrival, "exp"))
 ## check if the interarrival time is exponential with constant rate
 mep_ctrl_count <- read.csv("mep_ctrl_count.csv")
 mep_ctrl_count <- mep_ctrl_count[-c(1:14),]
-head(mep_tpo_count)
+
 ctrl_interarrival <- diff(mep_ctrl_count$time)
 ctrl_scale_interarrival <- ctrl_interarrival*mep_ctrl_count$mep[-nrow(mep_ctrl_count)]
 ctrl_scale_interarrival <- ctrl_scale_interarrival[ctrl_scale_interarrival != 0]
@@ -395,7 +395,7 @@ hist.arr.ctrl.plot <- ggplot(df.arrival.ctrl, aes(x = arr.time)) +
                  fill = "gray",
                  color = "black") +
   stat_function(fun = dexp,
-                args = list(rate = lambda_hat),
+                args = list(rate = lambda_hat_ctrl),
                 color = "indianred3",
                 linewidth = 1) +
   labs(title = "Histogram of Scaled Interarrival Times",
@@ -411,7 +411,7 @@ hist.arr.ctrl.plot <- ggplot(df.arrival.ctrl, aes(x = arr.time)) +
 
 # create data for QQ plot
 df.arrival.ctrl$sort.arr.time <- sort(ctrl_scale_interarrival)
-df.arrival.ctrl$theoretical <- qexp(ppoints(length(ctrl_scale_interarrival)), rate = lambda_hat)
+df.arrival.ctrl$theoretical <- qexp(ppoints(length(ctrl_scale_interarrival)), rate = lambda_hat_ctrl)
 
 # plot
 qq.arr.ctrl.plot <- ggplot(df.arrival.ctrl, aes(x = theoretical, y = sort.arr.time)) +
@@ -427,7 +427,110 @@ qq.arr.ctrl.plot <- ggplot(df.arrival.ctrl, aes(x = theoretical, y = sort.arr.ti
     legend.text.align = 0,
     legend.position = "bottom"
   )
+
+qq.arr.ctrl.plot <- ggplot(data.frame(x = ctrl_scale_interarrival), aes(sample = x)) +
+  stat_qq_band(
+    distribution = "exp",
+    dparams = list(rate = lambda_hat_ctrl),
+    conf = 0.95,
+    alpha = 0.2,
+    fill = "blue3"
+  ) +
+  stat_qq_line(
+    distribution = "exp",
+    dparams = list(rate = lambda_hat_ctrl),
+    color = "blue3"
+  ) +
+  stat_qq_point(
+    distribution = "exp",
+    dparams = list(rate = lambda_hat_ctrl),
+    color = "black"
+  ) +
+  labs(
+    title = "Exponential Q–Q Plot with 95% CI",
+    x = "Theoretical Exponential Quantiles",
+    y = "Sample Quantiles"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    legend.title = element_blank(),
+    legend.text.align = 0,
+    legend.position = "bottom"
+  )
 ##
+library(ggplot2)
+
+x <- ctrl_scale_interarrival
+n <- length(x)
+
+# your quantiles (ppoints)
+p <- ppoints(n)
+
+# your theoretical quantiles
+theoretical <- qexp(p, rate = lambda_hat_ctrl)
+
+# your sorted sample
+sample_sorted <- sort(x)
+
+# -----------------------------
+# 1. Bootstrap CI (qqplotr logic)
+# -----------------------------
+B <- 2000
+boot_dev <- matrix(NA, nrow = B, ncol = n)
+
+set.seed(123)
+
+for (b in 1:B) {
+  # Step 1: bootstrap sample
+  xb <- rexp(n, rate = lambda_hat_ctrl)
+  
+  # Step 2: refit lambda
+  lambda_b <- 1 / mean(xb)
+  
+  # Step 3: compute theoretical quantiles using YOUR p-values
+  q_b <- qexp(p, rate = lambda_b)
+  
+  # Step 4: compute deviations
+  boot_dev[b, ] <- sort(xb) - q_b
+}
+
+# Step 5: CI on deviations
+dev_lower <- apply(boot_dev, 2, quantile, probs = 0.025)
+dev_upper <- apply(boot_dev, 2, quantile, probs = 0.975)
+
+# Step 6: Add deviations back to YOUR theoretical quantiles
+ci_lower <- theoretical + dev_lower
+ci_upper <- theoretical + dev_upper
+
+# -----------------------------
+# 2. Build data frame
+# -----------------------------
+df <- data.frame(
+  theoretical = theoretical,
+  sample = sample_sorted,
+  lower = ci_lower,
+  upper = ci_upper
+)
+
+# -----------------------------
+# 3. Plot YOUR QQ plot + qqplotr-style CI
+# -----------------------------
+ggplot(df, aes(x = theoretical, y = sample)) +
+  geom_ribbon(aes(ymin = lower, ymax = upper),
+              fill = "skyblue", alpha = 0.3) +
+  geom_point(color = "black") +
+  geom_abline(slope = 1, intercept = 0, color = "indianred3") +
+  labs(
+    title = "Exponential Q–Q Plot (Manual) with qqplotr-style 95% CI",
+    x = "Theoretical Quantiles (ppoints + Exp(λ))",
+    y = "Sample Quantiles"
+  ) +
+  theme_minimal(base_size = 14)
+
+
+
+
 ## formal test
 ad.test(ctrl_scale_interarrival, null = "pexp", rate = lambda_hat_ctrl)
 gofstat(fitdist(ctrl_scale_interarrival, "exp"))
@@ -438,6 +541,49 @@ gofstat(fitdist(ctrl_scale_interarrival, "exp"))
   theme(
     plot.title = element_text(size = 14, face = "bold", hjust = 0.5)
   )
+
+
+qqPlot(ctrl_scale_interarrival,
+       distribution = "exp",
+       envelope = 0.95,
+       xlab = "Theoretical Exponential Quantiles",
+       ylab = "Sample Quantiles",
+       main = "Exponential Q–Q Plot with 95% CI",
+       id = FALSE)
+
+
+
+
+x <- ctrl_scale_interarrival
+n <- length(x)
+
+# p-values that qqplotr uses
+p <- (1:n) / (n + 1)
+
+# theoretical quantiles for Exp(lambda)
+theoretical <- qexp(p, rate = lambda_ctrl_hat)
+
+
+qqPlot(
+  ctrl_scale_interarrival,
+  distribution = list(
+    qfun = function(p) qexp(p, rate = lambda_hat_ctrl)
+  ),
+  envelope = 0.95,
+  xlab = "Theoretical Exponential Quantiles",
+  ylab = "Sample Quantiles",
+  main = "Exponential Q–Q Plot with 95% CI",
+  id = FALSE
+)
+
+
+(hist.arr.ctrl.plot | qq.arr.ctrl.plot) +  plot_annotation(
+  title = "Interarrival Times of Division Events of MEPs Cultured in Control Condition"
+) &
+  theme(
+    plot.title = element_text(size = 14, face = "bold", hjust = 0.5)
+  )
+
 ##
 ##
 
