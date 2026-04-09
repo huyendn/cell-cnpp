@@ -20,9 +20,10 @@ lambda_hat <- 1 / mean(tpo_scale_interarrival)
 df.arrival <- data.frame(arr.time = tpo_scale_interarrival,
                          scale.arr.time = lambda_hat*tpo_scale_interarrival)
 
+h <- hist(df.arrival$scale.arr.time, plot = FALSE)
 # plot
 hist.arr.plot <- ggplot(df.arrival, aes(x = scale.arr.time)) +
-  geom_histogram(breaks = c(h$breaks,6.5),
+  geom_histogram(breaks = c(h$breaks),
                  aes(y = after_stat(density)),
                  # bins = 11,
                  fill = "gray",
@@ -72,7 +73,7 @@ df.arrival.ctrl <- data.frame(arr.time = ctrl_scale_interarrival,
 # plot
 h_ctrl <- hist(df.arrival.ctrl$scale.arr.time, plot = FALSE, 
                breaks = c(h$breaks,6.5))
-hist(df.arrival.ctrl$scale.arr.time, breaks = c(h$breaks,6.5))
+
 hist.arr.ctrl.plot <- ggplot(df.arrival.ctrl, aes(x = scale.arr.time)) +
   geom_histogram(aes(y = after_stat(density)),
                  breaks = h_ctrl$breaks,
