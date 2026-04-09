@@ -679,6 +679,57 @@ Using the chain rule again, the recursion of the gradient of the normalized forw
 \end{equation}
 The gradient of the log-likelihood is then
 $$ (\log \LL_n)' = \sum_{k=1}^{n-1} \frac{d'_{k+1}}{d_{k+1}}.$$
+
+\subsection*{Constant rate interarrival times for MEP divisions}
+\label{sec:exp_test}
+
+Under a constant per-cell division rate, the time between consecutive division events
+follows an exponential distribution. Specifically, if $r$ is the division rate and $n$
+is the current cell count, the interarrival time is exponential with rate $nr$; dividing
+by $n$ and scaling by the sample mean yields a unit-rate exponential. We verify this
+for each MEP dataset by computing scaled interarrival times as described, comparing
+their empirical distribution to $\mathrm{Exp}(1)$ visually (Figure~\ref{fig:scale_arr_times_mep})
+and via formal tests (Table~\ref{tab:interarrival_time_dist}).
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\linewidth]{scale_arr_times_mep.png}
+    \caption{Histograms of scaled interarrival times between MEP division events (grey bars)
+    overlaid on the $\mathrm{Exp}(1)$ density (red curve), for the control condition (left)
+    and the lacking TPO condition (right).}
+    \label{fig:scale_arr_times_mep}
+\end{figure}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{lcccccc}
+        \toprule
+         & \multicolumn{2}{c}{Anderson--Darling}
+         & \multicolumn{2}{c}{Cram\'{e}r--von Mises}
+         & \multicolumn{2}{c}{Kolmogorov--Smirnov} \\
+        \cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+         & $A_n$ & $p$-value & $\omega^2$ & $p$-value & $D$ & $p$-value \\
+        \midrule
+        Control condition      & 2.954 & 0.029 & 0.432 & 0.060 & 0.114 & 0.052 \\
+        Lacking TPO condition  & 0.356 & 0.891 & 0.047 & 0.895 & 0.083 & 0.906 \\
+        \bottomrule
+    \end{tabular}
+    \caption{Goodness-of-fit tests for the null hypothesis that the scaled interarrival
+    times follow a constant-rate exponential distribution.}
+    \label{tab:interarrival_time_dist}
+\end{table}
+
+For the lacking TPO condition, all three tests yield $p > 0.89$, strongly supporting
+the exponential assumption. For the control condition the Anderson--Darling test gives
+$p = 0.029$, while the Cram\'{e}r--von Mises and Kolmogorov--Smirnov tests give
+$p = 0.060$ and $p = 0.052$, respectively. The Anderson--Darling test is more sensitive
+to tail discrepancies; that it is the only test to cross the 0.05 threshold suggests
+any deviation is confined to the tails rather than the bulk of the distribution.
+Because the rate parameter is estimated from the same data, all $p$-values are slightly
+liberal, so the borderline Anderson--Darling result should not be over-interpreted.
+Overall, the constant-rate exponential assumption is well supported for both conditions.
+
+
 \subsection*{R packages}
 All analyses, simulations, and computational implementations in this study were performed using R version 4.4.2.\cite{R-base}. Distribution fitting and goodness-of-fit diagnostics were performed using packages \textbf{fitdistrplus, goftest,} and \textbf{stats} \cite{fitdistrplus2015, goftest2021, R-base}. Likelihood-based parameter estimation via differential evolution algorithm, gradient-based optimization, and automatic differentiation were carried out using \textbf{DEoptim}, \textbf{parallelly}, \textbf{base R}, and \textbf{TMB} \cite{mullen2011deoptim,  bengtsson2025parallelly, R-base,kristensen2016tmb}. Figures were generated using \textbf{ggplot2} \cite{wickham2016ggplot2} and base R \cite{R-base}.
 \bibliography{sn-bibliography}% common bib file
