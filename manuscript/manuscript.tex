@@ -100,7 +100,7 @@ At time $t$, a viable stem cell can undergo one of the four types of division wi
     &\text{Symmetric differentiation} &  SC \rightarrow FC + FC, & \quad \text{probability }p_3(t)\\
     &\text{Self renewal with nonviable stem cell} & SC \rightarrow SC + DC,& \quad \text{probability }p_4(t)
 \end{align*}
-The division probabilities $p_j(t)$ are time-dependent. For example, $p_1(t)$ may dominate early to expand the stem cell pool, while $p_3(t)$ may increase toward the end of the cell proliferation process. Since $p_j(t)$ are probabilities, they need to satisfy the conditions $0 \leq p_j(t) \leq 1$ and $\sum_{j=1}^n p_j(t) = 1 \ \forall t$. To illustrate, we assume the following form for $p_j(t)$
+The division probabilities $p_j(t)$ are time-dependent. For example, $p_1(t)$ may dominate early to expand the stem cell pool, while $p_3(t)$ may increase toward the end of the cell proliferation process. Since $p_j(t)$ are probabilities, they need to satisfy the conditions $0 \leq p_j(t) \leq 1$ and $\sum_{j=1}^4 p_j(t) = 1 \ \forall t$. To illustrate, we assume the following form for $p_j(t)$
 \begin{equation} \label{lorentzian}
     \begin{cases}
         p_1(t) = \frac{p_1}{1+c_1(t-m_1)^2},\\
@@ -151,7 +151,7 @@ For each fixed time point, the expected value, variance, and autocovariance of t
     \item \textbf{Autocovariance Function.}
     For $t>u,$
     \[
-       \operatorname{Cov}(X(t), X(u)) = S(t)S(u) r\int_0^u\frac{p_1(v) + p_3(v)}{S(v)}dv = \frac{S(t)}{S(u)} \operatorname{Var}(u).
+       \operatorname{Cov}(X(t), X(u)) = S(t)S(u) r\int_0^u\frac{p_1(v) + p_3(v)}{S(v)}dv = \frac{S(t)}{S(u)} \operatorname{Var}(X(u)).
     \]
 \end{enumerate}
 \end{proposition}
@@ -229,7 +229,7 @@ This completes the proof.
 Note that in Proposition~\ref{prop:moments} the division rate $r$ may be a deterministic function of time.
 As long as the rate function $r(t)$ is sufficiently well behaved to allow the
 application of the Dominated Convergence Theorem (for example, if $r(t)$ is continuous),
-all derivations remain valid with only minimal adjustments. In particular, in the case 
+all derivations remain valid with only minimal adjustments. In particular, in the case
 of a non-constant rate $r(t)$, the formulas for $S(t)$ and $V(t)$ are modified as follows:
 \begin{equation*}
 S(t)=S_0 \exp\!\left\{\int_0^t \bigl[p_1(u)-p_3(u)\bigr]r(u)\,du \right\},\quad\quad
@@ -246,9 +246,9 @@ additional parameters that are likely unnecessary for our model.
 In fact, since we observe every arrival time $T_i$ and the corresponding stem cell count $X(T_i)$,
 under the assumption of a constant division rate $r$ the random variables $X(T_i)\bigl(T_{i+1}-T_i\bigr)$
 are independent and identically distributed with an exponential distribution of rate $r$.
-This allows, for example, the use of an Anderson–Darling test to assess the validity of the
-constant-rate assumption. We performed this test for the two data sets analyzed in Section~\ref{application}
-and found that the assumption of constant $r$ is supported by the data.
+This allows, for example, the use of goodness-of-fit tests to assess the validity of the
+constant-rate assumption. We performed such tests for the two data sets analyzed in Section~\ref{application}
+and found that the assumption of constant $r$ is supported by the data(see the Supplementary Materials).  
 
 Nevertheless, we emphasize that if a non-constant division rate $r(t)$ is required,
 the model readily accommodates this type of modification.
@@ -423,7 +423,7 @@ We first define the forward variables $\alpha_k(u)$ (for $k = 1, \cdots, n$) as 
 $$\alpha_k(u) = \LL(\mathbb{T}_k,\mathbb{Y}_k, \mathbb{M}_k, Z_k = u, \boldsymbol{\theta}),$$
 where $u$ is an integer and $0 \leq u \leq M_k$, $\mathbb{T}_k, \mathbb{Y}_k, \mathbb{M}_k$ are the observations of event times, differentiated cells, and total stem cells up to $k$-th division events, respectively. The forward variables can be computed recursively by
 $$\alpha_{k+1} (v) = \sum_{u \in\{v, v-1\}} \alpha_k(u) \cdot h_k(u,v), \quad 0 \leq k \leq n-1$$
-where $0 \leq v \leq M_{k+1}$. Note that since we assume $T_0 = 0, M_0 = S_0, Y_0 = 0, Z_0 = 0$, we have $\alpha_0(0) = 1$ and $\alpha_0(u) = 0$ for $u >0$. Since the number of nonviable stem cell either stay the same or increase by 1 after each division, we only need to sum over these two cases. Here, $h_k(u,v)$ are analogous to transitional probabilities from having $u$ unobserved nonviable stem cells at step $k$ to having $v$ unobserved nonviable stem cells at step $k+1$. For $i \leq j \leq 4$
+where $0 \leq v \leq M_{k+1}$. Note that since we assume $T_0 = 0, M_0 = S_0, Y_0 = 0, Z_0 = 0$, we have $\alpha_0(0) = 1$ and $\alpha_0(u) = 0$ for $u >0$. Since the number of nonviable stem cell either stay the same or increase by 1 after each division, we only need to sum over these two cases. Here, $h_k(u,v)$ are analogous to transitional probabilities from having $u$ unobserved nonviable stem cells at step $k$ to having $v$ unobserved nonviable stem cells at step $k+1$. For $1 \leq j \leq 4$
 \begin{equation*}
     \begin{split}
         h_k(u,v) = \begin{cases}
@@ -512,7 +512,7 @@ The likelihood of fully observed data is computed based on equation (\ref{likeli
         & + \log \Big(\frac{p_2}{1+c_2(T_i-m_2)^2}\Big) I_{(\Delta X_i = 0,\Delta Z_i = 0)} \\
         & + \log \Big(\frac{p_4}{1+c_4(T_i-m_4)^2}\Big) I_{(\Delta X_i = 0,\Delta Z_i = 1)} \\
         & + \log \Big(1- \frac{p_1}{1+c_1(T_i-m_1)^2}- \frac{p_2}{1+c_2(T_i-m_2)^2} - \frac{p_4}{1+c_4 (T_i-m_4)^2} \Big) I_{(\Delta X_i = -1,\Delta Z_i = 0)} \\
-        & + \log r + \log S_{i-1} - rS_{i-1}\Delta_{T_1} \Big].
+        & + \log r + \log S_{i-1} - rS_{i-1}\Delta_{T_i} \Big].
     \end{split}
 \end{equation*}
 The closed-form solution of the MLE for division rate $r$ can be obtained by taking the derivative of the log-likelihood with respect to $r$. The likelihood of the partially observed cell counts is computed using the forward algorithm described in section \ref{mle}. Parameters are estimated by numerical maximization of the likelihood: for fully observed data, we use the differential evolution (DE) algorithm for parameters of $p_j(t)$, while the MLE of division rate can be obtained through its closed-form solution. DE is a global optimization algorithm which maintains a population of candidate solutions and iteratively improves them through mutation, crossover, and selection. In the mutation step, new candidate solutions are generated by adding a scaled difference between two population members to a third member, allowing the algorithm to explore the parameter space efficiently. These candidates are then mixed with existing solutions through crossover to increase diversity of the population of candidates, with the best-performing candidates are selected to be retained for the next generation. DE is particularly well-suited for complex or non-convex likelihood surfaces, as it does not require gradient information and is less likely to be trapped in local optima \cite{storn1997differential, ardia2011differential, mullen2011deoptim}. For partially observed data, DE is combined with the gradient-based Broyden-Fletcher-Goldfarb-Shanno (BFGS) optimization, with the gradient computed by automatic differentiation \cite{fournier2012ad, kristensen2016tmb} to refine estimates near local maxima. This hybrid approach takes advantage of the global search capability of DE to explore the parameter space broadly, while BFGS with automatic differentiation refines solutions locally, improving convergence speed and numerical stability. Note that although we employ automatic differentiation to evaluate the gradient of the normalized forward-algorithm-based likelihood, the gradient can also be computed dynamically. The full derivation is provided in the Supplementary Materials.
@@ -609,7 +609,7 @@ For the fully observed data case (Table \ref{tab:par_est_full}), the means and m
     \label{tab:par_est_forward}
 \end{table}
 We assess the fit of the model by comparing the expected cell count trajectories generated from the estimated parameters from the partially observed data and forward algorithm likelihood with the corresponding observed simulated data. We use the ratio between the observed and expected cell counts
-$$ \frac{X(t)}{\hat{X}(t)}, \frac{Z(t)}{\hat{Z}(t)}, \frac{M(t)}{\hat{M}(t)}, \frac{Y(t)}{\hat{Y}(t)},$$ 
+$$ \frac{X(t)}{\hat{X}(t)}, \frac{Z(t)}{\hat{Z}(t)}, \frac{M(t)}{\hat{M}(t)}, \frac{Y(t)}{\hat{Y}(t)},$$
 as goodness-of-fit assessment metrics. If the ratios are close to 1, the model provides a good estimation of the trajectory of cell counts. Figure \ref{fig:prediction_ratio} depicts the observed-to-expected cell count ratios across four panels: viable stem cells, nonviable stem cells, total stem cells, and differentiated cells. The ratios for differentiated cells are tightly clustered around one, indicating a good fit of the model to the observed data. Total stem cell ratios are also well estimated. The ratios for nonviable stem cells show the greatest variability, especially at early time points. Overall, these results suggest that the estimation of the model parameters accurately captures the dynamics of differentiated and total stem cells, with larger discrepancies primarily occurring for nonviable stem cells during the initial phase.
 \begin{figure}[h]
     \centering
@@ -674,11 +674,11 @@ Since $$d_{k+1} = \displaystyle \sum_{0 \leq v \leq M_{k+1}} \displaystyle\sum_{
 Using the chain rule again, the recursion of the gradient of the normalized forward variable is given by
 \begin{equation}
     \begin{split}
-        \bar{\alpha}_{k+1}(v) = \frac{d'_{k+1}}{(d_{k+1})^2} \sum_{u = v-1, v} \bar{\alpha}_k h_k(u,v) + \frac{1}{d_{k+1}} \sum_{u = v-1, v} \Big[ \bar{\alpha}'_k h_k(u,v) + \bar{\alpha}_k h'_k(u,v) \Big].
+        \bar{\alpha}'_{k+1}(v) = \frac{d'_{k+1}}{(d_{k+1})^2} \sum_{u = v-1, v} \bar{\alpha}_k h_k(u,v) + \frac{1}{d_{k+1}} \sum_{u = v-1, v} \Big[ \bar{\alpha}'_k h_k(u,v) + \bar{\alpha}_k h'_k(u,v) \Big].
     \end{split}
 \end{equation}
 The gradient of the log-likelihood is then
-$$ (\log \LL_n)' = \sum_{k=1}^{n-1} \frac{d'_{k+1}}{d_{k+1}}.$$
+$$ (\log \LL_n)' = \sum_{k=0}^{n-1} \frac{d'_{k+1}}{d_{k+1}}.$$
 
 \subsection*{Constant rate interarrival times for MEP divisions}
 \label{sec:exp_test}
